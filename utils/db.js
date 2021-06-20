@@ -1,10 +1,10 @@
 const knex = require('knex')({
   client: 'mysql2',
   connection: {
-    host: '127.0.0.1',
+    host: '34.126.188.224',
     user: 'root',
     password: '123456',
-    database: 'newspaper',
+    database: 'dbnews',
     port: 3306
   },
   pool: {
@@ -14,3 +14,5 @@ const knex = require('knex')({
 });
 
 module.exports = knex;
+
+// gcp sql instance password: 9ubdzMLMEksbqA8h
