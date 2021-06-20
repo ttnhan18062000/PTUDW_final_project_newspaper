@@ -1,0 +1,116 @@
+
+{{#section 'admin-js'}}
+  <script>
+    function submitEdit(e) {
+      e.preventDefault();
+      const catName = $('#catName').val();
+      const oldName = $('#oldName').val();
+      const catID = $('#catID').val();
+      const parentID = $('#parentID').val();
+      if (catName.length === 0) {
+        $('#err').empty();
+        $('#err').append(`<div class="alert alert-warning alert-dismissible fade
+    show" role="alert"> <button type="button" class="close" data-dismiss="alert"
+    aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+    <span>Category name can not be blank!</span> </div>` );
+        return;
+      }
+      if (catID === parentID) {
+        $('#err').empty();
+        $('#err').append(
+          `<div class="alert
+          alert-warning alert-dismissible fade show" role="alert"> <button
+          type="button" class="close" data-dismiss="alert" aria-label="Close"> <span
+          aria-hidden="true">&times;</span> </button> <span>Category can not be its
+          own parent!</span> </div>` );
+        return;
+      }
+      $.getJSON(`/admin/categories/is-editable?oldname=${oldName}&newname=${catName}`, function (data) {
+        if (data === false) {
+          $('#err').empty();
+          $('#err').append(
+            `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <span>Category name already existed!</span>
+              </div>`
+          );
+        } else {
+          $('#frm').attr('action', '/admin/categories/patch').off('submit').submit();
+        }
+      });
+    }
+    $('#frm').on('submit', submitEdit);
+    $('#btnDel').click(function (e) {
+      $.post('del',
+        {
+          catID: $('#catID').val()
+        },
+        function () {
+          location.href = '/admin/categories';
+        })
+    });
+  </script>
+{{/section}}
+{{#section 'admin-css'}}
+  <style>
+    .myselect-container {
+      height: 1rem;
+      width: 100%;
+    }
+
+    .alert button {
+      position: absolute;
+      top: 50% !important;
+      transform: translateY(-50%);
+    }
+  </style>
+{{/section}}
+<div class='d-flex justify-content-center' style='max-width: 50rem; margin: auto'>
+  <div class='card' style='width: 100%;'>
+    <h4 class='card-header'>
+      Category
+    </h4>
+    <div class='card-body'>
+      <form id='frm' method='POST'>
+        <div class='form-group'>
+          <label for='txtCatID'>#</label>
+          <input type='text' readonly class='form-control' id='catID' name='id' value='{{this.category.ID}}' />
+        </div>
+        <div class='form-group'>
+          <label for='name'>Category</label>
+          <input type='text' class='form-control' id='catName' name='name' autofocus value='{{this.category.Name}}' />
+          <input id="oldName" hidden value='{{this.category.Name}}'></input>
+        </div>
+        <div id='err'></div>
+        <div class='form-group'>
+          <label for='catParent'>Parent Category</label>
+          <div class='myselect-container'>
+            <select  onmousedown='if(this.options.length>10){this.size=10;}' onchange='this.size=0;'
+              onblur='this.size=0;' class='form-control' id='parentID' name='parent'>
+              <option selected value=''>None</option>
+              {{#each listCat}}
+                <option value={{ID}} {{getSelectedAttr ID ../this.category.ParentCategoryID}}>{{Name}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+        <div style='display: inline-block; margin-top: 1rem'>
+          <a class='btn btn-primary' id="btnBack" href='/admin/categories/' role='button'>
+            <i class='fa fa-backward' aria-hidden='true'></i>
+            Back to List
+          </a>
+          <button type="button" id="btnDel" class='btn btn-danger'>
+            <i class='fa fa-trash-o' aria-hidden='true'></i>
+            Delete
+          </button>
+          <button id="btnEdit" type='submit' class='btn btn-success'>
+            <i class='fa fa-check' aria-hidden='true'></i>
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
