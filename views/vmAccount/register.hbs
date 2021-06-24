@@ -1,0 +1,114 @@
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">;
+{{/section}}
+
+{{#section 'js'}}
+    <script>
+        async function checkExists(value, field){
+            const data = await $.getJSON(`/account/is-available?${field}=${value}`);
+            console.log(data);
+            if (data === false) {
+                return `${field} already exists`;
+            }
+            else
+                return null;
+        }
+        $('#frmRegister').on('submit', async function(e){
+            e.preventDefault();
+
+            const errors = [];
+
+            const password = $('#txtPassword').val();
+            const repassword = $('#txtRepeatPassword').val();
+            const email = $('#txtEmail').val();
+
+            if (!password || !repassword || !email)
+                errors.push("Please fill in all fields");
+            if (password !== repassword)
+                errors.push("Password do not match");
+            if (password && password.length < 6)
+                errors.push("Password must contains atleast 6 characters");
+            
+            if (errors.length === 0){      
+                const isExistsEmail = await checkExists(email, "Email");
+                if (isExistsEmail)
+                    errors.push(isExistsEmail);
+            }
+
+            if (errors.length === 0)
+                $(this).unbind('submit').submit();
+
+            $('#dvMessage').empty();
+
+            for (let i = 0; i < errors.length; i++) {
+                $('#dvMessage').append(
+                    `<div class="alert alert-danger w-100 bg-transparent color-lightred" role="alert">${errors[i]}</div>`
+                );
+            }
+        });
+    </script>
+{{/section}}
+
+<div class="card background-body">
+<article class="card-body mx-auto bg-main text-white" style="width: 650px">
+    <h4 class="card-title mt-3 text-center">Create Account</h4>
+	<p class="text-center">Continue with your social media account</p>
+    <p></p>
+        <div class="row m-0">
+            <div class="col sm-col-3 p-0">
+                <a href="" class="btn btn-block btn-google"> <i class="fa fa-google fa-fw"></i>Google</a>
+            </div>
+            <div class="col sm-col-3 px-2">
+                <a href="" class="btn btn-block btn-facebook"> <i class="fa fa-facebook fa-fw"></i>Facebook</a>
+        
+            </div>
+            <div class="col sm-col-3 p-0">
+                <a href="" class="btn btn-block btn-github btn-custom-dark"> <i class="fa fa-github fa-fw"></i>Github</a>
+            </div>
+		</div>
+    </p>
+    <div class="row">
+        <div class="col-5">
+            <p class="divider-text"></p>
+        </div>
+        <div class="col-2 p-0 m-0">         
+            <p class="text-center">OR</p>
+        </div>
+        <div class="col-5">
+            <p class="divider-text"></p>
+        </div>
+    </div>
+    <p class="text-center text-white">Create your own account</p>
+	<form id="frmRegister" method="POST" autocomplete="off">
+        <div id="dvMessage">
+            {{#if message}}
+                <div class="alert alert-success w-100 bg-transparent color-lightgreen" role='alert'>{{message}}</div>
+            {{/if}}
+        </div>
+
+        <div class="md-form">
+            <i class="fa fa-envelope prefix grey-text"></i>
+            <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
+            <label for="defaultForm-email">Email</label>
+        </div>
+        <div class="md-form">
+            <i class="fa fa-lock prefix grey-text"></i>
+            <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
+            <label for="defaultForm-pass">Password</label>
+        </div>
+        <div class="md-form">
+            <i class="fa fa-lock prefix grey-text"></i>
+            <input type="password" id="txtRepeatPassword" name="txtRepeatPassword" class="form-control text-white">
+            <label for="defaultForm-pass">Confirm password</label>
+        </div>
+
+        <div class="form-group d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-info"> Create Account
+                <i class="fa fa-arrow-circle-right"></i>
+            </button>
+        </div> <!-- form-group// -->  
+
+        <p class="text-center">Have an account? <a class="color-cyan" href="/account/login">Log In</a> </p>                                                                 
+    </form>
+</article>
+</div> <!-- card.// -->

@@ -1,0 +1,109 @@
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">;
+{{/section}}
+{{#section 'js'}}
+    <script>
+
+        function countDown(counting, reset){
+            time = parseInt($('#txtTime').html());
+            time -= 1;
+            
+            $('#txtTime').empty();
+
+            if (time === 0){
+                clearInterval(counting);
+                reset();
+                $('#txtResend').empty();
+            }
+            else
+                $('#txtTime').append(time);
+        }
+        
+        $(document).ready(async function() {
+            let isCount = false;
+
+            let reset = function(){
+                isCount = false;
+            }
+
+            const email = $('#bEmail').html();
+            const res = await $.getJSON(`/account/send-verify-email-token?email=${email}`);
+
+            if (res === true) {
+                $('#txtResend').append(`If you don't recieve the email, you can resend another token after <b id="txtTime">15</b>s.`);
+                let counting = setInterval(function(){countDown(counting, reset)}, 1000);
+                isCount = true;
+            }
+            else{
+                console.log(res);                    
+            }
+            
+            $('#btnSend').click(async function(){
+                if (isCount === false){
+
+                    const email = $('#bEmail').html();
+
+                    const res = await $.getJSON(`/account/send-verify-email-token?email=${email}`);
+
+                    if (res === true) {
+                        $('#txtResend').append(`If you don't recieve the email, you can resend another token after <b id="txtTime">15</b>s.`);
+                        let counting = setInterval(function(){countDown(counting, reset)}, 1000);
+                        isCount = true;
+                    }
+                    else{
+                        console.log(res);                    
+                    }
+                }
+            });
+        });
+
+        $('#frmVerify').on('submit', async function(e){
+            $('#dvTokenMessage').empty();
+            e.preventDefault();
+            const token = $('#txtToken').val();
+
+            const res = await $.getJSON(`/account/is-token-match?token=${token}&type=verify`);
+
+            if (res)
+                $(this).unbind('submit').submit();
+            else
+                $('#dvTokenMessage').append(`<div class="alert alert-danger w-100 bg-transparent color-lightred" role="alert">Token invalid</div>`);
+        });
+
+    </script>
+{{/section}}
+
+<div class="card background-body">
+<article class="card-body mx-auto bg-main text-white" style="width: 550px;">
+        <h4 class="card-title mt-3 text-center mb-5">Verify Your Account</h4>
+        <p>
+            A Verify Token has been sent to <b id="bEmail">{{email}}</b>
+        </p>
+        <form autocomplete='off' id="frmVerify" method="POST">
+            <p id='txtResend'>
+            </p>
+
+            <div class="form-group d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-info" id="btnSend"> Resend Token
+                    <i class="fa fa-arrow-circle-right"></i>
+                </button>
+            </div>
+
+            <div class="md-form">
+                <div class="input-group">
+                {{!-- <i class="fa fa-envelope prefix grey-text"></i> --}}
+                <input type="text" id="txtToken" name="txtToken" class="form-control text-white w-50">
+                <button class="btn btn-info" type="submit" id="btnVerify" data-mdb-ripple-color="dark">
+                    Verify
+                </button>
+                <label for="txtToken">Token</label>
+                </div>
+            </div>
+
+            <div id="dvTokenMessage">
+            </div>
+        </form>
+
+        <p class="text-center"><a href="/account/login/" class="color-cyan">Return to Login</a> </p>                                                                 
+</article>
+</div> <!-- card.// -->
