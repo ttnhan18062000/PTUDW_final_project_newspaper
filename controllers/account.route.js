@@ -5,6 +5,7 @@ const passport = require('passport');
 const { nanoid } = require('nanoid')
 const nodemailer = require('nodemailer');
 const router = express.Router();
+const { ensureAuth, resBlock } = require('../middlewares/auth.mdw');
 const saltRounds = 10;
 
 router.get('/register', async function (req, res) {
@@ -56,7 +57,7 @@ router.get('/send-reset-password-token', async function (req, res){
         requireTLS: true,
         auth: {
           user: 'truongtrungnhan.lop9A8@gmail.com',
-          pass: 'overlord666'
+          pass: 'tnhan18062000'
         }
       });
       
@@ -96,7 +97,7 @@ router.get('/send-verify-email-token', async function (req, res){
         requireTLS: true,
         auth: {
           user: 'truongtrungnhan.lop9A8@gmail.com',
-          pass: 'overlord666'
+          pass: 'tnhan18062000'
         }
       });
       
@@ -146,17 +147,41 @@ router.post('/reset-password', function(req, res){
     res.render('../views/vmAccount/reset-password.hbs', {message: 'Password change successfully'});
 })
 
-router.get('/login', async function (req, res) {
-    res.render('../views/vmAccount/login.hbs', { message: req.flash('message')});
-})
+// router.get('/login', async function (req, res) {
+//     if(req.session.loginState){
+//         const state = req.session.loginState;
+//         if(state.failed){      
+//             return res.render('../views/vmAccount/login.hbs', { message: state.message});
+//         }
+//         if(state.success){
+//             return res.render('../views/vmAccount/login.hbs');
+//         }
+//     }
+//     return res.render('../views/vmAccount/login.hbs');
+// })
 
 router.post('/login', async function (req, res, next) {
-    console.log(req.body);
-    passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/account/login',
-        failureFlash: true
-    })(req, res, next)
+    const email = req.body.txtEmail;
+    const password = req.body.txtPassword;
+    const account = await accountModel.findByEmail(email);
+
+    if(!account){
+        req.session.loginState = {failed: true, message: 'Your Email or Password not correct'};
+        return res.redirect(req.get('Referrer'));
+    }
+    
+    const match = await bcrypt.compare(password, account.Password);
+
+    if(match){
+        req.session.loginState = {success: true, message: "You're logged in"};
+        req.session.loggedIn = true;
+        req.session.user = account;
+        return res.redirect(req.get('Referrer'));
+    }
+    else{
+        req.session.loginState = {failed: true, message: 'Your Email or Password not correct'};   
+        return res.redirect(req.get('Referrer'));
+    }
 })
 
 router.get('/logout', (req, res) => {
@@ -193,6 +218,10 @@ router.post('/verification-email', function(req, res){
 
 router.get('/register-complete-nortification', function(req, res){
     res.render('../views/vmAccount/register-complete-nortification.hbs')
+});
+
+router.get('/profile', ensureAuth, function(req, res){
+    res.render('../views/vmAccount/profile.hbs');
 });
 
 module.exports = router;

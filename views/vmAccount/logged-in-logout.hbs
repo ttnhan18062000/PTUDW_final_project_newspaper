@@ -1,0 +1,27 @@
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">;
+{{/section}}
+
+{{#section 'js'}}
+    <script>
+    </script>
+{{/section}}
+
+<div class="card background-body">
+<article class="card-body mx-auto bg-main text-white" style="width: 550px;">
+	<form id="frmLogin" method="POST" autocomplete="off">
+        <h4 class="card-title mt-3 text-center mb-3">Log in</h4>
+
+        <p class="text-center">You already logged in with account email:</p>
+        <p class="text-center">{{email}}</p>
+        
+        <p Do you want to log out?></p>
+
+        <div class="form-group d-flex justify-content-center mt-5">
+            <button type="submit" class="btn btn-outline-info"> Log out
+                <i class="fa fa-arrow-circle-right"></i>
+            </button>
+        </div> <!-- form-group// -->                                                    
+    </form>
+</article>
+</div> <!-- card.// -->
