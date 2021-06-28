@@ -4,6 +4,23 @@
 
 {{#section 'js'}}
     <script>
+        function validateEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        $('#btnShowPassword').click(function(e){
+            e.preventDefault();
+            if('password' == $('#txtPassword').attr('type')){
+                $('#txtPassword').prop('type', 'text');
+                $('#txtRepeatPassword').prop('type', 'text');
+            }else{
+                $('#txtPassword').prop('type', 'password');
+                $('#txtRepeatPassword').prop('type', 'password');
+            }
+            $('#btnShowPassword').toggleClass('color-cyan');
+        })
+
         async function checkExists(value, field){
             const data = await $.getJSON(`/account/is-available?${field}=${value}`);
             console.log(data);
@@ -24,6 +41,8 @@
 
             if (!password || !repassword || !email)
                 errors.push("Please fill in all fields");
+            if(!validateEmail(email))
+                errors.push("Email not valid");
             if (password !== repassword)
                 errors.push("Password do not match");
             if (password && password.length < 6)
@@ -102,13 +121,19 @@
             <label for="defaultForm-pass">Confirm password</label>
         </div>
 
-        <div class="form-group d-flex justify-content-center">
+        <div class="row d-flex justify-content-end mx-3">
+            <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
+                <i class="fa fa-eye"></i>
+            </button>
+        </div>
+
+        <div class="form-group d-flex justify-content-center mt-3">
             <button type="submit" class="btn btn-outline-info"> Create Account
                 <i class="fa fa-arrow-circle-right"></i>
             </button>
         </div> <!-- form-group// -->  
 
-        <p class="text-center">Have an account? <a class="color-cyan" href="/account/login">Log In</a> </p>                                                                 
+        {{!-- <p class="text-center">Have an account? <a class="color-cyan" href="/account/login">Log In</a> </p>                                                                  --}}
     </form>
 </article>
 </div> <!-- card.// -->
