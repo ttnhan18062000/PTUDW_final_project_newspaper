@@ -1,14 +1,225 @@
+<<<<<<< HEAD
 {{#section 'css'}}
     <link rel="stylesheet" type="text/css" href="/public/styles/home.css">
     <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">
+=======
+<style>
+  .carousel-item {
+    height: 100vh;
+    min-height: 300px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+  .carousel-caption {
+    bottom: 270px;
+  }
+
+  .carousel-caption h5 {
+    font-size: 45px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 25px;
+  }
+
+  .carousel-caption p {
+    width: 75%;
+    margin: auto;
+    font-size: 18px;
+    line-height: 1.9;
+  }
+
+  .navbar-light .navbar-brand {
+    color: #fff;
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+
+  .navbar-light .navbar-nav .active>.nav-link,
+  .navbar-light .navbar-nav .nav-link.active,
+  .navbar-light .navbar-nav .nav-link.show,
+  .navbar-light .navbar-nav .show>.nav-link {
+    color: #fff;
+  }
+
+  .navbar-light .navbar-nav .nav-link {
+    color: #fff;
+  }
+
+  .navbar-toggler {
+    background: #fff;
+  }
+
+  .navbar-nav {
+    text-align: center;
+  }
+
+  .nav-link {
+    padding: .2rem 1rem;
+  }
+
+  .nav-link.active,
+  .nav-link:focus {
+    color: #fff;
+  }
+
+  .navbar-toggler {
+    padding: 1px 5px;
+    font-size: 18px;
+    line-height: 0.3;
+  }
+
+  .navbar-light .navbar-nav .nav-link:focus,
+  .navbar-light .navbar-nav .nav-link:hover {
+    color: #fff;
+  }
+
+  .facebook_icon:hover {
+    transition: 1s;
+    transform: rotateY(360deg);
+    background-color: #3b5999;
+  }
+
+  .twitter_icon:hover {
+    transition: 1s;
+    transform: rotateY(360deg);
+    background-color: #55acee;
+  }
+
+  .linkedin_icon:hover {
+    transition: 1s;
+    transform: rotateY(360deg);
+    background-color: #0077b5;
+  }
+
+  .googleplus_icon:hover {
+    transition: 1s;
+    transform: rotateY(360deg);
+    background-color: #dd4b39;
+  }
+</style>
+
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">;
+>>>>>>> a1901fa9618b2b366d63d3ab2cfbd3e52b7e0ffd
 {{/section}}
 
 {{#section 'js'}}
     <script>
+<<<<<<< HEAD
         
     </script>
 {{/section}}
 <div class="d-flex container p-4">
+=======
+        function validateEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        $('#btnShowPassword').click(function(e){
+            e.preventDefault();
+           if('password' == $('#txtPassword').attr('type')){
+                $('#txtPassword').prop('type', 'text');
+            }else{
+                $('#txtPassword').prop('type', 'password');
+            }
+            $('#btnShowPassword').toggleClass('color-cyan');
+        })
+
+        $('#frmLogin').on('submit', async function(e){
+            e.preventDefault();
+            const errors = [];
+
+            const password = $('#txtPassword').val();
+            const email = $('#txtEmail').val();
+
+            if (!password || !email)
+                errors.push("Please fill in all fields");
+            else if (!validateEmail(email) || (password && password.length < 6))
+                errors.push("Your Email or Password not correct");
+
+            if (errors.length === 0)
+                $(this).unbind('submit').submit();
+
+            $('#dvMessage').empty();
+
+            for (let i = 0; i < errors.length; i++) {
+                $('#dvMessage').append(
+                    `<div class="alert alert-danger w-100 bg-transparent color-lightred" role="alert">${errors[i]}</div>`
+                );
+            }
+        });
+
+        const message = "{{message}}";
+        $('#dvMessage').empty();
+        if(message){
+          $('#modalLogin').modal('show');
+          $('#dvMessage').append(
+            `<div class="alert alert-danger w-100 bg-transparent color-lightred" role="alert">${message}</div>`
+          );
+        }
+
+    </script>
+{{/section}}
+
+<div class="fixed-top" style="background-color: rgba(0, 0, 0, 0.8);">
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#"><strong>CNTN NEWS</strong></a>
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item facebook_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-facebook icon"></i>
+            </a>
+          </li>
+          <li class="nav-item twitter_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-twitter icon"></i>
+            </a>
+          </li>
+          <li class="nav-item linkedin_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-linkedin icon"></i>
+            </a>
+          </li>
+          <li class="nav-item googleplus_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <button type="button" id="btnLogin" class="btn bg-transparent text-white p-0 m-0" data-toggle="modal" data-target="#modalLogin">
+                <i class="fa fa-user-circle fa-2x" aria-hidden="true"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="d-flex container p-4">
+>>>>>>> a1901fa9618b2b366d63d3ab2cfbd3e52b7e0ffd
     <nav class="container nav-expand-lg nav-light">
       <ul class="nav nav-pills">
         {{#each listParentCategories}}
@@ -151,4 +362,58 @@
     </div>
   </div>
 </div>
+<<<<<<< HEAD
 >>>>>>> Register/Login, Post Image
+=======
+
+<div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog bg-main" role="document">
+    <div class="modal-content bg-main">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+            <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
+                  <div class="d-flex justify-content-center mb-3">
+                      <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i class="fa fa-google fa-fw"></i></a>
+                      <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i class="fa fa-facebook fa-fw"></i></a>
+                      <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i class="fa fa-github fa-fw"></i></a>
+                  </div>
+                  <div id="dvMessage">
+                      {{#if error_msg}}
+                          <div class="alert alert-danger w-100 bg-transparent color-lightred" role='alert'>{{error_msg}}</div>
+                      {{/if}}
+                  </div>
+                  <div class="md-form">
+                      <i class="fa fa-envelope prefix grey-text"></i>
+                      <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
+                      <label for="defaultForm-email">Email</label>
+                  </div>
+                  <div class="md-form">
+                      <i class="fa fa-lock prefix grey-text"></i>
+                      <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
+                      <label for="defaultForm-pass">Password</label>
+                  </div>
+                  <div class="row d-flex justify-content-between align-items-center h-a px-3">
+                      <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
+                      <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
+                          <i class="fa fa-eye"></i>
+                      </button>
+                  </div>
+                  <div class="form-group d-flex justify-content-center mt-5">
+                      <button type="submit" class="btn btn-outline-info"> Sign in
+                          <i class="fa fa-arrow-circle-right"></i>
+                      </button>
+                  </div> <!-- form-group// -->  
+
+                  <p class="text-center">Create an account? <a href="/account/register/" class="color-cyan">Register</a> </p>                                                                 
+              </form>
+      </div>
+    </div>
+  </div>
+</div>
+>>>>>>> a1901fa9618b2b366d63d3ab2cfbd3e52b7e0ffd
