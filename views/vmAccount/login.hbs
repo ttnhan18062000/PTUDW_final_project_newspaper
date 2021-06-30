@@ -33,7 +33,7 @@
 
             for (let i = 0; i < errors.length; i++) {
                 $('#dvMessage').append(
-                    `<div class="alert alert-danger w-100 bg-transparent color-lightred" role="alert">${errors[i]}</div>`
+                    `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${errors[i]}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
                 );
             }
         });

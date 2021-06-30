@@ -4,6 +4,11 @@
 
 {{#section 'js'}}
     <script>
+        const message = "{{message}}";
+        if(message === "create")
+            $('#pMsg').text('Your account has been created');
+        else
+            $('#pMsg').text('Your account information has been changed');
     </script>
 {{/section}}
 
@@ -11,8 +16,8 @@
 <article class="card-body mx-auto bg-main text-white" style="width: 550px;">
         <h4 class="card-title mt-3 text-center mb-5">Congratulation!</h4>
 
-        <p class="text-center">Your account has been created.</p>
+        <p class="text-center" id="pMsg"></p>
 
-        <p class="text-center"><a href="/account/login/" class="color-cyan">Return to Login</a> </p>                                                                 
+        <p class="text-center"><a href="/" class="color-cyan">Return to Home</a> </p>                                                                 
 </article>
 </div> <!-- card.// -->

@@ -3,6 +3,9 @@
 {{/section}}
 {{#section 'js'}}
     <script>
+        function removeDiv(elem){
+            $(elem).parent('div').remove();
+        }
 
         function countDown(counting, reset){
             time = parseInt($('#txtTime').html());

@@ -68,6 +68,7 @@
   </nav>
 
   {{{body}}}
+  
   </div>
 
   <div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -89,18 +90,21 @@
                   </div>
                   <div id="dvMessage">
                       {{#if error_msg}}
-                          <div class="alert alert-danger w-100 bg-transparent color-lightred" role='alert'>{{error_msg}}</div>
+                          <div class="alert alert-danger w-100 bg-transparent color-lightred" role='alert'>
+                            {{error_msg}}
+                            <button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button>
+                          </div>
                       {{/if}}
                   </div>
                   <div class="md-form">
                       <i class="fa fa-envelope prefix grey-text"></i>
                       <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
-                      <label for="defaultForm-email">Email</label>
+                      <label for="txtEmail">Email</label>
                   </div>
                   <div class="md-form">
                       <i class="fa fa-lock prefix grey-text"></i>
                       <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
-                      <label for="defaultForm-pass">Password</label>
+                      <label for="txtPassword">Password</label>
                   </div>
                   <div class="row d-flex justify-content-between align-items-center h-a px-3">
                       <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
@@ -136,6 +140,9 @@
             const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         }
+        function removeDiv(elem){
+            $(elem).parent('div').remove();
+        }
 
         $('#btnShowPassword').click(function(e){
             e.preventDefault();
@@ -166,18 +173,20 @@
 
             for (let i = 0; i < errors.length; i++) {
                 $('#dvMessage').append(
-                    `<div class="alert alert-danger w-100 bg-transparent color-lightred" role="alert">${errors[i]}</div>`
+                    `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${errors[i]}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
                 );
             }
         });
-
-        const message = "{{message}}";
-        $('#dvMessage').empty();
-        if(message){
+        const showModal = "{{showModal}}";
+        if(showModal){
           $('#modalLogin').modal('show');
-          $('#dvMessage').append(
-            `<div class="alert alert-danger w-100 bg-transparent color-lightred" role="alert">${message}</div>`
-          );
+          const message = "{{message}}";
+          $('#dvMessage').empty();
+          if(message){
+            $('#dvMessage').append(
+              `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${message}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
+            );
+          }
         }
     </script>
     {{{_sections.js}}}
