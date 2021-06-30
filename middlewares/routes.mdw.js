@@ -33,6 +33,23 @@ module.exports = function (app) {
       }
     });
 
+    if(req.session.loginState){
+        const state = req.session.loginState;
+        if(state.failed){      
+            return res.render('home', { 
+              message: state.message,
+              listCategories: listCategories,
+              listParentCategories: listParentCategories
+            });
+        }
+        if(state.success){
+            return res.render('home', { 
+              listCategories: listCategories,
+              listParentCategories: listParentCategories
+            });
+        }
+    }
+
     res.render("home", {
       listCategories: listCategories,
       listParentCategories: listParentCategories,

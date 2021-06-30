@@ -18,6 +18,6 @@ require('./middlewares/view.mdw')(app);
 require('./middlewares/routes.mdw.js')(app);
 
 const PORT = 5000;
-app.listen(PORT, function () {
+app.listen(PORT, function() {
   console.log(`EC Web App listening at http://localhost:${PORT}`);
 });
