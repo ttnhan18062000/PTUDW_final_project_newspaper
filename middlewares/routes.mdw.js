@@ -1,7 +1,7 @@
 const categoryModel = require("../models/category.model");
 
-module.exports = function (app) {
-  app.get("/", async function (req, res) {
+module.exports = function(app) {
+  app.get("/", async function(req, res) {
     const list = await categoryModel.all();
     const listCategories = [];
     const listParentCategories = [];
@@ -40,5 +40,5 @@ module.exports = function (app) {
   });
 
   app.use("/account/", require("../controllers/account.route"));
-  app.use('/admin',  require("../controllers/admin.route"))
+  app.use('/admin', require("../controllers/admin.route"))
 };
