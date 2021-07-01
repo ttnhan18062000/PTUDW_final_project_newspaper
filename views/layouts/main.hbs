@@ -16,113 +16,157 @@
 </head>
 
 <body>
-  <div class="fixed-top" style="background-color: rgba(0, 0, 0, 0.8);">
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#"><strong>CNTN NEWS</strong></a>
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-        </ul>
-      </div>
-      <div class="collapse navbar-collapse navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item facebook_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-facebook icon"></i>
-            </a>
-          </li>
-          <li class="nav-item twitter_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-twitter icon"></i>
-            </a>
-          </li>
-          <li class="nav-item linkedin_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-linkedin icon"></i>
-            </a>
-          </li>
-          <li class="nav-item googleplus_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <button type="button" id="btnLogin" class="btn bg-transparent text-white p-0 m-0" data-toggle="modal" data-target="#modalLogin">
+  <div class="fixed-top" style="background-color: rgba(0, 0, 0, 0);">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="#"><strong>CNTN NEWS</strong></a>
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <div class="collapse navbar-collapse navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item facebook_icon h5">
+              <a class="nav-link text-white" href="#">
+                <i class="fa fa-facebook icon"></i>
+              </a>
+            </li>
+            <li class="nav-item twitter_icon h5">
+              <a class="nav-link text-white" href="#">
+                <i class="fa fa-twitter icon"></i>
+              </a>
+            </li>
+            <li class="nav-item linkedin_icon h5">
+              <a class="nav-link text-white" href="#">
+                <i class="fa fa-linkedin icon"></i>
+              </a>
+            </li>
+            <li class="nav-item googleplus_icon h5">
+              <a class="nav-link text-white" href="#">
+                <i class="fa fa-google-plus"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <button type="button" id="btnLogin" class="btn bg-transparent text-white p-0 m-0" data-toggle="modal"
+                data-target="#modalLogin">
                 <i class="fa fa-user-circle fa-2x" aria-hidden="true"></i>
-            </button>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="d-flex container p-4">
+      <nav class="container nav-expand-lg nav-light">
+        <ul class="nav nav-pills">
+          {{#each listParentCategories}}
+          <li class="nav-item">
+            <a class="nav-link text-light" href="#">{{Name}}</a>
           </li>
+          {{/each}}
         </ul>
+      </nav>
+      <nav class="nav nav-expand-lg nav-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+          aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+        </button>
+      </nav>
+    </div>
+    <div class="externalCategories">
+      <div class="collapse container" id="navbarToggleExternalContent">
+        <div class="py-4">
+          <div class="d-flex pl-4 pb-4">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-light ml-2 text-dark px-3" style="white-space:nowrap" type="submit">Search</button>
+          </div>
+          <ul style="list-style: none; flex-wrap: wrap; justify-content: center;" class="d-flex">
+            {{#each listCategories}}
+            <li class="m-5">
+              <a style="text-decoration: none;" class="text-light h4" href="#">{{Name}}</a>
+              <ul class="pt-3" style="list-style: none; padding-left: 0;">
+                {{#each listChildCategories}}
+                <li class="pt-2">
+                  <a style="text-decoration: none;" class="text-white" href="#">{{Name}}</a>
+                </li>
+                {{/each}}
+              </ul>
+            </li>
+            {{/each}}
+          </ul>
+        </div>
       </div>
     </div>
-  </nav>
-
-  {{{body}}}
-  
   </div>
+  {{{body}}}
 
   <div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog bg-main" role="document">
-    <div class="modal-content bg-main">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-            <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
-                  <div class="d-flex justify-content-center mb-3">
-                      <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i class="fa fa-google fa-fw"></i></a>
-                      <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i class="fa fa-facebook fa-fw"></i></a>
-                      <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i class="fa fa-github fa-fw"></i></a>
-                  </div>
-                  <div id="dvMessage">
-                      {{#if error_msg}}
-                          <div class="alert alert-danger w-100 bg-transparent color-lightred" role='alert'>
-                            {{error_msg}}
-                            <button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button>
-                          </div>
-                      {{/if}}
-                  </div>
-                  <div class="md-form">
-                      <i class="fa fa-envelope prefix grey-text"></i>
-                      <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
-                      <label for="txtEmail">Email</label>
-                  </div>
-                  <div class="md-form">
-                      <i class="fa fa-lock prefix grey-text"></i>
-                      <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
-                      <label for="txtPassword">Password</label>
-                  </div>
-                  <div class="row d-flex justify-content-between align-items-center h-a px-3">
-                      <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
-                      <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
-                          <i class="fa fa-eye"></i>
-                      </button>
-                  </div>
-                  <div class="form-group d-flex justify-content-center mt-5">
-                      <button type="submit" class="btn btn-outline-info"> Sign in
-                          <i class="fa fa-arrow-circle-right"></i>
-                      </button>
-                  </div> <!-- form-group// -->  
+    aria-hidden="true">
+    <div class="modal-dialog bg-main" role="document">
+      <div class="modal-content bg-main">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
+            <div class="d-flex justify-content-center mb-3">
+              <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i
+                  class="fa fa-google fa-fw"></i></a>
+              <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i
+                  class="fa fa-facebook fa-fw"></i></a>
+              <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i
+                  class="fa fa-github fa-fw"></i></a>
+            </div>
+            <div id="dvMessage">
+              {{#if error_msg}}
+              <div class="alert alert-danger w-100 bg-transparent color-lightred" role='alert'>
+                {{error_msg}}
+                <button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i
+                    class="fa fa-times"></i></button>
+              </div>
+              {{/if}}
+            </div>
+            <div class="md-form">
+              <i class="fa fa-envelope prefix grey-text"></i>
+              <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
+              <label for="txtEmail">Email</label>
+            </div>
+            <div class="md-form">
+              <i class="fa fa-lock prefix grey-text"></i>
+              <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
+              <label for="txtPassword">Password</label>
+            </div>
+            <div class="row d-flex justify-content-between align-items-center h-a px-3">
+              <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
+              <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
+                <i class="fa fa-eye"></i>
+              </button>
+            </div>
+            <div class="form-group d-flex justify-content-center mt-5">
+              <button type="submit" class="btn btn-outline-info"> Sign in
+                <i class="fa fa-arrow-circle-right"></i>
+              </button>
+            </div> <!-- form-group// -->
 
-                  <p class="text-center">Create an account? <a href="/account/register/" class="color-cyan">Register</a> </p>                                                                 
-              </form>
+            <p class="text-center">Create an account? <a href="/account/register/" class="color-cyan">Register</a> </p>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
@@ -132,63 +176,63 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
-    <!-- MDB core JavaScript -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
-    <script>
-      function validateEmail(email) {
-            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(String(email).toLowerCase());
-        }
-        function removeDiv(elem){
-            $(elem).parent('div').remove();
-        }
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+  <script>
+    function validateEmail(email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+    }
+    function removeDiv(elem) {
+      $(elem).parent('div').remove();
+    }
 
-        $('#btnShowPassword').click(function(e){
-            e.preventDefault();
-           if('password' == $('#txtPassword').attr('type')){
-                $('#txtPassword').prop('type', 'text');
-            }else{
-                $('#txtPassword').prop('type', 'password');
-            }
-            $('#btnShowPassword').toggleClass('color-cyan');
-        })
+    $('#btnShowPassword').click(function (e) {
+      e.preventDefault();
+      if ('password' == $('#txtPassword').attr('type')) {
+        $('#txtPassword').prop('type', 'text');
+      } else {
+        $('#txtPassword').prop('type', 'password');
+      }
+      $('#btnShowPassword').toggleClass('color-cyan');
+    })
 
-        $('#frmLogin').on('submit', async function(e){
-            e.preventDefault();
-            const errors = [];
+    $('#frmLogin').on('submit', async function (e) {
+      e.preventDefault();
+      const errors = [];
 
-            const password = $('#txtPassword').val();
-            const email = $('#txtEmail').val();
+      const password = $('#txtPassword').val();
+      const email = $('#txtEmail').val();
 
-            if (!password || !email)
-                errors.push("Please fill in all fields");
-            else if (!validateEmail(email) || (password && password.length < 6))
-                errors.push("Your Email or Password not correct");
+      if (!password || !email)
+        errors.push("Please fill in all fields");
+      else if (!validateEmail(email) || (password && password.length < 6))
+        errors.push("Your Email or Password not correct");
 
-            if (errors.length === 0)
-                $(this).unbind('submit').submit();
+      if (errors.length === 0)
+        $(this).unbind('submit').submit();
 
-            $('#dvMessage').empty();
+      $('#dvMessage').empty();
 
-            for (let i = 0; i < errors.length; i++) {
-                $('#dvMessage').append(
-                    `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${errors[i]}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
-                );
-            }
-        });
-        const showModal = "{{showModal}}";
-        if(showModal){
-          $('#modalLogin').modal('show');
-          const message = "{{message}}";
-          $('#dvMessage').empty();
-          if(message){
-            $('#dvMessage').append(
-              `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${message}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
-            );
-          }
-        }
-    </script>
-    {{{_sections.js}}}
-  </body>
+      for (let i = 0; i < errors.length; i++) {
+        $('#dvMessage').append(
+          `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${errors[i]}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
+        );
+      }
+    });
+    const showModal = "{{showModal}}";
+    if (showModal) {
+      $('#modalLogin').modal('show');
+      const message = "{{message}}";
+      $('#dvMessage').empty();
+      if (message) {
+        $('#dvMessage').append(
+          `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${message}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
+        );
+      }
+    }
+  </script>
+  {{{_sections.js}}}
+</body>
 
 </html>
