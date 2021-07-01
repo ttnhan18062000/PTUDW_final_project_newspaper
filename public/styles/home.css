@@ -1,4 +1,9 @@
-.carousel-item {
+a {
+    text-decoration: none;
+    color: black;
+}
+
+#carouselTop3Post .carousel-item {
     height: 100vh;
     min-height: 300px;
     background: no-repeat center center scroll;
@@ -8,18 +13,18 @@
     background-size: cover;
 }
 
-.carousel-caption {
+#carouselTop3Post .carousel-caption {
     bottom: 270px;
 }
 
-.carousel-caption h5 {
+#carouselTop3Post .carousel-caption h5 {
     font-size: 45px;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-top: 25px;
 }
 
-.carousel-caption p {
+#carouselTop3Post .carousel-caption p {
     width: 75%;
     margin: auto;
     font-size: 18px;
@@ -34,10 +39,7 @@
     letter-spacing: 2px;
 }
 
-.navbar-light .navbar-nav .active>.nav-link,
-.navbar-light .navbar-nav .nav-link.active,
-.navbar-light .navbar-nav .nav-link.show,
-.navbar-light .navbar-nav .show>.nav-link {
+.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
     color: #fff;
 }
 
@@ -57,8 +59,7 @@
     padding: .2rem 1rem;
 }
 
-.nav-link.active,
-.nav-link:focus {
+.nav-link.active, .nav-link:focus {
     color: #fff;
 }
 
@@ -68,8 +69,7 @@
     line-height: 0.3;
 }
 
-.navbar-light .navbar-nav .nav-link:focus,
-.navbar-light .navbar-nav .nav-link:hover {
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
     color: #fff;
 }
 
@@ -95,4 +95,51 @@
     transition: 1s;
     transform: rotateY(360deg);
     background-color: #dd4b39;
+}
+
+.fixed-top.scrolled {
+    background-color: white !important;
+    transition: background-color 200ms linear;
+}
+
+.fixed-top {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.navbar-dark {
+    background-color: rgba(0, 0, 0, 1) !important;
+}
+
+.fixed-top.scrolled .navbar-dark {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.fixed-top.scrolled a {
+    color: black !important;
+}
+
+@media (min-width: 768px) {
+    /* show 3 items */
+    #top10ViewPost .carousel-inner .active, #top10ViewPost .carousel-inner .active+.carousel-item, #top10ViewPost .carousel-inner .active+.carousel-item+.carousel-item {
+        display: block;
+    }
+    #top10ViewPost .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left), #top10ViewPost .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left)+.carousel-item, #top10ViewPost .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left)+.carousel-item+.carousel-item {
+        transition: none;
+    }
+    #top10ViewPost .carousel-inner .carousel-item-next, #top10ViewPost .carousel-inner .carousel-item-prev {
+        position: relative;
+        transform: translate3d(0, 0, 0);
+    }
+    /* left or forward direction */
+    #top10ViewPost .active.carousel-item-left+.carousel-item-next.carousel-item-left, #top10ViewPost .carousel-item-next.carousel-item-left+.carousel-item, #top10ViewPost .carousel-item-next.carousel-item-left+.carousel-item+.carousel-item, #top10ViewPost .carousel-item-next.carousel-item-left+.carousel-item+.carousel-item+.carousel-item {
+        position: relative;
+        transform: translate3d(-100%, 0, 0);
+        visibility: visible;
+    }
+    #top10ViewPost .card-title {
+        height: 5vh;
+    }
+    #top10ViewPost .card-text {
+        height: 10vh;
+    }
 }
