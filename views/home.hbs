@@ -1,56 +1,15 @@
 {{#section 'css'}}
-    <link rel="stylesheet" type="text/css" href="/public/styles/home.css">
-    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">
+<link rel="stylesheet" type="text/css" href="/public/styles/home.css">
+<link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">
 {{/section}}
 
 {{#section 'js'}}
-    <script>
-        
-    </script>
-{{/section}}
-<div class="d-flex container p-4">
-    <nav class="container nav-expand-lg nav-light">
-      <ul class="nav nav-pills">
-        {{#each listParentCategories}}
-        <li class="nav-item">
-          <a class="nav-link text-light" href="#">{{Name}}</a>
-        </li>
-        {{/each}}
-      </ul>
-    </nav>
-    <nav class="nav nav-expand-lg nav-light">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
-        aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-      </button>
-    </nav>
-  </div>
-<div class="externalCategories">
-    <div class="collapse container" id="navbarToggleExternalContent">
-      <div class="py-4">
-        <div class="d-flex pl-4 pb-4">
-          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-          <button class="btn btn-light ml-2 text-dark px-3" style="white-space:nowrap" type="submit">Search</button>
-        </div>
-        <ul style="list-style: none; flex-wrap: wrap; justify-content: center;" class="d-flex">
-          {{#each listCategories}}
-          <li class="m-5">
-            <a style="text-decoration: none;" class="text-light h4" href="#">{{Name}}</a>
-            <ul class="pt-3" style="list-style: none; padding-left: 0;">
-              {{#each listChildCategories}}
-              <li class="pt-2">
-                <a style="text-decoration: none;" class="text-white" href="#">{{Name}}</a>
-              </li>
-              {{/each}}
-            </ul>
-          </li>
-          {{/each}}
-        </ul>
-      </div>
-    </div>
-  </div>
+<script>
 
-<div id="carouselExampleIndicators" class="carousel slide bg-dark" data-ride="carousel">
+</script>
+{{/section}}
+
+<div id="carouselTop3Post" class="carousel slide bg-dark" data-ride="carousel">
   <ol class="carousel-indicators">
     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -88,218 +47,12 @@
       </div>
     </div>
   </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+  <a class="carousel-control-prev" href="#carouselTop3Post" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="sr-only">Previous</span>
   </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+  <a class="carousel-control-next" href="#carouselTop3Post" role="button" data-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
-</div>
-</div>
-
-<div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog bg-main" role="document">
-    <div class="modal-content bg-main">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-            <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
-                  <div class="d-flex justify-content-center mb-3">
-                      <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i class="fa fa-google fa-fw"></i></a>
-                      <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i class="fa fa-facebook fa-fw"></i></a>
-                      <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i class="fa fa-github fa-fw"></i></a>
-                  </div>
-                  <div id="dvMessage">
-                      {{#if error_msg}}
-                          <div class="alert alert-danger w-100 bg-transparent color-lightred" role='alert'>{{error_msg}}</div>
-                      {{/if}}
-                  </div>
-                  <div class="md-form">
-                      <i class="fa fa-envelope prefix grey-text"></i>
-                      <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
-                      <label for="defaultForm-email">Email</label>
-                  </div>
-                  <div class="md-form">
-                      <i class="fa fa-lock prefix grey-text"></i>
-                      <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
-                      <label for="defaultForm-pass">Password</label>
-                  </div>
-                  <div class="row d-flex justify-content-between align-items-center h-a px-3">
-                      <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
-                      <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
-                          <i class="fa fa-eye"></i>
-                      </button>
-                  </div>
-                  <div class="form-group d-flex justify-content-center mt-5">
-                      <button type="submit" class="btn btn-outline-info"> Sign in
-                          <i class="fa fa-arrow-circle-right"></i>
-                      </button>
-                  </div> <!-- form-group// -->  
-
-                  <p class="text-center">Create an account? <a href="/account/register/" class="color-cyan">Register</a> </p>                                                                 
-              </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog bg-main" role="document">
-    <div class="modal-content bg-main">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-            <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
-                  <div class="d-flex justify-content-center mb-3">
-                      <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i class="fa fa-google fa-fw"></i></a>
-                      <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i class="fa fa-facebook fa-fw"></i></a>
-                      <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i class="fa fa-github fa-fw"></i></a>
-                  </div>
-                  <div id="dvMessage">
-                      {{#if error_msg}}
-                          <div class="alert alert-danger w-100 bg-transparent color-lightred" role='alert'>{{error_msg}}</div>
-                      {{/if}}
-                  </div>
-                  <div class="md-form">
-                      <i class="fa fa-envelope prefix grey-text"></i>
-                      <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
-                      <label for="defaultForm-email">Email</label>
-                  </div>
-                  <div class="md-form">
-                      <i class="fa fa-lock prefix grey-text"></i>
-                      <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
-                      <label for="defaultForm-pass">Password</label>
-                  </div>
-                  <div class="row d-flex justify-content-between align-items-center h-a px-3">
-                      <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
-                      <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
-                          <i class="fa fa-eye"></i>
-                      </button>
-                  </div>
-                  <div class="form-group d-flex justify-content-center mt-5">
-                      <button type="submit" class="btn btn-outline-info"> Sign in
-                          <i class="fa fa-arrow-circle-right"></i>
-                      </button>
-                  </div> <!-- form-group// -->  
-
-                  <p class="text-center">Create an account? <a href="/account/register/" class="color-cyan">Register</a> </p>                                                                 
-              </form>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog bg-main" role="document">
-    <div class="modal-content bg-main">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-            <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
-                  <div class="d-flex justify-content-center mb-3">
-                      <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i class="fa fa-google fa-fw"></i></a>
-                      <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i class="fa fa-facebook fa-fw"></i></a>
-                      <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i class="fa fa-github fa-fw"></i></a>
-                  </div>
-                  <div id="dvMessage">
-                      {{#if error_msg}}
-                          <div class="alert alert-danger w-100 bg-transparent color-lightred" role='alert'>{{error_msg}}</div>
-                      {{/if}}
-                  </div>
-                  <div class="md-form">
-                      <i class="fa fa-envelope prefix grey-text"></i>
-                      <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
-                      <label for="defaultForm-email">Email</label>
-                  </div>
-                  <div class="md-form">
-                      <i class="fa fa-lock prefix grey-text"></i>
-                      <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
-                      <label for="defaultForm-pass">Password</label>
-                  </div>
-                  <div class="row d-flex justify-content-between align-items-center h-a px-3">
-                      <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
-                      <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
-                          <i class="fa fa-eye"></i>
-                      </button>
-                  </div>
-                  <div class="form-group d-flex justify-content-center mt-5">
-                      <button type="submit" class="btn btn-outline-info"> Sign in
-                          <i class="fa fa-arrow-circle-right"></i>
-                      </button>
-                  </div> <!-- form-group// -->  
-
-                  <p class="text-center">Create an account? <a href="/account/register/" class="color-cyan">Register</a> </p>                                                                 
-              </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog bg-main" role="document">
-    <div class="modal-content bg-main">
-      <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-3">
-            <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
-                  <div class="d-flex justify-content-center mb-3">
-                      <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i class="fa fa-google fa-fw"></i></a>
-                      <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i class="fa fa-facebook fa-fw"></i></a>
-                      <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i class="fa fa-github fa-fw"></i></a>
-                  </div>
-                  <div id="dvMessage">
-                      {{#if error_msg}}
-                          <div class="alert alert-danger w-100 bg-transparent color-lightred" role='alert'>{{error_msg}}</div>
-                      {{/if}}
-                  </div>
-                  <div class="md-form">
-                      <i class="fa fa-envelope prefix grey-text"></i>
-                      <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
-                      <label for="defaultForm-email">Email</label>
-                  </div>
-                  <div class="md-form">
-                      <i class="fa fa-lock prefix grey-text"></i>
-                      <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
-                      <label for="defaultForm-pass">Password</label>
-                  </div>
-                  <div class="row d-flex justify-content-between align-items-center h-a px-3">
-                      <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
-                      <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
-                          <i class="fa fa-eye"></i>
-                      </button>
-                  </div>
-                  <div class="form-group d-flex justify-content-center mt-5">
-                      <button type="submit" class="btn btn-outline-info"> Sign in
-                          <i class="fa fa-arrow-circle-right"></i>
-                      </button>
-                  </div> <!-- form-group// -->  
-
-                  <p class="text-center">Create an account? <a href="/account/register/" class="color-cyan">Register</a> </p>                                                                 
-              </form>
-      </div>
-    </div>
-  </div>
 </div>
