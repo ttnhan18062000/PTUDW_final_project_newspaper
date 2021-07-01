@@ -4,7 +4,7 @@ module.exports = {
       return next();
     }
     req.session.retUrl = req.originalUrl;
-    req.flash('error_msg', 'Please log in to view that resource');
+    req.session.requireLogin = true;
     res.redirect('/');
   },
 

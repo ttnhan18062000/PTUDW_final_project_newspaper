@@ -9,6 +9,10 @@
             return re.test(String(email).toLowerCase());
         }
 
+        function removeDiv(elem){
+            $(elem).parent('div').remove();
+        }
+
         $('#btnShowPassword').click(function(e){
             e.preventDefault();
             if('password' == $('#txtPassword').attr('type')){
@@ -61,7 +65,7 @@
 
             for (let i = 0; i < errors.length; i++) {
                 $('#dvMessage').append(
-                    `<div class="alert alert-danger w-100 bg-transparent color-lightred" role="alert">${errors[i]}</div>`
+                    `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${errors[i]}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
                 );
             }
         });
@@ -101,24 +105,26 @@
 	<form id="frmRegister" method="POST" autocomplete="off">
         <div id="dvMessage">
             {{#if message}}
-                <div class="alert alert-success w-100 bg-transparent color-lightgreen" role='alert'>{{message}}</div>
+                <div class="alert alert-success w-100 bg-transparent color-lightgreen" role='alert'>{{message}}
+                    <button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button>
+                </div>
             {{/if}}
         </div>
 
         <div class="md-form">
             <i class="fa fa-envelope prefix grey-text"></i>
             <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
-            <label for="defaultForm-email">Email</label>
+            <label for="txtEmail">Email</label>
         </div>
         <div class="md-form">
             <i class="fa fa-lock prefix grey-text"></i>
             <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
-            <label for="defaultForm-pass">Password</label>
+            <label for="txtPassword">Password</label>
         </div>
         <div class="md-form">
             <i class="fa fa-lock prefix grey-text"></i>
             <input type="password" id="txtRepeatPassword" name="txtRepeatPassword" class="form-control text-white">
-            <label for="defaultForm-pass">Confirm password</label>
+            <label for="txtRepeatPassword">Confirm password</label>
         </div>
 
         <div class="row d-flex justify-content-end mx-3">
