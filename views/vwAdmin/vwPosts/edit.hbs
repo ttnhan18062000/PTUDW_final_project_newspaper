@@ -1,5 +1,6 @@
 {{#section 'admin-js'}}
-  <script src="https://cdn.tiny.cloud/1/ts1jol571az4qrjqvft2b54gdpmyy0wwl0ur6gn8aqcvawni/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+  <script src="https://cdn.tiny.cloud/1/ts1jol571az4qrjqvft2b54gdpmyy0wwl0ur6gn8aqcvawni/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
   <script>
     tinymce.init({
       selector: '#txtContent',
@@ -18,7 +19,26 @@
   <div class="card-body">
     <form method="POST">
       <div class="form-group">
-        <label for="txtContent">Content</label>
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="{{this.post.Title}}" autofocus />
+      </div>
+      <div class="form-group">
+        <label for="abstract">Abstract</label>
+        <textarea type="text" class="form-control" id="abstract" name="abstract"  >{{this.post.Abstract}}</textarea>
+      </div>
+      <div class="form-group">
+        <label for="writer">Writer</label>
+        <input type="text" class="form-control" id="writer" name="writer"  value="{{this.post.Writer}}"/>
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <input type="text" class="form-control" id="category" name="category"  />
+      </div>
+      <div class="form-group">
+        <label for="tag">Tags</label>
+        <input type="text" class="form-control" id="tag" name="tag"  />
+      </div>
+      <div class="form-group">
         <textarea id="txtContent" name="content" rows="20" autofocus>{{{this.post.Content}}}</textarea>
       </div>
       <button type="submit" class="btn btn-success">

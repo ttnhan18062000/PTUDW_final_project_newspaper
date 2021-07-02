@@ -1,0 +1,164 @@
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/public/styles/profile.css">
+    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+{{/section}}
+
+{{#section 'js'}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+  <script>
+    function validateEmail(email) {
+            const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+    function removeDiv(elem){
+        $(elem).parent('div').remove();
+    }
+
+    async function checkExists(value, field){
+            const data = await $.getJSON(`/account/is-available?${field}=${value}`);
+            console.log(data);
+            if (data === false) {
+                return `${field} already exists`;
+            }
+            else
+                return null;
+        }
+
+    const baseFName = $('#txtAFName').val();
+    const baseLName = $('#txtALName').val();
+    const baseEmail = $('#txtAEmail').val();
+    const baseDOB = $('#txtADOB').val();
+
+    $('#btnSave').hide();
+    $('#btnClose').hide();
+
+    $('#btnEdit').click(function(){
+      $('#btnSave').show();
+      $('#btnClose').show();
+      $('#txtAFName').removeAttr("readonly");
+      $('#txtALName').removeAttr("readonly");
+      $('#txtAEmail').removeAttr("readonly");
+      $('#txtADOB').removeAttr("readonly");
+      $('#h3Title').toggleClass('mt-4');
+      $(this).hide();
+    });
+
+    $('#btnSaveContainer').on("click", "#btnClose", function(){
+      $('#btnEdit').show();
+      $('#btnSave').hide();
+      $('#btnClose').hide();
+      $('#txtAFName').attr("readonly", "readonly");
+      $('#txtALName').attr("readonly", "readonly");
+      $('#txtAEmail').attr("readonly", "readonly");
+      $('#txtADOB').attr("readonly", "readonly");
+      $('#h3Title').toggleClass('mt-4');
+    })
+
+    $('#frmEdit').on('submit', async function(e){
+      console.log("YYY");
+      e.preventDefault();
+      const FName = $('#txtAFName').val();
+      const LName = $('#txtALName').val();
+      const email = $('#txtAEmail').val();
+      const dob = $('#txtADOB').val();
+      let error = null;
+      if (!FName || !LName || !email || !dob)
+        error = "Please fill in all fields";
+      else if(!validateEmail(email))
+        error = "Email not valid";
+
+      if (error === null){      
+          if (baseEmail !== email){
+            const isExistsEmail = await checkExists(email, "Email");
+            if (isExistsEmail)
+                error = isExistsEmail;
+            else
+              $('#frmEdit').attr('action', '/account/profile?emailChange=1');
+          }
+          else 
+            $('#frmEdit').attr('action', '/account/profile?emailChange=0');
+      }
+
+      $('#dvAccountMessage').empty();
+      if(error !== null)
+        $('#dvAccountMessage').append(
+                      `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${error}<button type="button" id="btnShowPassword" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
+                  );
+      else
+        $(this).unbind('submit').submit();
+
+    });
+
+    $('#txtADOB').datetimepicker({
+      format:'d/m/Y',
+      timepicker: false,
+      mask: true
+    });
+  </script>
+{{/section}}
+
+<div class="container mt-5 d-flex justify-content-center">
+            <!-- Card -->
+            <div class="card w-50 card-cascade narrower bg-main mb-5">
+
+                <!-- Card image -->
+                <div class="view view-cascade gradient-card-header mdb-color lighten-3 text-center pt-0">
+                  <div id="dvATitle" class="row d-flex align-items-center justify-content-center flex-column">
+                    
+                    <button type="button" class="btn btn-info align-self-end py-2 px-3" id="btnEdit"> 
+                      <i class="fa fa-pencil"></i>
+                    </button>
+                    <h3 class="mb-0 font-weight-bold" id="h3Title">Account Information</h3>
+                  </div>
+                </div>
+                <!-- Card image -->
+
+              <!-- Card content -->
+              <div class="card-body card-body-cascade text-center">
+                <div id="dvAccountMessage">
+                    {{#if message}}
+                        <div class="alert alert-success w-100 bg-transparent color-lightgreen" role='alert'>{{message}}
+                          <button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button>
+                        </div>
+                    {{/if}}
+                </div>
+
+                <!-- Edit Form -->
+                <form class="p-3" id="frmEdit" method="POST" autocomplete="off">
+                    <div class="md-form mb-0">
+                        <input type="text" id="txtAFName" name="txtAFName" class="form-control validate text-white" value="{{accountDetail.FirstName}}"  readonly="readonly" >
+                        <label for="txtAFName" data-error="wrong" data-success="right">First Name</label>
+                    </div>
+
+                    <div class="md-form mb-0">
+                        <input type="text" id="txtALName" name="txtALName" class="form-control validate text-white" value="{{accountDetail.LastName}}"  readonly="readonly" >
+                        <label for="txtALName" data-error="wrong" data-success="right">Last Name</label>
+                    </div>
+
+                    <div class="md-form mb-0">
+                        <input type="text" id="txtAEmail" name="txtAEmail" class="form-control validate text-white" value="{{accountDetail.Email}}"  readonly="readonly" >
+                        <label for="txtAEmail" data-error="wrong" data-success="right">Email</label>
+                    </div>
+
+                    <div class="md-form mb-0">
+                        <input type="text" id="txtADOB" name="txtADOB" class="form-control" readonly="readonly" value="{{accountDetail.DOB}}" >
+                        <label for="txtADOB" data-error="wrong" data-success="right">DOB</label>
+                    </div>
+
+                  <div id="btnSaveContainer">
+                      <button type="submit" class="btn btn-info text-black" id="btnSave"> Save </button>
+                      <button type="button" class="btn btn-info text-black" id="btnClose"> Close </button>
+                  </div>
+
+                </form>
+                <!-- Edit Form -->
+
+              </div>
+              <!-- Card content -->
+
+            </div>
+            <!-- Card -->
+
+    </div>

@@ -1,15 +1,15 @@
 module.exports = {
-  ensureAuthenticated: function (req, res, next) {
-    if (req.isAuthenticated()) {
+  ensureAuth: function(req, res, next) {
+    if (req.session.loggedIn) {
       return next();
     }
-    req.flash("error_msg", "Please log in to view that resource");
-    res.redirect("/account/login");
+    req.session.retUrl = req.originalUrl;
+    req.session.requireLogin = true;
+    res.redirect('/');
   },
-  forwardAuthenticated: function (req, res, next) {
-    if (!req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect("/dashboard");
-  },
-};
+
+  resBlock: function(req, res, next) {
+    req.flash('error_msg', 'Sorry you cannot view this resource');
+    res.redirect('/');
+  }
+}
