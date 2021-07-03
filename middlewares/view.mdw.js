@@ -10,8 +10,13 @@ module.exports = function(app) {
         return JSON.stringify(str);
       },
       getSelectedAttr(id, selectedID) {
-        console.log(id, selectedID)
         return id === selectedID ? 'selected' : '';
+      },
+      isNotAdmin(type, options){
+        if (type !== 'Adminstrator')
+          return options.fn(this);
+        else 
+          return options.inverse(this);
       }
     }
   }));
