@@ -6,6 +6,7 @@ module.exports = function(app) {
       const state = req.session.loginState;
       if (state.failed) {
         return res.render('home', {
+          isHome: true,
           showModal: true,
           message: state.message,
           listCategories: res.locals.listCategories,
@@ -14,6 +15,7 @@ module.exports = function(app) {
       }
       if (state.success) {
         return res.render('home', {
+          isHome: true,
           listCategories: res.locals.listCategories,
           listParentCategories: res.locals.listParentCategories
         });
@@ -22,6 +24,7 @@ module.exports = function(app) {
     if (req.session.requireLogin) {
       return res.render('home', {
         showModal: true,
+        isHome: true,
         message: "You need to login to view this resource",
         listCategories: res.locals.listCategories,
         listParentCategories: res.locals.listParentCategories
@@ -29,11 +32,13 @@ module.exports = function(app) {
     }
 
     res.render("home", {
+      isHome: true,
       listCategories: res.locals.listCategories,
       listParentCategories: res.locals.listParentCategories,
     });
   });
 
   app.use("/account/", require("../controllers/account.route"));
-  app.use('/admin', require("../controllers/admin.route"))
+  app.use('/admin', require("../controllers/admin.route"));
+  app.use('/post/', require("../controllers/post.route"));
 };
