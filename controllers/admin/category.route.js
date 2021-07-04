@@ -90,11 +90,7 @@ router.post("/patch", async function(req, res) {
 });
 
 router.post("/del", async function(req, res) {
-  try {
-    await categoryModel.del(req.body.catID);
-  } catch (e) {
-    console.log(e);
-  }
+  await categoryModel.del(req.body.catID);
   res.redirect("/admin/categories");
 });
 

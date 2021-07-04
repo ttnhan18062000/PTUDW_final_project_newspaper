@@ -53,8 +53,6 @@ router.get('/is-token-match', function (req, res) {
 router.get('/send-reset-password-token', async function (req, res) {
   const token = nanoid(8);
   const email = req.query.email;
-  console.log(token);
-  console.log(email);
   var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -93,8 +91,6 @@ router.get('/send-reset-password-token', async function (req, res) {
 router.get('/send-verify-email-token', async function (req, res) {
   const token = nanoid(8);
   const email = req.query.email;
-  console.log(token);
-  console.log(email);
   var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -154,7 +150,6 @@ router.post('/reset-password', function (req, res) {
   bcrypt.genSalt(10, function (err, salt) {
     bcrypt.hash(password, salt, async function (err, hash) {
       const res = await accountModel.updatePasswordByEmail(req.query.email, hash);
-      console.log(res)
     });
   });
   res.render('../views/vmAccount/reset-password.hbs', {

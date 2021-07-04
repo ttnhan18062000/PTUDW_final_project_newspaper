@@ -1,0 +1,44 @@
+{{#section "admin-breadcrumb"}}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="/admin/accounts">Accounts</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Detail</li>
+    </ol>
+  </nav>
+{{/section}}
+<div class='d-flex justify-content-center' style='max-width: 50rem; margin: auto'>
+  <div class='card' style='width: 100%;'>
+    <h4 class='card-header'>
+      Adminstrator
+    </h4>
+    <div class='card-body'>
+      <div class="row">
+        <div class="col-5 text-center">
+          <object data="/public/svg/admin.svg" width="200" height="200"> </object>
+          <div class="mt-2"><h3>{{this.item.DisplayName}}</h3></div>
+        </div>
+        <div class="col-7">
+          <div class="form-row">
+            <div class="col-md-6 mb-1">
+              <label for="firstName">First name</label>
+              <input type="text" readonly class="form-control" id="firstName" value='{{this.item.FirstName}}'>
+            </div>
+            <div class="col-md-6 mb-1">
+              <label for="lastName">Last name</label>
+              <input type="text" readonly class="form-control" id="lastName" value="{{this.item.LastName}}">
+            </div>
+          </div>
+          <div class='form-group'>
+            <label for='dob'>Date of birth</label>
+            <input type='text' readonly class='form-control' id='dob' value='{{this.item.DOB}}' />
+          </div>
+          <div class='form-group'>
+            <label for='email'>Email</label>
+            <input type='text' readonly class='form-control' id='email' value='{{this.item.Email}}' />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
