@@ -18,7 +18,6 @@
       }
       $.getJSON(`/admin/categories/is-available?name=${catName}`,
         function (data) {
-          console.log(data)
           if (data === false) {
             $('#err').empty();
             $('#err').append(

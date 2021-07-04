@@ -1,6 +1,5 @@
 const db = require("../utils/db")
-const {ENDPOINTS} = require('../configs/account');
-const { del } = require("./category.model");
+const {ENDPOINTS} = require('../configs/account.cfg');
 
 module.exports = {
   all() {
@@ -56,7 +55,6 @@ module.exports = {
   },
 
   async insCatOfEditor(catID, editorID) {
-    console.log('zo')
     const cID = +catID;
     const eID = +editorID;
     return await db.raw(`Call INS_Detail_Editor_Account(${eID}, ${cID});`);

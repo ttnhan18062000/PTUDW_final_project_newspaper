@@ -10,7 +10,8 @@ module.exports = function(app) {
         return JSON.stringify(str);
       },
       getSelectedAttr(id, selectedID) {
-        return id === selectedID ? 'selected' : '';
+        const result = Array.isArray(selectedID)? selectedID.includes(id) : selectedID === id;
+        return result ? 'selected' : '';
       },
       isNotAdmin(type, options){
         if (type !== 'Adminstrator')

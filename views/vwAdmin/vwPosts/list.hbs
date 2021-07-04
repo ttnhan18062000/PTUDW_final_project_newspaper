@@ -19,6 +19,14 @@
     }
   </style>
 {{/section}}
+{{#section "admin-breadcrumb"}}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">All Posts</li>
+  </ol>
+</nav>
+{{/section}}
 {{#section "admin-js"}}
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
@@ -31,10 +39,10 @@
   <div class="widget-header d-flex justify-content-between align-items-center" style="height: 3rem">
     <div>
       <i class="icon-th-list"></i>
-      <h3>Posts Table</h3>
+      <h3>All Posts</h3>
     </div>
   </div>
-  <div class="widget-content">
+  <div class="widget-content overflow-auto">
     {{#if this.empty}}
       <h5 class="card-title">Không có dữ liệu!</h5>
     {{else}}
@@ -46,20 +54,20 @@
             <th>Abstract</th>
             <th>Writer</th>
             <th>Category</th>
-            <th>Tags</th>
+            <th>Status</th>
             <th>Premium</th>
             <th class="td-actions">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
-          {{#each this.categories}}
+          {{#each this.list}}
             <tr>
               <th>{{PostID}}</th>
               <td>{{Title}}</td>
               <td>{{Abstract}}</td>
               <td>{{Writer}}</td>
               <td>{{CategoryName}}</td>
-              <td>{{Tags}}</td>
+              <td>{{Status}}</td>
               <td>{{Premium}}</td>
               <td style="text-align: center;">
                 <a class="btn btn-primary btn-large" href="/admin/posts/edit?id={{PostID}}" role="button" title="Edit">
