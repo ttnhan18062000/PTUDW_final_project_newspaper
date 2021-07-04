@@ -101,7 +101,6 @@ router.get("/", async function(req, res) {
   } catch (e) {
     console.log(e);
   }
-  req.flash("msg", "fromList");
   res.render("vwAdmin/vwCategories/list", {
     layout: "admin.hbs",
     categories: list,

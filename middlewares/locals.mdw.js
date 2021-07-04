@@ -72,6 +72,12 @@ const getNavItems = function(url) {
       icon: "fa fa-users",
       class: "",
     },
+    {
+      name: "Tags",
+      href: "/admin/tags",
+      icon: "fa fa-tags",
+      class: "",
+    },
   ];
   const itemName = url.split("/")[2];
   navItems = navItems.map((item) =>

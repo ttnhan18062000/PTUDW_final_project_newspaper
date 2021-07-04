@@ -7,6 +7,8 @@ router.use('/categories/', require('./admin/category.route'));
 
 router.use('/accounts/', require('./admin/account.route'));
 
+router.use('/tags/', require('./admin/tag.route'));
+
 router.get('/dashboard', function(req, res) {
   res.render('vwAdmin/dashboard', {
     layout: 'admin.hbs'

@@ -1,0 +1,83 @@
+
+{{#section "admin-js"}}
+  <script>
+    $('#frmAdd').on('submit', function (e) {
+      e.preventDefault();
+      const name = $('#name').val();
+      if (name.length === 0) {
+        $('#err').empty();
+        $('#err').append(
+          `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <span>Tag name can not be blank!</span>
+          </div>`
+        )
+        return;
+      }
+      $.getJSON(`/admin/tags/is-available?name=${name}`,
+        function (data) {
+          if (!data) {
+            $('#err').empty();
+            $('#err').append(
+              `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <span>Tag name already existed!</span>
+              </div>`
+            )
+          }
+          else {
+            $('#frmAdd').off('submit').submit();
+          }
+        });
+    })
+  </script>
+{{/section}}
+{{#section "admin-css"}}
+  <style>
+    .myselect-container {
+      height: 1rem;
+      width: 100%;
+    }
+    .alert button {
+      position: absolute;
+      top: 50% !important;
+      transform: translateY(-50%);
+    }
+  </style>
+{{/section}}
+
+{{#section "admin-breadcrumb"}}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/admin/tags">Tags</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add</li>
+  </ol>
+</nav>
+{{/section}}
+
+<div class="d-flex justify-content-center" style="max-width: 50rem; margin: auto">
+  <div class="card" style="width: 100%;">
+    <h4 class="card-header">
+      New Tag
+    </h4>
+    <div class="card-body">
+      <form id="frmAdd" method="POST">
+        <div class="form-group">
+          <label for="name">Tag</label>
+          <input type="text" class="form-control" id="name" name="name" autofocus />
+        </div>
+        <div id="err">
+        </div>
+        <button type="submit" class="btn btn-success" style="margin-top: 1rem">
+          <i class="fa fa-check" aria-hidden="true"></i>
+          Save
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
