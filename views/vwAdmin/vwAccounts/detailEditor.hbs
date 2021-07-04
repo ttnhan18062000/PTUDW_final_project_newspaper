@@ -1,0 +1,135 @@
+{{!-- Khong dung alias $, dung truc tiep jQuery, vi src import co dung $  --}}
+{{#section "admin-css"}}
+  <link href="/public/css/pages/detailEditor.css" rel="stylesheet" />
+{{/section}}
+{{#section "admin-breadcrumb"}}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="/admin/accounts">Accounts</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Detail</li>
+    </ol>
+  </nav>
+{{/section}}
+{{#section "admin-js"}}
+  <script>
+    $(document).ready(function () {
+      // Append table with add row form on add new button click
+      $(".add-new").click(function () {
+        $(this).attr("disabled", "disabled");
+        const row = '<tr>' +
+          '<td class="catID">#</td>' +
+          '<td class="select"><select class="form-control" style="height: auto">' +
+          '<option disabled selected value>---Category---</option>' +
+          '{{#each this.listCategories}}' +
+          '<option value={{ID}}>{{Name}}</option>' +
+          '{{/each}}' +
+          '</select></td>' +
+          '<td></td>' +
+          '<td>' +
+          '<a class="add"><i class="fa fa-plus" aria-hidden="true"></i></a>' +
+          '<a class="delete"><i class="fa fa-trash" aria-hidden="true"></i></a>' +
+          '</td>' +
+          '</tr>'
+        $("table").append(row);
+
+      });
+      // Add row on add button click
+      $(document).on("click", ".add", function () {
+        const catID = $(this).parents("td").siblings('.select').children('select').val();
+        const editorID = $('#editorID').val();
+        if (catID) {
+          $.post('insert-category-of-editor', { catID, editorID }, function () {
+            location.reload();
+          });
+        }
+      });
+
+      // Delete row on delete button click
+      $(document).on("click", ".delete", function () {
+        const catID = $(this).parents("td").siblings('.catID').text();
+        const editorID = $('#editorID').val();
+        if (catID !== '#') {
+          $.post('delete-category-of-editor', { catID, editorID }, function () {
+            location.reload();
+          });
+        }
+        $(this).parents("tr").remove();
+        $(".add-new").removeAttr("disabled");
+      });
+    });
+  </script>
+{{/section}}
+<div class='d-flex justify-content-center' style='max-width: 50rem; margin: auto'>
+  <input hidden id="editorID" value={{this.item.ID}} />
+  <div class='card' style='width: 100%;'>
+    <h4 class='card-header'>
+      Editor
+    </h4>
+    <div class='card-body'>
+      <div class="row">
+        <div class="col-5 text-center">
+          <object data="/public/svg/editor.svg" width="200" height="200"> </object>
+          <div class="mt-2"><h3>{{this.item.DisplayName}}</h3></div>
+        </div>
+        <div class="col-7">
+          <div class="form-row">
+            <div class="col-md-6 mb-1">
+              <label for="firstName">First name</label>
+              <input type="text" readonly class="form-control" id="firstName" value='{{this.item.FirstName}}'>
+            </div>
+            <div class="col-md-6 mb-1">
+              <label for="lastName">Last name</label>
+              <input type="text" readonly class="form-control" id="lastName" value="{{this.item.LastName}}">
+            </div>
+          </div>
+          <div class='form-group'>
+            <label for='dob'>Date of birth</label>
+            <input type='text' readonly class='form-control' id='dob' value='{{this.item.DOB}}' />
+          </div>
+          <div class='form-group'>
+            <label for='email'>Email</label>
+            <input type='text' readonly class='form-control' id='email' value='{{this.item.Email}}' />
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between mt-4 mb-1">
+        <h3> Categories Management</h3>
+        <div>
+          <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+        </div>
+      </div>
+      <table class="table table-bordered">
+        <colgroup>
+          <col span="1" style="width: 15%;">
+          <col span="1" style="width: 30%;">
+          <col span="1" style="width: 40%;">
+          <col span="1" style="width: 15%;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Parent Category</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each this.item.categories}}
+            <tr>
+              <td class="catID">{{ID}}</td>
+              <td>{{Name}}</td>
+              <td>{{ParentName}}</td>
+              <td>
+                <a class="delete" title="Delete" data-toggle="tooltip">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>

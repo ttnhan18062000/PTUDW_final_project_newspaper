@@ -1,5 +1,4 @@
 const db = require("../utils/db");
-const { findByID } = require("./account.model");
 
 module.exports = {
   async all() {
