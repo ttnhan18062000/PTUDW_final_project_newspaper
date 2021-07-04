@@ -27,12 +27,12 @@
         min-width: 100%;
     }
 
-    .postTagElement:hover{
+    .postTagElement:hover {
         background-color: black !important;
         color: white !important;
     }
 
-    .relatedPost:hover{
+    .relatedPost:hover {
         background-color: black !important;
         color: white !important;
     }
@@ -75,19 +75,19 @@
         </div>
 
         <div class="row mt-4">
-            <div class="col-9">
+            <div class="col-8">
                 <div class="font-weight-normal" id="postContent">
                     {{{post.Content}}}
                 </div>
                 <div id="postTag">
                     {{#each listTag}}
-                        <a class="postTagElement container p-1 px-2 mr-1" style="background-color: #eeeeee;">
-                            {{TagName}}
-                        </a>
+                    <a class="postTagElement container p-1 px-2 mr-1" style="background-color: #eeeeee;">
+                        {{TagName}}
+                    </a>
                     {{/each}}
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <div class="h4">
                     Related Post
                 </div>
@@ -97,7 +97,7 @@
                         <div class="col-5">
                             <img src="/public/imgs/post/{{PostID}}/thumb.jpg" class="imgThumb" alt="">
                         </div>
-                        <a class="col-7 pl-0 h6 postTitleRelated" style="font-size: small;">
+                        <a class="col-7 pl-0 h6 postTitleRelated" style="font-size: medium;">
                             {{Title}}
                         </a>
                     </div>
@@ -105,7 +105,5 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
