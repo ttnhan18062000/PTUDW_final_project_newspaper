@@ -62,6 +62,10 @@ tr {
   background: #E9E9E9;
 }
 
+.table-bordered tfoot th {
+  background: #E9E9E9;
+}
+
 
 
 

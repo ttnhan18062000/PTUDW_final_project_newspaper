@@ -15,6 +15,34 @@
   <link href="/public/css/mystyle.css" rel="stylesheet" />
   <link href="/public/css/pages/dashboard.css" rel="stylesheet" />
   {{{_sections.admin-css}}}
+  <style>
+    .subnavbar {
+      margin-bottom: 2.5rem !important;
+    }
+    .breadcrumb {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 7px 14px;
+      font: 15px/1.7em 'Open Sans';
+      margin: 0 0 18px;
+      list-style: none;
+      background-color: #fbfbfb;
+      background-image: -moz-linear-gradient(top, #ffffff, #f5f5f5);
+      background-image: -webkit-linear-gradient(top, #ffffff, #f5f5f5);
+      background-image: -o-linear-gradient(top, #ffffff, #f5f5f5);
+      background-image: linear-gradient(top, #ffffff, #f5f5f5);
+      background-repeat: repeat-x;
+      filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f5f5f5', GradientType=0);
+      border: 1px solid #ddd;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      -moz-box-shadow: inset 0 1px 0 #ffffff;
+      box-shadow: inset 0 1px 0 #ffffff;
+    }
+    .breadcrumb a{
+      color: #19bc9c !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -37,10 +65,7 @@
       <div class="container">
         <ul class="mainnav">
           {{#each lcNavItems}}
-            <li class="{{class}}">
-              <a class="navItem" href="{{href}}">
-                <i class="{{icon}}"></i>
-                <span>{{name}}</span>
+            <li class="{{class}}"><a class="navItem" href="{{href}}"><i class="{{icon}}"></i><span>{{name}}</span>
               </a>
             </li>
           {{/each}}
@@ -52,13 +77,11 @@
   </div>
   <!-- /subnavbar -->
   <div class="main">
-    <div class="main-inner">
-      <div class="container">
-        {{{body}}}
-      </div>
-      <!-- /container -->
+    <div class="container">
+      {{{_sections.admin-breadcrumb}}}
+      {{{body}}}
     </div>
-    <!-- /main-inner -->
+    <!-- /container -->
   </div>
   <!-- /main -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>

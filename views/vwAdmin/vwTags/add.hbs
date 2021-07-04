@@ -3,20 +3,20 @@
   <script>
     $('#frmAdd').on('submit', function (e) {
       e.preventDefault();
-      const catName = $('#catName').val();
-      if (catName.length === 0) {
+      const name = $('#name').val();
+      if (name.length === 0) {
         $('#err').empty();
         $('#err').append(
           `<div class="alert alert-warning alert-dismissible fade show" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-            <span>Category name can not be blank!</span>
+            <span>Tag name can not be blank!</span>
           </div>`
         )
         return;
       }
-      $.getJSON(`/admin/categories/is-available?name=${catName}`,
+      $.getJSON(`/admin/tags/is-available?name=${name}`,
         function (data) {
           if (!data) {
             $('#err').empty();
@@ -25,14 +25,13 @@
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                <span>Category name already existed!</span>
+                <span>Tag name already existed!</span>
               </div>`
             )
           }
           else {
             $('#frmAdd').off('submit').submit();
           }
-          
         });
     })
   </script>
@@ -55,7 +54,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="/admin/categories">Categories</a></li>
+    <li class="breadcrumb-item"><a href="/admin/tags">Tags</a></li>
     <li class="breadcrumb-item active" aria-current="page">Add</li>
   </ol>
 </nav>
@@ -64,32 +63,16 @@
 <div class="d-flex justify-content-center" style="max-width: 50rem; margin: auto">
   <div class="card" style="width: 100%;">
     <h4 class="card-header">
-      New Category
+      New Tag
     </h4>
     <div class="card-body">
       <form id="frmAdd" method="POST">
         <div class="form-group">
-          <label for="catName">Category</label>
-          <input type="text" class="form-control" id="catName" name="name" autofocus />
+          <label for="name">Tag</label>
+          <input type="text" class="form-control" id="name" name="name" autofocus />
         </div>
         <div id="err">
         </div>
-        <div class="form-group">
-          <label for="catParent">Parent Category</label>
-          <div class="myselect-container">
-            <select onmousedown="if(this.options.length>10){this.size=10;}" onchange="this.size=0;"
-              onblur="this.size=0;" class="form-control" id="catParent" name="parent">
-              <option selected="selected" value="">None</option>
-              {{#each listCat}}
-                <option value={{ID}}>{{Name}}</option>
-              {{/each}}
-            </select>
-          </div>
-        </div>
-        <a class="btn btn-primary" href="/admin/categories/" style="margin-top: 1rem" role="button">
-          <i class="fa fa-backward" aria-hidden="true"></i>
-          Back to List
-        </a>
         <button type="submit" class="btn btn-success" style="margin-top: 1rem">
           <i class="fa fa-check" aria-hidden="true"></i>
           Save

@@ -1,0 +1,111 @@
+<style>
+    #postCategoryName {
+        color: black;
+    }
+
+    #postContent p:first-child {
+        font-size: x-large;
+    }
+
+    #postImg>img {
+        max-width: 100%;
+        min-width: 100%;
+    }
+
+    #postContent>.imgInContent {
+        max-width: 100%;
+        min-width: 100%;
+    }
+
+    #postContent>.titleImgInContent {
+        font-style: italic;
+        font-size: medium;
+    }
+
+    .imgThumb {
+        max-width: 100%;
+        min-width: 100%;
+    }
+
+    .postTagElement:hover{
+        background-color: black !important;
+        color: white !important;
+    }
+
+    .relatedPost:hover{
+        background-color: black !important;
+        color: white !important;
+    }
+</style>
+
+<div style="background-color: #f7f7f7;">
+    <div class="container jumbotron pt-3">
+        <div>
+            <a href="" id="postCategoryName">
+                {{post.CategoryName}}
+            </a>
+        </div>
+        <div class="p-2" id="postImg">
+            <img src="/public/imgs/post/{{post.PostID}}/thumb.jpg" class="img-fluid" alt="Responsive image">
+        </div>
+        <div id="postTitle" class="h1 my-2">
+            {{post.Title}}
+        </div>
+        <div id="postWriter">
+            <i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i>
+            <span>
+                {{post.Writer}}
+            </span>
+        </div>
+        <div class="row mt-2 py-2" style="background-color: #f7f7f7;">
+            <div class="col-9">
+                <i class="fa fa-calendar px-2" aria-hidden="true"></i>
+                <span id="postPublishDate">
+                    {{post.PublishDate}}
+                </span>
+            </div>
+            <div class="col-1">
+                <i class="fa fa-comment" aria-hidden="true"></i>
+                5
+            </div>
+            <div class="col-1">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                6
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-9">
+                <div class="font-weight-normal" id="postContent">
+                    {{{post.Content}}}
+                </div>
+                <div id="postTag">
+                    {{#each listTag}}
+                        <a class="postTagElement container p-1 px-2 mr-1" style="background-color: #eeeeee;">
+                            {{TagName}}
+                        </a>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="h4">
+                    Related Post
+                </div>
+                <div>
+                    {{#each top5RelatedPost}}
+                    <div class="row my-2 py-2 relatedPost" style="background-color: #f7f7f7;">
+                        <div class="col-5">
+                            <img src="/public/imgs/post/{{PostID}}/thumb.jpg" class="imgThumb" alt="">
+                        </div>
+                        <a class="col-7 pl-0 h6 postTitleRelated" style="font-size: small;">
+                            {{Title}}
+                        </a>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

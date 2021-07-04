@@ -70,6 +70,19 @@ const getNavItems = function(url) {
       name: "Posts",
       href: "/admin/posts",
       icon: "fa fa-pencil-square",
+      icon: "icon-list-alt",
+      class: "",
+    },
+    {
+      name: "Accounts",
+      href: "/admin/accounts",
+      icon: "fa fa-users",
+      class: "",
+    },
+    {
+      name: "Tags",
+      href: "/admin/tags",
+      icon: "fa fa-tags",
       class: "",
     },
   ];
