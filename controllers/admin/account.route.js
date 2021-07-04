@@ -25,9 +25,7 @@ router.post("/add", async function(req, res) {
     })
   });
   
-  res.render("vwAdmin/vwCategories/add", {
-    layout: "admin.hbs",
-  });
+  res.end();
 });
 
 
@@ -42,7 +40,6 @@ router.get("/detail", async function(req, res) {
   let item = null;
   let detailLayout = "/admin/accounts";
   let listCategories = [];
-
 
   switch (account.AccountType) {
     case 'Subscriber':
@@ -76,7 +73,6 @@ router.get("/detail", async function(req, res) {
   }
 
   item.DOB = item.DOB ? moment(item.DOB, 'DD/MM/YYYY').format('DD/MM/YYYY') : '';
-
 
   res.render(detailLayout, {
     layout: "admin.hbs",

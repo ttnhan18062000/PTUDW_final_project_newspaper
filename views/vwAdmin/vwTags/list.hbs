@@ -1,0 +1,86 @@
+{{#section "admin-css"}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
+  <style>
+    .widget-header {
+      padding: 0.5rem;
+    }
+
+    div.dataTables_filter input {
+      height: 1.2rem;
+    }
+
+    .dataTables_wrapper {
+      padding: 0.5rem;
+    }
+
+    .table.table-bordered.dataTable {
+      margin-top: 0 !important;
+    }
+  </style>
+{{/section}}
+{{#section "admin-js"}}
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+  <script>
+    $(document).ready(function () { $('#example').DataTable(); });
+  </script>
+{{/section}}
+{{#section "admin-breadcrumb"}}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Tags</li>
+    </ol>
+  </nav>
+{{/section}}
+<div class="widget widget-table action-table maxWidth8">
+  <div class="widget-header d-flex justify-content-between align-items-center" style="height: 3rem">
+    <div>
+      <i class="icon-th-list"></i>
+      <h3>Tags Table</h3>
+    </div>
+    <a class="btn btn-success" href="/admin/tags/add" role="button">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      Add Tag
+    </a>
+  </div>
+  <div class="widget-content">
+    {{#if this.empty}}
+      <div class="d-flex flex-md-column align-items-center py-1">
+        <h5 class="card-title">Không có dữ liệu!</h5>
+      </div>
+    {{else}}
+      <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th class="td-actions">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each this.list}}
+            <tr>
+              <th>{{ID}}</th>
+              <td>{{Name}}</td>
+              <td style="text-align: center;">
+                <a class="btn btn-primary btn-large" href="/admin/tags/edit?id={{ID}}" role="button" title="Edit">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+        <tfoot>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th class="td-actions">&nbsp;</th>
+          </tr>
+        </tfoot>
+      </table>
+    {{/if}}
+  </div>
+</div>
