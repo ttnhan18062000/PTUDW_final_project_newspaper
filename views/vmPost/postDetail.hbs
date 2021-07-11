@@ -36,6 +36,9 @@
         background-color: black !important;
         color: white !important;
     }
+    .relatedPost:hover a{
+        color: white !important;
+    }
 </style>
 
 <div style="background-color: #f7f7f7;">
@@ -97,7 +100,7 @@
                         <div class="col-5">
                             <img src="/public/imgs/post/{{PostID}}/thumb.jpg" class="imgThumb" alt="">
                         </div>
-                        <a class="col-7 pl-0 h6 postTitleRelated" style="font-size: medium;">
+                        <a class="col-7 pl-0 h6 postTitleRelated" href="/post/byPost/{{PostID}}" style="font-size: medium;">
                             {{Title}}
                         </a>
                     </div>
