@@ -6,7 +6,7 @@ const postModel = require('../models/post.model');
 const tagModel = require('../models/tag.model');
 
 
-router.get("/:categoryID/page:id", async function (req, res) {
+router.get("/:categoryID/page=:id", async function (req, res) {
     const categoryId = +req.params.categoryID || 0;
     const categoryName = await categoryModel.findById(categoryId);
     const pageID = +req.params.id || 0;

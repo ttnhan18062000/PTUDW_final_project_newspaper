@@ -83,7 +83,7 @@
             style="background-color: rgba(255, 255, 255, 0.4);">
             <div class="top4PostTitle p-2 currentPost">
                 <div style="min-height: 6vh">
-                    <a href="/post/byPost/{{top5Post.0.PostID}}" class="h5 text-white">
+                    <a href="/post/{{top5Post.0.PostID}}" class="h5 text-white">
                         {{top5Post.0.Title}}
                     </a>
                 </div>
@@ -95,7 +95,7 @@
             {{#each top4Post}}
             <div class="top4PostTitle p-2" >
                 <div style="min-height: 6vh !important;">
-                    <a href="/post/byPost/{{PostID}}" class="h5 text-white">
+                    <a href="/post/{{PostID}}" class="h5 text-white">
                         {{Title}}
                     </a>
                 </div>
@@ -116,7 +116,7 @@
             <img class="d-block w-100 img-fluid" src="/public/imgs/post/{{Post.PostID}}/thumb.jpg">
         </div>
         <div class="col-8">
-            <a class="h3" href="/post/byPost/{{Post.PostID}}">
+            <a class="h3" href="/post/{{Post.PostID}}">
                 {{Post.Title}}
             </a>
             <div style="font-size: small;" class="row">
@@ -148,13 +148,13 @@
         {{#each paging}}
         {{#if isCurrentPage}}
         <div class="mr-1 p-1 px-2" style="background-color: black;">
-            <a class="text-white" href="/category/{{categoryId}}/page{{id}}">
+            <a class="text-white" href="/category/{{categoryId}}/page={{id}}">
                 <strong>{{id}}</strong>
             </a>
         </div>
         {{else}}
         <div class="mr-1 p-1 px-2 border" style="background-color: rgba(0, 0, 0, 0);">
-            <a class="text-black" href="/category/{{categoryId}}/page{{id}}">
+            <a class="text-black" href="/category/{{categoryId}}/page={{id}}">
                 <strong>{{id}}</strong>
             </a>
         </div>

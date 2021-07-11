@@ -122,7 +122,7 @@
           <ul class="nav nav-pills">
             {{#each listParentCategories}}
             <li class="nav-item">
-              <a class="nav-link text-light" href="/category/{{ID}}/page0">{{Name}}</a>
+              <a class="nav-link text-light" href="/category/{{ID}}/page=0">{{Name}}</a>
             </li>
             {{/each}}
             {{#if isHome}}
@@ -157,11 +157,11 @@
             <ul style="list-style: none; flex-wrap: wrap; justify-content: center;" class="d-flex">
               {{#each listCategories}}
               <li class="m-5">
-                <a style="text-decoration: none;" class="text-light h4" href="/category/{{ID}}/page0">{{Name}}</a>
+                <a style="text-decoration: none;" class="text-light h4" href="/category/{{ID}}/page=0">{{Name}}</a>
                 <ul class="pt-3" style="list-style: none; padding-left: 0;">
                   {{#each listChildCategories}}
                   <li class="pt-2">
-                    <a style="text-decoration: none;" class="text-white" href="/category/{{ID}}/page0">{{Name}}</a>
+                    <a style="text-decoration: none;" class="text-white" href="/category/{{ID}}/page=0">{{Name}}</a>
                   </li>
                   {{/each}}
                 </ul>
