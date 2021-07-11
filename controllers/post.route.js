@@ -8,9 +8,6 @@ router.get('/byPost/:id', async function(req, res){
     const post = await postModel.findById(postId);
     const top5RelatedPost = await postModel.find5PostRelatedById(postId);
     const listTag = await tagModel.getAllTagRelatedPost(postId);
-    console.log(post);
-    console.log(listTag);
-    console.log(top5RelatedPost);
     res.render('vmPost/postDetail', {
         post: post,
         top5RelatedPost: top5RelatedPost,

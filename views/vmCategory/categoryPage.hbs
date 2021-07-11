@@ -34,7 +34,6 @@
             var newId = $(this).find('li.active').attr('data-slide-to');
             const listPost = $(this).find('.top4PostTitle');
             $('body').find('.top4PostTitle.currentPost').removeClass('currentPost');
-            console.log(newId);
             $('body').find('.top4PostTitle').get(newId).classList.add("currentPost");
         });
     })

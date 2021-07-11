@@ -9,7 +9,6 @@ const tagModel = require('../models/tag.model');
 router.get("/:categoryID/page:id", async function (req, res) {
     const categoryId = +req.params.categoryID || 0;
     const categoryName = await categoryModel.findById(categoryId);
-    console.log(categoryName);
     const pageID = +req.params.id || 0;
     const listPost = await postModel.findPostByCategoryAndPage(categoryId, pageID);
     const top5Post = await postModel.getTop5ViewCountByCategoryId(categoryId);
@@ -30,7 +29,6 @@ router.get("/:categoryID/page:id", async function (req, res) {
         for (let index = 0; index < listPost.length; index++) {
             const element = listPost[index];
             const listTag = await tagModel.getAllTagRelatedPost(element.PostID);
-            console.log(element);
             listPostWithTag.push({
                 Post: element,
                 listTag: listTag,
@@ -46,8 +44,7 @@ router.get("/:categoryID/page:id", async function (req, res) {
             categoryId: categoryId,
         })
     }
-    console.log(paging);
-    
+
     res.render("../views/vmCategory/categoryPage.hbs", {
         isEmpty: listPost === null,
         isCategoryList: true,
