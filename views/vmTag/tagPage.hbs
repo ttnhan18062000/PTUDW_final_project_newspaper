@@ -20,8 +20,6 @@
         background-color: black !important;
         color: white !important;
     }
-
-    
 </style>
 
 <script>
@@ -39,10 +37,10 @@
     })
 </script>
 
-<div class="container p-2 pb-0">
-    <div class="h5">
-        {{categoryName.Name}}
-    </div>
+<div class="container p-0 pb-3">
+    <a class="h5 postTagElement p-2" style="width:fit-content; background-color: #eeeeee;">
+        {{tagName.Name}}
+    </a>
 </div>
 
 {{#if isEmpty}}
@@ -93,7 +91,7 @@
                 </div>
             </div>
             {{#each top4Post}}
-            <div class="top4PostTitle p-2" >
+            <div class="top4PostTitle p-2">
                 <div style="min-height: 6vh !important;">
                     <a href="/post/{{PostID}}" class="h5 text-white">
                         {{Title}}
@@ -136,7 +134,8 @@
             </div>
             <div id="postTag">
                 {{#each listTag}}
-                <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}/page=0" style="background-color: #eeeeee;">
+                <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}/page=0"
+                    style="background-color: #eeeeee;">
                     {{TagName}}
                 </a>
                 {{/each}}
@@ -148,13 +147,13 @@
         {{#each paging}}
         {{#if isCurrentPage}}
         <div class="mr-1 p-1 px-2" style="background-color: black;">
-            <a class="text-white" href="/category/{{categoryId}}/page={{id}}">
+            <a class="text-white" href="/tag/{{tagId}}/page={{id}}">
                 <strong>{{id}}</strong>
             </a>
         </div>
         {{else}}
         <div class="mr-1 p-1 px-2 border" style="background-color: rgba(0, 0, 0, 0);">
-            <a class="text-black" href="/category/{{categoryId}}/page={{id}}">
+            <a class="text-black" href="/tag/{{tagId}}/page={{id}}">
                 <strong>{{id}}</strong>
             </a>
         </div>

@@ -25,5 +25,20 @@ module.exports = {
     async getNumPageByCategoryID(categoryID){
         const rs = await db.raw(`Call GTR_NumPage_PostInfo_Publish_By_CategoryID(${categoryID});`);
         return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+    },
+
+    async findPostByTagAndPage(tagID, pageId){
+        const rs = await db.raw(`Call GTT_PostInfo_Publish_Pagging_By_TagID(${tagID}, ${pageId});`);
+        return rs[0][0].length !== 0 ? rs[0][0] : null;
+    },
+
+    async getTop5ViewCountByTagId(tagID){
+        const rs = await db.raw(`Call GTT_Top5_PostInfo_Publish_By_TagID(${tagID});`);
+        return rs[0][0].length !== 0 ? rs[0][0] : null;
+    },
+
+    async getNumPageByTagID(tagID){
+        const rs = await db.raw(`Call GTR_NumPage_PostInfo_Publish_By_TagID(${tagID});`);
+        return rs[0][0].length !== 0 ? rs[0][0][0] : null;
     }
 }
