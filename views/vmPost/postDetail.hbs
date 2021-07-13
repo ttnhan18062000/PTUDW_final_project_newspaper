@@ -44,7 +44,7 @@
 <div style="background-color: #f7f7f7;">
     <div class="container jumbotron pt-3">
         <div>
-            <a href="/category/{{post.CategoryID}}/page=0" id="postCategoryName">
+            <a href="/category/{{post.CategoryID}}?page=0" id="postCategoryName">
                 {{post.CategoryName}}
             </a>
         </div>
@@ -84,7 +84,7 @@
                 </div>
                 <div id="postTag">
                     {{#each listTag}}
-                    <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}/page=0" style="background-color: #eeeeee;">
+                    <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}?page=0" style="background-color: #eeeeee;">
                         {{TagName}}
                     </a>
                     {{/each}}

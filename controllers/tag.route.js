@@ -5,10 +5,10 @@ const tagModel = require('../models/tag.model');
 const postModel = require('../models/post.model');
 
 
-router.get("/:tagID/page=:id", async function (req, res) {
+router.get("/:tagID", async function (req, res) {
     const tagId = +req.params.tagID || 0;
     const tagName = await tagModel.findByID(tagId);
-    const pageID = +req.params.id || 0;
+    const pageID = +req.query.page || 0;
     const listPost = await postModel.findPostByTagAndPage(tagId, pageID);
     const top5Post = await postModel.getTop5ViewCountByTagId(tagId);
     const top4Post = [];

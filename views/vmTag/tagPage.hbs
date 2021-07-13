@@ -134,7 +134,7 @@
             </div>
             <div id="postTag">
                 {{#each listTag}}
-                <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}/page=0"
+                <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}?page=0"
                     style="background-color: #eeeeee;">
                     {{TagName}}
                 </a>
@@ -147,13 +147,13 @@
         {{#each paging}}
         {{#if isCurrentPage}}
         <div class="mr-1 p-1 px-2" style="background-color: black;">
-            <a class="text-white" href="/tag/{{tagId}}/page={{id}}">
+            <a class="text-white" href="/tag/{{tagId}}?page={{id}}">
                 <strong>{{id}}</strong>
             </a>
         </div>
         {{else}}
         <div class="mr-1 p-1 px-2 border" style="background-color: rgba(0, 0, 0, 0);">
-            <a class="text-black" href="/tag/{{tagId}}/page={{id}}">
+            <a class="text-black" href="/tag/{{tagId}}?page={{id}}">
                 <strong>{{id}}</strong>
             </a>
         </div>

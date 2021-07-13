@@ -39,7 +39,6 @@ router.get("/is-editable", async function(req, res) {
 router.get("/edit", async function(req, res) {
   const id = +req.query.id || 0;
   const item = await tagModel.findByID(id);
-  console.log(item)
   if(item){
     return res.render("vwAdmin/vwTags/edit", {
       layout: "admin.hbs",
