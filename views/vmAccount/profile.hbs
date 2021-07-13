@@ -18,7 +18,6 @@
 
     async function checkExists(value, field){
             const data = await $.getJSON(`/account/is-available?${field}=${value}`);
-            console.log(data);
             if (data === false) {
                 return `${field} already exists`;
             }
@@ -57,7 +56,6 @@
     })
 
     $('#frmEdit').on('submit', async function(e){
-      console.log("YYY");
       e.preventDefault();
       const FName = $('#txtAFName').val();
       const LName = $('#txtALName').val();

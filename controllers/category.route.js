@@ -1,19 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
-const tagModel = require('../models/tag.model');
+const categoryModel = require('../models/category.model');
 const postModel = require('../models/post.model');
+const tagModel = require('../models/tag.model');
 
 
-router.get("/:tagID", async function (req, res) {
-    const tagId = +req.params.tagID || 0;
-    const tagName = await tagModel.findByID(tagId);
+router.get("/:categoryID", async function (req, res) {
+    const categoryId = +req.params.categoryID || 0;
+    const categoryName = await categoryModel.findById(categoryId);
     const pageID = +req.query.page || 0;
-    const listPost = await postModel.findPostByTagAndPage(tagId, pageID);
-    const top5Post = await postModel.getTop5ViewCountByTagId(tagId);
+    const listPost = await postModel.findPostByCategoryAndPage(categoryId, pageID);
+    const top5Post = await postModel.getTop5ViewCountByCategoryId(categoryId);
     const top4Post = [];
     const listPostWithTag = [];
-    const numPage = await postModel.getNumPageByTagID(tagId);
+    const numPage = await postModel.getNumPageByCategoryID(categoryId);
     if (listPost !== null) {
         for (let index = 1; index < top5Post.length - 1; index++) {
             const element = top5Post[index];
@@ -40,19 +41,19 @@ router.get("/:tagID", async function (req, res) {
         paging.push({
             id: index,
             isCurrentPage: index == pageID,
-            tagId: tagId,
+            categoryId: categoryId,
         })
     }
 
-    res.render("../views/vmTag/tagPage.hbs", {
+    res.render("../views/vmCategory/categoryPage.hbs", {
         isEmpty: listPost === null,
-        isTagList: true,
+        isCategoryList: true,
         listPostWithTag: listPostWithTag,
         top4Post: top4Post,
         top5Post: top5Post,
         paging: paging,
-        tagName: tagName,
-        tagId: tagId,
+        categoryName: categoryName,
+        categoryId: categoryId,
     });
 })
 

@@ -96,7 +96,6 @@ router.post("/insert-category-of-editor", async function(req, res) {
 
 router.post("/update-writer", async function(req, res) {
   const {writerID, alias}= req.body;
-  console.log(req.body)
   await accountModel.updateWriter(writerID, alias);
   res.end();
 });
