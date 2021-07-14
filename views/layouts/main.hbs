@@ -21,19 +21,17 @@
 
 <script>
   $(function () {
-    
-    {{#if isHome}}
+
+    {{#if isHome }}
     $(document).scroll(function () {
       var $nav = $(".fixed-top");
       $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
     });
     {{/if}}
-
-    $(".navbar-toggler").click(function () {
-      $(".fixed-top").toggleClass("navbar-dark");
-    })
-    
-  });
+        $(".navbar-toggler").click(function () {
+          $(".fixed-top").toggleClass("navbar-dark");
+        })
+    });
 
   $(document).ready(function () {
 
@@ -72,7 +70,7 @@
     <div class="fixed-top" style="background-color: rgba(0, 0, 0, 1) !important;">
       {{/if}}
       <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="#"><strong>CNTN NEWS</strong></a>
+        <a class="navbar-brand" href="/"><strong>CNTN NEWS</strong></a>
         <div class="container-fluid">
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,9 +123,19 @@
           <ul class="nav nav-pills">
             {{#each listParentCategories}}
             <li class="nav-item">
-              <a class="nav-link text-light" href="#">{{Name}}</a>
+              <a class="nav-link text-light" href="/category/{{ID}}?page=0">{{Name}}</a>
             </li>
             {{/each}}
+            {{#if isHome}}
+            {{else}}
+            <li class="nav-item ml-2">
+              <form class="form-inline ml-5 my-2 my-lg-0">
+                <input class="ml-4 form-control" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn btn-outline-light my-2 my-sm-0 ml-1 p-2" type="submit">Search</button>
+              </form>
+            </li>
+            {{/if}}
+            
           </ul>
         </nav>
         <nav class="nav nav-expand-lg nav-light">
@@ -139,19 +147,22 @@
       </div>
       <div class="externalCategories">
         <div class="collapse container" id="navbarToggleExternalContent">
-          <div class="py-4">
+          <div class="py-3">
+            {{#if isHome}}
             <div class="d-flex pl-4 pb-4">
-              <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-              <button class="btn btn-light ml-2 text-dark px-3" style="white-space:nowrap" type="submit">Search</button>
+              <input class="form-control py-2" style="height:fit-content" type="text" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-light ml-2 text-dark px-3 my-0" style="white-space:nowrap"
+                type="submit">Search</button>
             </div>
+            {{/if}}
             <ul style="list-style: none; flex-wrap: wrap; justify-content: center;" class="d-flex">
               {{#each listCategories}}
               <li class="m-5">
-                <a style="text-decoration: none;" class="text-light h4" href="#">{{Name}}</a>
+                <a style="text-decoration: none;" class="text-light h4" href="/category/{{ID}}?page=0">{{Name}}</a>
                 <ul class="pt-3" style="list-style: none; padding-left: 0;">
                   {{#each listChildCategories}}
                   <li class="pt-2">
-                    <a style="text-decoration: none;" class="text-white" href="#">{{Name}}</a>
+                    <a style="text-decoration: none;" class="text-white" href="/category/{{ID}}?page=0">{{Name}}</a>
                   </li>
                   {{/each}}
                 </ul>
@@ -165,7 +176,7 @@
     {{#if isHome}}
     {{{body}}}
     {{else}}
-    <div style="padding-top: 18vh; background-color: #f7f7f7; height: 100vh;">
+    <div style="padding-top: 18vh; background-color: #f7f7f7; min-height: 100vh; padding-bottom: 10vh">
       {{{body}}}
     </div>
     {{/if}}

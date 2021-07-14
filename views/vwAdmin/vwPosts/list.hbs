@@ -20,12 +20,12 @@
   </style>
 {{/section}}
 {{#section "admin-breadcrumb"}}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
-    <li class="breadcrumb-item active" aria-current="page">All Posts</li>
-  </ol>
-</nav>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">All Posts</li>
+    </ol>
+  </nav>
 {{/section}}
 {{#section "admin-js"}}
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -33,6 +33,21 @@
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
   <script>
     $(document).ready(function () { $('#example').DataTable(); });
+    $(document).on("click", ".publish", function () {
+      const postID = $(this).parents("td").siblings("th").text();
+      const publishDate = new Date().toISOString().slice(0, 19).replace('T', ' '); //convert js Date to sql datetime
+      $.post('/admin/posts/publish',
+        {
+          postID,
+          publishDate
+        },
+        function () {
+          location.reload();
+        });
+    })
+    function handleDelete(post) {
+      jQuery.post("/admin/posts/delete", { ID: post.PostID }, () => location.reload());
+    }
   </script>
 {{/section}}
 <div class="widget widget-table action-table w-100">
@@ -41,6 +56,10 @@
       <i class="icon-th-list"></i>
       <h3>All Posts</h3>
     </div>
+    <a class="btn btn-success" href="/admin/posts/add" role="button">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      Add Post
+    </a>
   </div>
   <div class="widget-content overflow-auto">
     {{#if this.empty}}
@@ -67,15 +86,27 @@
               <td>{{Abstract}}</td>
               <td>{{Writer}}</td>
               <td>{{CategoryName}}</td>
-              <td>{{Status}}</td>
+              <td>{{Status}}
+                {{#isNotPublish Status}}
+                  <button class="d-block mt-1 btn btn-info publish" style="height: 3rem;">
+                    Publish
+                  </button>
+                  {{#isUnPublish Status}}
+                    <span>Publish Date: {{formatTime this.PublishDate}}</span>
+                  {{/isUnPublish}}
+                {{/isNotPublish}}
+              </td>
               <td>{{Premium}}</td>
-              <td style="text-align: center;">
+              <td >
                 <a class="btn btn-primary btn-large" href="/admin/posts/edit?id={{PostID}}" role="button" title="Edit">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>
                 <a class="btn btn-success btn-large" href="/admin/posts/{{PostID}}" role="button" title="Detail">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </a>
+                <button type="button" class='btn btn-danger mt-1' onclick="handleDelete({{jsonParse this}})">
+                  <i class='fa fa-trash-o' aria-hidden='true'></i>
+                </button>
               </td>
             </tr>
           {{/each}}

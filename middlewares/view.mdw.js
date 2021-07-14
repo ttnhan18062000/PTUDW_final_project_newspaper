@@ -1,4 +1,5 @@
 const exphbs = require('express-handlebars');
+const moment = require('moment');
 const hbs_sections = require('express-handlebars-sections');
 
 module.exports = function(app) {
@@ -18,6 +19,21 @@ module.exports = function(app) {
           return options.fn(this);
         else 
           return options.inverse(this);
+      },
+      isNotPublish(status, options){
+        if(status !== 'Publish')
+          return options.fn(this);
+        else
+          return options.inverse(this);
+      },
+      isUnPublish(status, options){
+        if(status === 'Unpublish')
+          return options.fn(this);
+        else
+          return options.inverse(this);
+      },
+      formatTime(time){
+        return moment(time, 'DD/MM/YYYY').format('DD/MM/YYYY')
       }
     }
   }));
