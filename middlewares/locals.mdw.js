@@ -57,13 +57,20 @@ const getNavItems = function(url) {
   let navItems = [{
       name: "Dashboard",
       href: "/admin/dashboard",
-      icon: "icon-dashboard",
+      icon: "fa fa-tachometer",
       class: "",
     },
     {
       name: "Categories",
       href: "/admin/categories",
-      icon: "icon-list-alt",
+      icon: "fa fa-list-alt",
+      class: "",
+    },
+    {
+      name: "Posts",
+      href: "/admin/posts",
+      icon: "fa fa-pencil-square",
+      icon: "fa fa-pencil-square-o",
       class: "",
     },
     {
