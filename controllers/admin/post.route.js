@@ -73,8 +73,8 @@ router.post('/edit', async function(req, res) {
     } else {
       let {postID, title, abstract, writer, category, content, premium = '0', tags = [], originTags = [] } = req.body;
       //generate and create thumbnail
-      if( err|| req.file === undefined){
-        console.log('There no main photo: ', err)
+      if( req.file === undefined){
+        console.log('There no main photo.')
       }else{
         await sharp(req.file.path).resize(SIZE.THUMBNAIL) 
         .jpeg({
@@ -116,7 +116,6 @@ router.post('/add', async function(req, res) {
       content = content.replace(/'/g, '"');
       const {PostID} = await postModel.create({title, abstract, writer, category, content, premium, status, publishDate});
       req.body.postID = PostID;
-      console.log(PostID)
       //Add post tags
       Promise.all(tags.map(tagID => postModel.insertTag(PostID, tagID)));
       const dir = `./public/imgs/post/${PostID}`;
@@ -138,8 +137,8 @@ router.post('/add', async function(req, res) {
       console.log(err);
     } else {
       //generate and create thumbnail
-      if( err|| req.file === undefined){
-        console.log('There no main photo: ', err)
+      if(req.file === undefined){
+        console.log('There no main photo.')
       }else{
         await sharp(req.file.path).resize(SIZE.THUMBNAIL) 
         .jpeg({
@@ -154,6 +153,7 @@ router.post('/add', async function(req, res) {
 
 router.post("/delete", async function(req, res) {
   await postModel.delete(req.body.ID);
+  fs.rmdirSync(`./public/imgs/post/${req.body.ID}`, { recursive: true });
   res.end();
 });
 
