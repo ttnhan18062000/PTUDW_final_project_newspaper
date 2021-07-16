@@ -73,8 +73,13 @@ router.post('/edit', async function(req, res) {
     } else {
       let {postID, title, abstract, writer, category, content, premium = '0', tags = [], originTags = [] } = req.body;
       //generate and create thumbnail
+<<<<<<< HEAD
       if( req.file === undefined){
         console.log('There no main photo.')
+=======
+      if( err|| req.file === undefined){
+        console.log('There no main photo: ', err)
+>>>>>>> ae4da1b23bbe26c6a2d6c083e43e671f844e4246
       }else{
         await sharp(req.file.path).resize(SIZE.THUMBNAIL) 
         .jpeg({
