@@ -73,13 +73,8 @@ router.post('/edit', async function(req, res) {
     } else {
       let {postID, title, abstract, writer, category, content, premium = '0', tags = [], originTags = [] } = req.body;
       //generate and create thumbnail
-<<<<<<< HEAD
       if( req.file === undefined){
         console.log('There no main photo.')
-=======
-      if( err|| req.file === undefined){
-        console.log('There no main photo: ', err)
->>>>>>> ae4da1b23bbe26c6a2d6c083e43e671f844e4246
       }else{
         await sharp(req.file.path).resize(SIZE.THUMBNAIL) 
         .jpeg({
@@ -111,7 +106,7 @@ router.post('/edit', async function(req, res) {
 router.post('/add', async function(req, res) {
   const storage = multer.diskStorage({
     async destination(req, file, cb) {
-      let {title, abstract, writer, category, content, status, premium = '0'} = req.body;
+      let {title, abstract, writer, category, content, status="Publish", premium = '0'} = req.body;
       const publishDate = moment(req.body.publishDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
       const tags = req.body.tags? req.body.tags.split(',').filter(e => e.length > 0) : [];
       //create post
@@ -168,8 +163,9 @@ router.post('/upload', async function(req, res) {
       cb(null, `./public/imgs/post`)
     },
     filename(req, file, cb) {
-      req.body.location = `/public/imgs/post/${file.originalname}`
-      cb(null, file.originalname)
+      const date = new Date().getTime();
+      req.body.location = `/public/imgs/post/${date}`+ '.' + `${mime.getExtension(file.mimetype)}`
+      cb(null, `${date}.${mime.getExtension(file.mimetype)}`)
     }
   });
   const upload = multer({
@@ -188,6 +184,13 @@ router.post('/upload', async function(req, res) {
 router.post("/publish", async function(req, res) {
   const {postID, publishDate} = req.body;
   await postModel.publish(postID, publishDate);
+  res.end();
+});
+
+router.post("/change-publish-date", async function(req, res) {
+  const {postID} = req.body;
+  const publishDate = moment(req.body.newPublishDate).format('YYYY-MM-DD');
+  await postModel.updatePublishDate(postID, publishDate);
   res.end();
 });
 
