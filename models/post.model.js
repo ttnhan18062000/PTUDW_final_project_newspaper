@@ -44,6 +44,10 @@ module.exports = {
   delete(id){
     return db.raw(ENDPOINTS.delete(id));
   },
+
+  updatePublishDate(postID, publishDate){
+    return db.raw(ENDPOINTS.updatePublishDate(postID, publishDate));
+  },
   
   async findById(id) {
       const rs = await db.raw(`Call GTR_PostDetail_By_ID(${id});`);

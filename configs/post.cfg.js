@@ -10,6 +10,7 @@ const ENDPOINTS = {
   insertTag: (postID, tagID) => `Call INS_PostTag('${postID}', '${tagID}')`,
   deleteTag: (postID, tagID) => `Call DEL_PostTag('${postID}', '${tagID}')`,
   publish: (postID, publishDate) => `Call UPD_Post_Publish('${postID}', '${publishDate}')`,
+  updatePublishDate: (postID, publishDate) => `Call UPD_Post_PublishDate('${postID}', '${publishDate}')`,
 }
 module.exports = {
   ENDPOINTS,
