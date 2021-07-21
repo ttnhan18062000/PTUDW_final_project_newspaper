@@ -35,6 +35,7 @@
 
   $(document).ready(function () {
 
+    $('#content').css('padding-top', ($('.fixed-top').height() + 30).toString() + "px");
     $('#carouselExample').on('slide.bs.carousel', function (e) {
 
       /*
@@ -185,7 +186,7 @@
     {{#if isHome}}
     {{{body}}}
     {{else}}
-    <div style="padding-top: 18vh; background-color: #f7f7f7; min-height: 100vh; padding-bottom: 10vh">
+    <div id="content" style="background-color: #f7f7f7; min-height: 100vh; padding-bottom: 10vh">
       {{{body}}}
     </div>
     {{/if}}
