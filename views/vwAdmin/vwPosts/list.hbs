@@ -1,6 +1,8 @@
 {{#section "admin-css"}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
   <style>
     .widget-header {
       padding: 0.5rem;
@@ -31,6 +33,8 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
   <script>
     $(document).ready(function () { $('#example').DataTable(); });
     $(document).on("click", ".publish", function () {
@@ -48,6 +52,25 @@
     function handleDelete(post) {
       jQuery.post("/admin/posts/delete", { ID: post.PostID }, () => location.reload());
     }
+    $(document).on("click", ".changeDate", function () {
+      const postID = $(this).parents("td").siblings("th").text();
+      const newPublishDate = $(this).siblings("input").datetimepicker('getValue');
+      $.post('/admin/posts/change-publish-date',
+        {
+          postID,
+          newPublishDate
+        },
+        function () {
+          location.reload();
+        });
+    });
+    jQuery('.publishDate').datetimepicker({
+      format: 'd/m/Y',
+      timepicker: false,
+      mask: false,
+      allowBlank: true,
+      validateOnBlur: false,
+    });
   </script>
 {{/section}}
 <div class="widget widget-table action-table w-100">
@@ -86,18 +109,26 @@
               <td>{{Abstract}}</td>
               <td>{{Writer}}</td>
               <td>{{CategoryName}}</td>
-              <td>{{Status}}
-                {{#isNotPublish Status}}
+              <td>
+                {{#isDraft Status}}
+                  {{Status}}
                   <button class="d-block mt-1 btn btn-info publish" style="height: 3rem;">
                     Publish
                   </button>
+                {{else}}
                   {{#isUnPublish Status}}
-                    <span>Publish Date: {{formatTime this.PublishDate}}</span>
+                    Publish on:
+                    <input class="publishDate" style="width: 6rem;" value="{{formatTime this.PublishDate}}">
+                    <button class="d-block mt-1 btn btn-info changeDate" style="height: 3rem;">
+                      Change
+                    </button>
+                  {{else}}
+                    {{Status}}
                   {{/isUnPublish}}
-                {{/isNotPublish}}
+                {{/isDraft}}
               </td>
               <td>{{Premium}}</td>
-              <td >
+              <td>
                 <a class="btn btn-primary btn-large" href="/admin/posts/edit?id={{PostID}}" role="button" title="Edit">
                   <i class="fa fa-pencil" aria-hidden="true"></i>
                 </a>

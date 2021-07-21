@@ -20,8 +20,8 @@ module.exports = function(app) {
         else 
           return options.inverse(this);
       },
-      isNotPublish(status, options){
-        if(status !== 'Publish')
+      isDraft(status, options){
+        if(status === 'Draft')
           return options.fn(this);
         else
           return options.inverse(this);
