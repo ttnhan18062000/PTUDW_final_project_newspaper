@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="./scatch.css">
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <input id="slide-sidebar" type="checkbox" role="button" />
+    <label for="slide-sidebar" id="label-sidebar" class="btn-collapse"><i class="fa fa-angle-double-left fa-lg"
+        aria-hidden="true"></i></label>
+    <div class="sidebar" id="sidebar">
+      <a href="#">
+        <i class="fa fa-angle-left fa-lg mr-2" aria-hidden="true"></i>
+        Trở về trang đọc báo</a>
+      <div class="sidebar-title">Phóng viên</div>
+      <img src="./public/svg/writer.svg" width="200px" alt="writer">
+      <div class="sidebar-alias">sonnt</div>
+      <div class="sidebar-email">solatin@gmail.com</div>
+    </div>
+    <div class='main-container'>
+      <div class="header-container">
+        <div class="title">
+          Bài viết
+        </div>
+        <div class="subtitle">
+          Thêm, sửa, quản lý các bài viết của bạn.
+        </div>
+      </div>
+      <div class='post-navbar'>
+        <div class='menus'>
+          <a href="#" class='active'>
+            Bài đã đăng
+            <span class="badge">1</span>
+          </a>
+          <a href="#">Nháp<span class="badge">1</span></a>
+          <a href="#">Đang đợi<span class="badge">1</span></a>
+          <a href="#">Đã xóa<span class="badge">1</span></a>
+        </div>
+      </div>
+      <div class="post-list-container">
+        <div class="post-list-header">
+            <span class="header-label">Bài viết</span>
+            <a class="header-btn">Viết bài mới</a>
+        </div>
+        <div class="post-item-container">
+          <div class="post-content">
+            <div class="post-content-title"> WhyNotWin11: biết chính xác vì sao máy bạn không tương thích với Windows 11</div>
+            <div class="post-content-time">15/7/2020</div>
+          </div>
+          <div class="post-options">
+            <div href="#" class="post-option">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            </div>
+            <div href="#" class="post-option">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img src="/public/svg/emptypost.svg" width="150" alt="">
+      <div style="font-size: 2rem;">Không tìm thấy bài viết nào.</div>
+      <img src="/public/svg/clock2.svg" alt="">
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+  <script>
+    $('#slide-sidebar').change(
+      function () {
+        if ($(this).is(':checked')) {
+          $('#label-sidebar').html('<i class="fa fa-angle-double-right fa-lg" aria-hidden="true"></i>')
+        }
+        else {
+          $('#label-sidebar').html('<i class="fa fa-angle-double-left fa-lg" aria-hidden="true"></i>')
+        }
+      });
+  </script>
+</body>
+
+</html>
