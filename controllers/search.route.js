@@ -5,8 +5,8 @@ const categoryModel = require('../models/category.model');
 const postModel = require('../models/post.model');
 const tagModel = require('../models/tag.model');
 
-router.get("/:inputString", async function (req, res){
-    const inputString = req.params.inputString;
+router.get("/", async function (req, res){
+    const inputString = req.query.keyword;
     const pageID = +req.query.page || 0;
     
     const listPost = await postModel.findPostByInputStringAndPage(inputString, pageID);
