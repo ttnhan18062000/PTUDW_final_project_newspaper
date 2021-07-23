@@ -29,8 +29,9 @@
                 isCount = false;
             }
 
+            const type = "{{type}}";
             const email = $('#bEmail').html();
-            const res = await $.getJSON(`/account/send-verify-email-token?email=${email}`);
+            const res = await $.getJSON(`/account/send-verify-email-token?email=${email}&type=${type}`);
 
             if (res === true) {
                 $('#txtResend').append(`If you don't recieve the email, you can resend another token after <b id="txtTime">15</b>s.`);
@@ -46,7 +47,7 @@
 
                     const email = $('#bEmail').html();
 
-                    const res = await $.getJSON(`/account/send-verify-email-token?email=${email}`);
+                    const res = await $.getJSON(`/account/send-verify-email-token?email=${email}&type=${type}`);
 
                     if (res === true) {
                         $('#txtResend').append(`If you don't recieve the email, you can resend another token after <b id="txtTime">15</b>s.`);
@@ -58,19 +59,21 @@
                     }
                 }
             });
-        });
 
-        $('#frmVerify').on('submit', async function(e){
-            $('#dvTokenMessage').empty();
-            e.preventDefault();
-            const token = $('#txtToken').val();
+            $('#frmVerify').on('submit', async function(e){
+                $('#dvTokenMessage').empty();
+                e.preventDefault();
+                const token = $('#txtToken').val();
 
-            const res = await $.getJSON(`/account/is-token-match?token=${token}&type=verify`);
+                const res = await $.getJSON(`/account/is-token-match?token=${token}&type=verify`);
 
-            if (res)
-                $(this).unbind('submit').submit();
-            else
-                $('#dvTokenMessage').append(`<div class="alert alert-danger w-100 bg-transparent color-lightred" role="alert">Token invalid</div>`);
+                $('#frmVerify').attr('action', `/account/verification-email?email=${email}&type=${type}`);
+
+                if (res)
+                    $(this).unbind('submit').submit();
+                else
+                    $('#dvTokenMessage').append(`<div class="alert alert-danger w-100 bg-transparent color-lightred" role="alert">Token invalid</div>`);
+            });
         });
 
     </script>
@@ -78,11 +81,11 @@
 
 <div class="card background-body">
 <article class="card-body mx-auto bg-main text-white" style="width: 550px;">
-        <h4 class="card-title mt-3 text-center mb-5">Verify Your Account</h4>
+        <h4 class="card-title mt-3 text-center mb-5">Verify Your Email</h4>
         <p>
-            A Verify Token has been sent to <b id="bEmail">{{email}}</b>
+            Your email is not verified, We've sent a Verify Token to <b id="bEmail">{{email}}</b>
         </p>
-        <form autocomplete='off' id="frmVerify" method="POST">
+        <form autocomplete='off' id="frmVerify" method="POST" action="/account/verification-email">
             <p id='txtResend'>
             </p>
 
