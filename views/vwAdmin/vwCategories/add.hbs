@@ -80,7 +80,7 @@
             <select onmousedown="if(this.options.length>10){this.size=10;}" onchange="this.size=0;"
               onblur="this.size=0;" class="form-control" id="catParent" name="parent">
               <option selected="selected" value="">None</option>
-              {{#each listCat}}
+              {{#each parentCat}}
                 <option value={{ID}}>{{Name}}</option>
               {{/each}}
             </select>

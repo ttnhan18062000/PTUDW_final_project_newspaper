@@ -1,5 +1,5 @@
 const db = require("../utils/db");
-const {ENDPOINTS} = require('../configs/tag.js');
+const {ENDPOINTS} = require('../configs/tag.cfg');
 
 module.exports = {
   async getAllTagRelatedPost(postId){

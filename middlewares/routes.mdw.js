@@ -44,4 +44,5 @@ module.exports = function(app) {
   app.use('/post/', require("../controllers/post.route"));
   app.use('/category/', require("../controllers/category.route"));
   app.use('/tag/', require("../controllers/tag.route"));
+  app.use('/search', require("../controllers/search.route"));
 };

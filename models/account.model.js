@@ -1,6 +1,5 @@
 const db = require("../utils/db")
-const { ENDPOINTS } = require('../configs/account');
-const { del } = require("./category.model");
+const {ENDPOINTS} = require('../configs/account.cfg');
 
 module.exports = {
   all() {

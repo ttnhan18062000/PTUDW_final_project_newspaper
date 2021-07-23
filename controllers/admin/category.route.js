@@ -5,15 +5,11 @@ const categoryModel = require("../../models/category.model");
 const router = express.Router();
 
 router.get("/add", async function(req, res) {
-  let list = [];
-  try {
-    list = await categoryModel.all();
-  } catch (e) {
-    console.log(e);
-  }
+  const allCat = await categoryModel.all();
+  const parentCat = allCat.filter(cat => cat.ParentCategoryID === null) 
   res.render("vwAdmin/vwCategories/add", {
     layout: "admin.hbs",
-    listCat: list,
+    parentCat
   });
 });
 

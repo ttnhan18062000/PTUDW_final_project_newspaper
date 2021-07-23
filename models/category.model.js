@@ -3,7 +3,7 @@ const db = require("../utils/db");
 module.exports = {
   async all() {
     const rs = await db.raw(`Call GTT_Category();`);
-    return rs[0][0];
+    return rs[0][0] || [];
   },
   async findById(id) {
     const rs = await db.raw(`Call GTR_Category_By_ID(${id});`);

@@ -37,7 +37,7 @@
         },
         function () {
           location.href = '/admin/tags';
-        })
+        });
     });
   </script>
 {{/section}}
@@ -78,7 +78,7 @@
         <div class='form-group'>
           <label for='Name'>Tag</label>
           <input type='text' class='form-control' id='Name' name='Name' autofocus value='{{this.item.Name}}' />
-          <input type="hidden" id="oldName" value='{{this.item.Name}}''>
+          <input type="hidden" id="oldName" value='{{this.item.Name}}' />
         </div>
         <div id='err'></div>
         <div style='display: inline-block; margin-top: 1rem'>
