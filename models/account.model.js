@@ -7,7 +7,7 @@ module.exports = {
   },
 
   add(account) {
-    return db.raw(`Call INS_Account_Subscriber('${account.Email}', '${account.Password}')`)
+    return db.raw(`Call INS_Account_Subscriber('${account.Email}', '${account.Password}', '${account.Otp}');`)
   },
 
   async findByEmail(email) {
@@ -30,6 +30,14 @@ module.exports = {
     if (res[0].length === 0 || res[0][0].result === 0)
       return false;
     return true;
+  },
+
+  async updateOtpByEmail(email, Otp) {
+    const res = await db.raw(`Call UDP_Otp_Account_Subscriber('${email}', '${Otp}');`)
+  },
+
+  async updateStatusActiveByEmail(email) {
+    const res = await db.raw(`Call UDP_Status_Active_Account_Subscriber('${email}');`);
   },
 
   async findDetailByID(id) {
@@ -70,24 +78,24 @@ module.exports = {
     return rs[0][0];
   },
 
-  async detailWriter(id){
+  async detailWriter(id) {
     const nId = parseInt(id);
     const rs = await db.raw(`Call GTR_Detail_Writer_Account_By_AccountID(${nId});`);
     return rs[0][0][0] || null;
   },
 
-  async detailEditor(id){
+  async detailEditor(id) {
     const nId = parseInt(id);
     const rs = await db.raw(`Call GTR_Detail_Editor_Account_By_AccountID(${nId});`);
     return rs[0][0] || null;
   },
 
-  async addByAdmin(account){
+  async addByAdmin(account) {
     const endpoint = ENDPOINTS.addByAdmin[account.type](account);
     return db.raw(endpoint);
   },
 
-  async delete(account){
+  async delete(account) {
     const endpoint = ENDPOINTS.delete[account.AccountType](account.ID);
     return db.raw(endpoint);
   }
