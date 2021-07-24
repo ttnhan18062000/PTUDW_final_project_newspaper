@@ -18,23 +18,22 @@
   <link rel="stylesheet" type="text/css" href="/public/styles/main.css">
   {{{_sections.css}}}
 </head>
-
 <script>
   $(function () {
-
     {{#if isHome }}
-    $(document).scroll(function () {
-      var $nav = $(".fixed-top");
-      $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
-    });
+      $(document).scroll(function () {
+        var $nav = $(".fixed-top");
+        $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+      });
     {{/if}}
-        $(".navbar-toggler").click(function () {
-          $(".fixed-top").toggleClass("navbar-dark");
-        })
-    });
+    $(".navbar-toggler").click(function () {
+      $(".fixed-top").toggleClass("navbar-dark");
+    })
+  });
 
   $(document).ready(function () {
 
+    $('#content').css('padding-top', ($('.fixed-top').height() + 30).toString() + "px");
     $('#carouselExample').on('slide.bs.carousel', function (e) {
 
       /*
@@ -61,252 +60,288 @@
     });
   })
 
+  function goSearch() {
+    const inputString = $('#inputField').val();
+    if (inputString == null || inputString == "") {
+      return false;
+    }
+    window.location = "/search?keyword=" + inputString;
+    return false;
+  }
 </script>
 
 <body>
+  <input type="hidden" id="account" value="{{jsonParse this.account}}">
   {{#if isHome}}
-  <div class="fixed-top" style="background-color: rgba(0, 0, 0, 0);">
-    {{else}}
+    <div class="fixed-top" style="background-color: rgba(0, 0, 0, 0);">
+  {{else}}
     <div class="fixed-top" style="background-color: rgba(0, 0, 0, 1) !important;">
-      {{/if}}
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand" href="/"><strong>CNTN NEWS</strong></a>
-        <div class="container-fluid">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                <a class="nav-link text-white" href="#">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-white" href="#">Contact</a>
-              </li>
-            </ul>
-          </div>
-          <div class="collapse navbar-collapse navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item facebook_icon h5">
-                <a class="nav-link text-white" href="#">
-                  <i class="fa fa-facebook icon"></i>
-                </a>
-              </li>
-              <li class="nav-item twitter_icon h5">
-                <a class="nav-link text-white" href="#">
-                  <i class="fa fa-twitter icon"></i>
-                </a>
-              </li>
-              <li class="nav-item linkedin_icon h5">
-                <a class="nav-link text-white" href="#">
-                  <i class="fa fa-linkedin icon"></i>
-                </a>
-              </li>
-              <li class="nav-item googleplus_icon h5">
-                <a class="nav-link text-white" href="#">
-                  <i class="fa fa-google-plus"></i>
-                </a>
-              </li>
-              <li class="nav-item">
-                <button type="button" id="btnLogin" class="btn bg-transparent text-white p-0 m-0" data-toggle="modal"
-                  data-target="#modalLogin">
-                  <i class="fa fa-user-circle fa-2x" aria-hidden="true"></i>
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <div class="d-flex container p-4">
-        <nav class="container nav-expand-lg nav-light">
-          <ul class="nav nav-pills">
-            {{#each listParentCategories}}
-            <li class="nav-item">
-              <a class="nav-link text-light" href="/category/{{ID}}?page=0">{{Name}}</a>
-            </li>
-            {{/each}}
-            {{#if isHome}}
-            {{else}}
-            <li class="nav-item ml-2">
-              <form class="form-inline ml-5 my-2 my-lg-0">
-                <input class="ml-4 form-control" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn btn-outline-light my-2 my-sm-0 ml-1 p-2" type="submit">Search</button>
-              </form>
-            </li>
-            {{/if}}
-            
-          </ul>
-        </nav>
-        <nav class="nav nav-expand-lg nav-light">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
-            aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
-          </button>
-        </nav>
+  {{/if}}
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="/"><strong>CNTN NEWS</strong></a>
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="#">Contact</a>
+          </li>
+        </ul>
       </div>
-      <div class="externalCategories">
-        <div class="collapse container" id="navbarToggleExternalContent">
-          <div class="py-3">
-            {{#if isHome}}
-            <div class="d-flex pl-4 pb-4">
-              <input class="form-control py-2" style="height:fit-content" type="text" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-light ml-2 text-dark px-3 my-0" style="white-space:nowrap"
-                type="submit">Search</button>
-            </div>
-            {{/if}}
-            <ul style="list-style: none; flex-wrap: wrap; justify-content: center;" class="d-flex">
-              {{#each listCategories}}
-              <li class="m-5">
-                <a style="text-decoration: none;" class="text-light h4" href="/category/{{ID}}?page=0">{{Name}}</a>
-                <ul class="pt-3" style="list-style: none; padding-left: 0;">
-                  {{#each listChildCategories}}
+      <div class="collapse navbar-collapse navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li>
+            <a href="#" id="btn-func" style="margin-right: 1rem; color: white"></a>
+          </li>
+          <li class="nav-item facebook_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-facebook icon"></i>
+            </a>
+          </li>
+          <li class="nav-item twitter_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-twitter icon"></i>
+            </a>
+          </li>
+          <li class="nav-item linkedin_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-linkedin icon"></i>
+            </a>
+          </li>
+          <li class="nav-item googleplus_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <button type="button" id="btnLogin" class="btn bg-transparent text-white p-0 m-0" data-toggle="modal"
+              data-target="#modalLogin">
+              <i class="fa fa-user-circle fa-2x" aria-hidden="true"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="d-flex container p-4">
+    <nav class="container nav-expand-lg nav-light">
+      <ul class="nav nav-pills">
+        {{#each listParentCategories}}
+          <li class="nav-item">
+            <a class="nav-link text-light" href="/category/{{ID}}?page=0">{{Name}}</a>
+          </li>
+        {{/each}}
+        {{#if isHome}}
+        {{else}}
+          <li class="nav-item ml-2">
+            <form class="form-inline ml-5 my-2 my-lg-0">
+              <input class="ml-4 form-control" type="search" placeholder="Nhập thông tin" aria-label="Search"
+                id="inputField">
+              <button class="btn btn btn-outline-light my-2 my-sm-0 ml-1 p-2 rounded" type="submit"
+                onclick="return goSearch()">Tìm kiếm</button>
+            </form>
+          </li>
+        {{/if}}
+      </ul>
+    </nav>
+    <nav class="nav nav-expand-lg nav-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+        aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+      </button>
+    </nav>
+  </div>
+  <div class="externalCategories">
+    <div class="collapse container" id="navbarToggleExternalContent">
+      <div class="py-3">
+        {{#if isHome}}
+          <div class="d-flex pl-4 pb-4">
+            <input class="form-control py-2" style="height:fit-content" type="text"
+              placeholder="Nhập thông tin tìm kiếm" aria-label="Search" id="inputField">
+            <button class="btn btn-outline-light ml-2 text-dark px-3 my-0 rounded" style="white-space:nowrap"
+              type="submit" onclick="return goSearch()">Tìm kiếm&nbsp;&nbsp;</button>
+          </div>
+        {{/if}}
+        <ul style="list-style: none; flex-wrap: wrap; justify-content: center;" class="d-flex">
+          {{#each listCategories}}
+            <li class="m-5">
+              <a style="text-decoration: none;" class="text-light h4" href="/category/{{ID}}?page=0">{{Name}}</a>
+              <ul class="pt-3" style="list-style: none; padding-left: 0;">
+                {{#each listChildCategories}}
                   <li class="pt-2">
                     <a style="text-decoration: none;" class="text-white" href="/category/{{ID}}?page=0">{{Name}}</a>
                   </li>
-                  {{/each}}
-                </ul>
-              </li>
-              {{/each}}
-            </ul>
-          </div>
-        </div>
+                {{/each}}
+              </ul>
+            </li>
+          {{/each}}
+        </ul>
       </div>
     </div>
-    {{#if isHome}}
+  </div>
+  </div>
+  {{#if isHome}}
     {{{body}}}
-    {{else}}
-    <div style="padding-top: 18vh; background-color: #f7f7f7; min-height: 100vh; padding-bottom: 10vh">
+  {{else}}
+    <div id="content" style="background-color: #f7f7f7; min-height: 100vh; padding-bottom: 10vh">
       {{{body}}}
     </div>
-    {{/if}}
-
-
-    <div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog"
-      aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog bg-main" role="document">
-        <div class="modal-content bg-main">
-          <div class="modal-header text-center">
-            <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body mx-3">
-            <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
-              <div class="d-flex justify-content-center mb-3">
-                <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i
-                    class="fa fa-google fa-fw"></i></a>
-                <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i
-                    class="fa fa-facebook fa-fw"></i></a>
-                <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i
-                    class="fa fa-github fa-fw"></i></a>
-              </div>
-              <div id="dvMessage">
-                {{#if error_msg}}
+  {{/if}}
+  <div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog bg-main" role="document">
+      <div class="modal-content bg-main">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
+            <div class="d-flex justify-content-center mb-3">
+              <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i
+                  class="fa fa-google fa-fw"></i></a>
+              <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i
+                  class="fa fa-facebook fa-fw"></i></a>
+              <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i
+                  class="fa fa-github fa-fw"></i></a>
+            </div>
+            <div id="dvMessage">
+              {{#if error_msg}}
                 <div class="alert alert-danger w-100 bg-transparent color-lightred" role='alert'>
                   {{error_msg}}
                   <button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i
                       class="fa fa-times"></i></button>
                 </div>
-                {{/if}}
-              </div>
-              <div class="md-form">
-                <i class="fa fa-envelope prefix grey-text"></i>
-                <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
-                <label for="txtEmail">Email</label>
-              </div>
-              <div class="md-form">
-                <i class="fa fa-lock prefix grey-text"></i>
-                <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
-                <label for="txtPassword">Password</label>
-              </div>
-              <div class="row d-flex justify-content-between align-items-center h-a px-3">
-                <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
-                <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
-                  <i class="fa fa-eye"></i>
-                </button>
-              </div>
-              <div class="form-group d-flex justify-content-center mt-5">
-                <button type="submit" class="btn btn-outline-info"> Sign in
-                  <i class="fa fa-arrow-circle-right"></i>
-                </button>
-              </div> <!-- form-group// -->
-
-              <p class="text-center">Create an account? <a href="/account/register/" class="color-cyan">Register</a>
-              </p>
-            </form>
-          </div>
+              {{/if}}
+            </div>
+            <div class="md-form">
+              <i class="fa fa-envelope prefix grey-text"></i>
+              <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
+              <label for="txtEmail">Email</label>
+            </div>
+            <div class="md-form">
+              <i class="fa fa-lock prefix grey-text"></i>
+              <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
+              <label for="txtPassword">Password</label>
+            </div>
+            <div class="row d-flex justify-content-between align-items-center h-a px-3">
+              <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
+              <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
+                <i class="fa fa-eye"></i>
+              </button>
+            </div>
+            <div class="form-group d-flex justify-content-center mt-5">
+              <button type="submit" class="btn btn-outline-info"> Sign in
+                <i class="fa fa-arrow-circle-right"></i>
+              </button>
+            </div> <!-- form-group// -->
+            <p class="text-center">Create an account? <a href="/account/register/" class="color-cyan">Register</a>
+            </p>
+          </form>
         </div>
       </div>
     </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+  <script>
+    function validateEmail(email) {
+      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+    }
+    function removeDiv(elem) {
+      $(elem).parent('div').remove();
+    }
 
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-      crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"></script>
-    <!-- MDB core JavaScript -->
-    <script type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
-    <script>
-      function validateEmail(email) {
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
+    $('#btnShowPassword').click(function (e) {
+      e.preventDefault();
+      if ('password' == $('#txtPassword').attr('type')) {
+        $('#txtPassword').prop('type', 'text');
+      } else {
+        $('#txtPassword').prop('type', 'password');
       }
-      function removeDiv(elem) {
-        $(elem).parent('div').remove();
+      $('#btnShowPassword').toggleClass('color-cyan');
+    })
+
+    $('#frmLogin').on('submit', async function (e) {
+      e.preventDefault();
+      const errors = [];
+
+      const password = $('#txtPassword').val();
+      const email = $('#txtEmail').val();
+
+      if (!password || !email)
+        errors.push("Please fill in all fields");
+      else if (!validateEmail(email) || (password && password.length < 6))
+        errors.push("Your Email or Password not correct");
+
+      if (errors.length === 0)
+        $(this).unbind('submit').submit();
+
+      $('#dvMessage').empty();
+
+      for (let i = 0; i < errors.length; i++) {
+        $('#dvMessage').append(
+          `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${errors[i]}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
+        );
       }
+    });
+    const showModal = "{{showModal}}";
+    if (showModal) {
+      $('#modalLogin').modal('show');
 
-      $('#btnShowPassword').click(function (e) {
-        e.preventDefault();
-        if ('password' == $('#txtPassword').attr('type')) {
-          $('#txtPassword').prop('type', 'text');
-        } else {
-          $('#txtPassword').prop('type', 'password');
-        }
-        $('#btnShowPassword').toggleClass('color-cyan');
-      })
-
-      $('#frmLogin').on('submit', async function (e) {
-        e.preventDefault();
-        const errors = [];
-
-        const password = $('#txtPassword').val();
-        const email = $('#txtEmail').val();
-
-        if (!password || !email)
-          errors.push("Please fill in all fields");
-        else if (!validateEmail(email) || (password && password.length < 6))
-          errors.push("Your Email or Password not correct");
-
-        if (errors.length === 0)
-          $(this).unbind('submit').submit();
-
-        $('#dvMessage').empty();
-
-        for (let i = 0; i < errors.length; i++) {
-          $('#dvMessage').append(
-            `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${errors[i]}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
-          );
-        }
-      });
-      const showModal = "{{showModal}}";
-      if (showModal) {
-        $('#modalLogin').modal('show');
-        const message = "{{message}}";
-        $('#dvMessage').empty();
-        if (message) {
-          $('#dvMessage').append(
-            `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${message}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
-          );
-        }
+      const message = "{{loginMessage}}";
+      $('#dvMessage').empty();
+      if (message) {
+        $('#dvMessage').append(
+          `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${message}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
+        );
       }
-    </script>
-    {{{_sections.js}}}
+    }
+
+    $(document).ready(function () {
+      {{#if account}}
+        const account = {{{jsonParse account}}};
+        let href;
+        let text;
+        switch (account.AccountType) {
+          case "Writer": {
+            href = '/writer';
+            text = 'Đến trang phóng viên'
+            break;
+          }
+          case "Editor": {
+            href = '/editor';
+            text = 'Đến trang biên tập viên'
+            break;
+          }
+          case "Adminstrator": {
+            href = '/admin';
+            text = 'Đến trang Admin'
+            break;
+          }
+        }
+        $('#btn-func').html(text);
+        $('#btn-func').attr('href', href);
+      {{/if}}
+    });
+  </script>
+  {{{_sections.js}}}
 </body>
 
 </html>

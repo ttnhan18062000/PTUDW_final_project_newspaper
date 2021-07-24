@@ -11,6 +11,7 @@ const ENDPOINTS = {
   deleteTag: (postID, tagID) => `Call DEL_PostTag('${postID}', '${tagID}')`,
   publish: (postID, publishDate) => `Call UPD_Post_Publish('${postID}', '${publishDate}')`,
   updatePublishDate: (postID, publishDate) => `Call UPD_Post_PublishDate('${postID}', '${publishDate}')`,
+  getPostByWriterID: (id) => `Call GTT_PostDetail_By_Writer(${id})`
 }
 module.exports = {
   ENDPOINTS,
