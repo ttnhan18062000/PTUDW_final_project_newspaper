@@ -210,7 +210,9 @@ router.post('/login', async function(req, res, next) {
   if (match) {
     req.session.loginState = { success: true, loginMessage: "You're logged in" };
     req.session.loggedIn = true;
-    req.session.account = account;
+    const accountDetail = await accountModel.detail(account)
+    req.session.account = {...account, [account.AccountType]: accountDetail}
+    
     rUrl = req.session.retUrl || req.get('Referrer') || '/';
     return res.redirect(rUrl);
   } else {

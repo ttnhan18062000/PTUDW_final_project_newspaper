@@ -102,5 +102,11 @@ module.exports = {
   async getNumPostByInputString(inputString) {
     const rs = await db.raw(`Call GTR_Search_PostInfo_Total('${inputString}');`);
     return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  },
+
+  async getPostByWriterID(id){
+    const endpoint = ENDPOINTS.getPostByWriterID(id);
+    const rs = await db.raw(endpoint);
+    return rs[0][0] || [];
   }
 }

@@ -90,6 +90,22 @@ module.exports = {
     return rs[0][0] || null;
   },
 
+  async detail(account){
+    switch(account.AccountType){
+      case "Writer":{
+        const endpoint = ENDPOINTS.detail.Writer(account.ID);
+        const rs = await db.raw(endpoint);
+        return rs[0][0][0] || {};
+      }
+      case "Editor":{
+        const endpoint = ENDPOINTS.detail.Editor(account.ID);
+        const rs = await db.raw(endpoint);
+        return rs[0][0] || {};
+      }
+      default: return {}
+    }
+  },
+
   async addByAdmin(account) {
     const endpoint = ENDPOINTS.addByAdmin[account.type](account);
     return db.raw(endpoint);

@@ -47,6 +47,7 @@ module.exports = function(app) {
     res.locals.authUser = req.session.authUser;
     res.locals.listParentCategories = listParentCategories;
     res.locals.listCategories = listCategories;
+    res.locals.account = req.session.account;
     next();
   });
 

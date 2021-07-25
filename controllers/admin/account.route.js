@@ -8,7 +8,7 @@ const categoryModel = require("../../models/category.model");
 const router = express.Router();
 
 router.get("/add", async function(req, res) {
-  const {listType} = require('../../configs/account');
+  const {listType} = require('../../configs/account.cfg');
   res.render("vwAdmin/vwAccounts/add", {
     layout: "admin.hbs",
     listType

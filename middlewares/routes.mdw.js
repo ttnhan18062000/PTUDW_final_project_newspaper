@@ -1,4 +1,4 @@
-const categoryModel = require("../models/category.model");
+const { hasRole } = require("./auth.mdw");
 
 module.exports = function(app) {
   app.get("/", async function(req, res) {
@@ -19,25 +19,17 @@ module.exports = function(app) {
       }
       if (state.success) {
         return res.render('home', {
-          isHome: true
+          isHome: true,
         });
       }
     }
-    // if (req.session.requireLogin) {
-    //   req.session.requireLogin = undefined;
-    //   return res.render('home', {
-    //     showModal: true,
-    //     isHome: true,
-    //     loginMessage: "You need to login to view this resource"
-    //   });
-    // }
 
     res.render("home", {
-      isHome: true
+      isHome: true,
     });
   });
 
-
+  
 
   app.use("/account/", require("../controllers/account.route"));
   app.use('/admin', require("../controllers/admin.route"));
@@ -45,4 +37,5 @@ module.exports = function(app) {
   app.use('/category/', require("../controllers/category.route"));
   app.use('/tag/', require("../controllers/tag.route"));
   app.use('/search', require("../controllers/search.route"));
+  app.use('/writer', hasRole('Writer'), require("../controllers/writer.route"));
 };
