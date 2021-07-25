@@ -94,6 +94,84 @@ router.post('/posts/upload', async function(req, res) {
   })
 });
 
+
+
+router.get("/posts/edit", async function(req, res) {
+  const id = req.query.id || 0;
+  const post = await postModel.findByID(id);
+
+
+  if (!post || post.WriterID !== res.locals.account.Writer.ID) {
+    return res.redirect("/writer");
+  }
+  const allCat = await categoryModel.all();
+  const catList = allCat.filter(cat => cat.ParentCategoryID !== null)
+                        .map(cat => ({...cat, Name: `${cat.ParentName}`+'\u2192'+`${cat.Name}`}));
+  const tagList = await tagModel.all();
+  let postTags = await postModel.getPostTags(post.PostID);
+  postTags = postTags.map(tag => tag.TagID)
+  res.render("vwWriter/editPost", {
+    layout: "writer.hbs",
+    post,
+    catList,
+    tagList,
+    postTags,
+  });
+});
+
+router.post('/posts/edit', async function(req, res) {
+  const storage = multer.diskStorage({
+    destination(req, file, cb) {
+      const dir = `./public/imgs/post/${req.body.postID}`;
+      if (!fs.existsSync(dir)){
+          fs.mkdirSync(dir);
+      }
+      cb(null, `./public/imgs/post/${req.body.postID}`)
+    },
+    filename(req, file, cb) {
+      cb(null, 'main' + '.' + 'jpg');
+    }
+  });
+  const upload = multer({
+    storage
+  });
+
+  upload.single('imgMain')(req, res, async function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      let {postID, title, abstract, writer, category, content, premium = '0', tags = [], originTags = [] } = req.body;
+      //generate and create thumbnail
+      if( req.file === undefined){
+        console.log('There no main photo.')
+      }else{
+        await sharp(req.file.path).resize(SIZE.THUMBNAIL) 
+        .jpeg({
+            quality: 40,
+        }).toFile(`./public/imgs/post/${postID}/`+'thumb.jpg')
+        .catch( err => { console.log('Create thumb error: ', err) })
+      }
+
+      //update post
+      ///replace single quote by double quote to avoid sql syntax error
+      title = title.replace(/'/g, '"');
+      abstract = abstract.replace(/'/g, '"');
+      content = content.replace(/'/g, '"');
+      await postModel.patch({postID, title, abstract, writer, category, content, premium});
+
+      //update post tags
+      tags = tags.split(',').filter(e => e.length > 0)
+      originTags = originTags.split(',').filter(e => e.length > 0)
+      deleteTags = originTags.filter(tag => !tags.includes(tag));
+      insertTags = tags.filter(tag => !originTags.includes(tag));
+      Promise.all(deleteTags.map(tagID => postModel.deleteTag(postID, tagID)));
+      Promise.all(insertTags.map(tagID => postModel.insertTag(postID, tagID)));
+
+      res.redirect('/writer');
+    }
+  })
+})
+
 router.get('/posts/:id', async function(req, res){
   const id = +req.params.id || 0;
   const post = await postModel.findByID(id);
