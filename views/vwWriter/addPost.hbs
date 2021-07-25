@@ -1,0 +1,184 @@
+
+{{#section "writer-css"}}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.2/css/fileinput.min.css" media="all"
+    rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css"
+    crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.2/css/fileinput.min.css" media="all"
+    rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css"
+    crossorigin="anonymous">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+  <link rel="stylesheet" href="/public/css/pages/writer-post-add.css">
+{{/section}}
+
+{{#section "writer-breadcrumb"}}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active">Phóng viên</li>
+      <li class="breadcrumb-item"><a href="/writer">Danh sách bài viết</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Thêm</li>
+    </ol>
+  </nav>
+{{/section}}
+{{#section 'writer-js'}}
+  <script src="https://cdn.tiny.cloud/1/ts1jol571az4qrjqvft2b54gdpmyy0wwl0ur6gn8aqcvawni/tinymce/5/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.2/js/fileinput.min.js"></script>
+  <script src="https://unpkg.com/select-pure@latest/dist/index.js"></script>
+  <script>
+    function isEmpty(field) {
+      if (field === 'content') {
+        return tinymce.get("content").getContent().length === 0;
+      }
+      else if (field.includes('img')) {
+        return jQuery(`#${field}`).fileinput('getFilesCount') === 0;
+      }
+      else if (field === 'category' || field === 'writer') {
+        return jQuery(`#${field}`).val() === null;
+      }
+      else if (field === 'publishDate') {
+        return jQuery('#publishDate').val().includes('_');
+      }
+      else {
+        return jQuery(`#${field}`).val().length === 0;
+      }
+    }
+    jQuery('#form').on('submit', function (e) {
+      e.preventDefault();
+      const validateFields = ['title', 'abstract', 'content', 'imgMain', 'category'];
+      validateFields.forEach(field => jQuery(`#${field}Err`).empty())
+      const emptyFields = validateFields.filter(field => isEmpty(field));
+
+      if (emptyFields.length !== 0) {
+        emptyFields.forEach(field =>
+          jQuery(`#${field}Err`).append(
+            `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <span>Field ${field} is required!</span>
+          </div>`
+          ));
+        return;
+      }
+      else {
+        jQuery('#form').off('submit').submit();
+      }
+    })
+    tinymce.init({
+      selector: '#content',
+      plugins: 'paste image code link autolink lists table media',
+      menubar: false,
+      toolbar: [
+        'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media',
+      ],
+      image_title: true,
+      image_caption: true,
+      images_upload_url: '/writer/posts/upload',
+      images_upload_handler: function (blobInfo, success, failure) {
+        fd = new FormData();
+        fd.append('file', blobInfo.blob(), blobInfo.filename());
+        jQuery.ajax({
+          url: '/writer/posts/upload',
+          type: 'post',
+          data: fd,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            if (response != 0) {
+              success(response.location)
+            } else {
+              failure('File not uploaded!');
+            }
+          },
+        });
+      },
+    });
+
+    jQuery('.fileInput').fileinput({
+      allowedFileExtensions: ['jpeg', 'jpg'],
+      dropZoneEnabled: false,
+      showUpload: false,
+    });
+  </script>
+{{/section}}
+<div id="new-post-container">
+  <div class="card">
+    <h4 class="card-header">
+      Bài viết mới
+    </h4>
+    <div class="card-body">
+      <form method="POST" id="form" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">Tiêu đề</label>
+          <input type="text" class="form-control" id="title" name="title" autofocus />
+          <div id="titleErr"></div>
+        </div>
+        <div class="form-group">
+          <label for="abstract">Tóm tắt</label>
+          <textarea type="text" class="form-control" id="abstract" name="abstract"></textarea>
+          <div id="abstractErr"></div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-5 mb-1">
+            <div class="w-75">
+              <label for="writer">Tác giả</label>
+              <select id="writer" class="form-control" disabled>
+                <option selected value={{this.account.ID}}>{{this.account.Writer.Alias}}</option>
+              </select>
+              <input type="hidden" name="writer" value="{{this.account.ID}}">
+              <div id="writerErr"></div>
+            </div>
+          </div>
+          <div class="col-md-5 mb-1">
+            <div class="w-75">
+              <label for="category">Chuyên mục</label>
+              <select name="category" id="category" class="form-control">
+                <option disabled selected>---Chuyên mục---</option>
+                {{#each this.catList}}
+                  <option value={{ID}}>{{Name}}</option>
+                {{/each}}
+              </select>
+              <div id="categoryErr"></div>
+            </div>
+          </div>
+          <div class="form-check mt-1">
+            <label class="form-check-label d-block" for="premium">
+              Premium
+            </label>
+            <input class="form-check-input" type="checkbox" value="1" id="premium" name="premium">
+          </div>
+        </div>
+        <div class="form-group mb-6">
+          <label for="tag">Nhãn</label>
+          <select-pure name="tags" id="tags" multiple>
+            {{#each this.tagList}}
+              <option-pure value={{ID}}>{{Name}}</option-pure>
+            {{/each}}
+          </select-pure>
+        </div>
+        <div class="form-group">
+          <label for="content">Nội dung</label>
+          <textarea id="content" name="content" rows="20" autofocus></textarea>
+          <div id="contentErr"></div>
+        </div>
+        <div class="form-group">
+          <label for="imgMain">Ảnh bìa</label>
+          <input type="file" class="form-control fileInput" id="imgMain" name="imgMain">
+          <div id="imgMainErr"></div>
+        </div>
+        <button type="submit" class="btn btn-success">
+          <i class="fa fa-check" aria-hidden="true"></i>
+          Save
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
