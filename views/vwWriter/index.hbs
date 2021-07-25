@@ -27,14 +27,14 @@
         post => newHtml +=
           `
           <div class="post-item-container">
-            <a class="post-content" href="/writer/post/${post.PostID}">
+            <a class="post-content" href="/writer/posts/${post.PostID}">
               <div class="post-content-title">${post.Title}</div>
               <div class="post-content-time">${displayDate(post)}</div>
             </a>` 
           +
           `${postStatus === 'Draft' || postStatus === 'Refused' ?
             `<div class="post-options">
-              <a href="/writer/post/edit?id=${post.PostID}" class="post-option">
+              <a href="/writer/posts/edit?id=${post.PostID}" class="post-option">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
                 Edit
               </a>`
@@ -47,7 +47,6 @@
         `
       )
       newHtml.length === 0? $('#NoPost').show() : $('#NoPost').hide();
-    
       $('#listPostRender').html(newHtml);
       $('.menu-item').attr('class', 'menu-item');
       $(`[nav=${postStatus}]`).attr('class', 'menu-item active')
@@ -94,7 +93,7 @@
   <div class="post-list-container">
     <div class="post-list-header">
       <span class="header-label">Bài viết</span>
-      <a class="header-btn" href="/writer/post/create">Viết bài mới</a>
+      <a class="header-btn" href="/writer/posts/add" id="btn-add-post">Viết bài mới</a>
     </div>
     <div id="listPostRender"></div>
   </div>

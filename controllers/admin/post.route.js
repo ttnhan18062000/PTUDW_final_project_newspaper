@@ -114,7 +114,7 @@ router.post('/add', async function(req, res) {
       title = title.replace(/'/g, '"');
       abstract = abstract.replace(/'/g, '"');
       content = content.replace(/'/g, '"');
-      const {PostID} = await postModel.create({title, abstract, writer, category, content, premium, status, publishDate});
+      const {PostID} = await postModel.createByAdmin({title, abstract, writer, category, content, premium, status, publishDate});
       req.body.postID = PostID;
       //Add post tags
       Promise.all(tags.map(tagID => postModel.insertTag(PostID, tagID)));

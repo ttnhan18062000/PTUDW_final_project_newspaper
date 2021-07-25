@@ -36,8 +36,8 @@ module.exports = {
     return db.raw(ENDPOINTS.publish(postID, publishDate));
   },
 
-  async create(post) {
-    const rs = await db.raw(ENDPOINTS.create(post));
+  async createByAdmin(post) {
+    const rs = await db.raw(ENDPOINTS.createByAdmin(post));
     return rs[0][0][0] || null;
   },
 
@@ -108,5 +108,10 @@ module.exports = {
     const endpoint = ENDPOINTS.getPostByWriterID(id);
     const rs = await db.raw(endpoint);
     return rs[0][0] || [];
-  }
+  },
+
+  async createByWriter(post) {
+    const rs = await db.raw(ENDPOINTS.createByWriter(post));
+    return rs[0][0][0] || null;
+  },
 }
