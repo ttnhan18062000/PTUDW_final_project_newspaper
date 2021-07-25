@@ -11,7 +11,7 @@ router.get('/post/:id', async function(req, res){
     return res.redirect('/writer');
   }
 
-  res.render("vwWriter/Postdetail", {
+  res.render("vwWriter/postDetail", {
     layout: "writer.hbs",
     post,
   });

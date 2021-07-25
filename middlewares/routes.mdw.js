@@ -1,6 +1,3 @@
-const categoryModel = require("../models/category.model");
-const postModel = require("../models/post.model");
-const { formatTime } = require("../utils/time");
 const { hasRole } = require("./auth.mdw");
 
 module.exports = function(app) {
@@ -23,7 +20,6 @@ module.exports = function(app) {
       if (state.success) {
         return res.render('home', {
           isHome: true,
-          account: req.session.account
         });
       }
     }
