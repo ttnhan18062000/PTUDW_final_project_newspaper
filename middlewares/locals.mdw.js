@@ -36,11 +36,18 @@ module.exports = function(app) {
         }
       }
     });
+    //checking auth
+    if (req.session.requireRole) {
+      res.locals.showModal = true
+      res.locals.loginMessage = `You must login as ${req.session.requireRole}`
+      req.session.requireRole = undefined
+    }
 
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
     res.locals.listParentCategories = listParentCategories;
     res.locals.listCategories = listCategories;
+    res.locals.account = req.session.account;
     next();
   });
 

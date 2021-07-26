@@ -1,0 +1,104 @@
+{{#section "writer-css"}}
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/public/css/pages/writer-index.css">
+{{/section}}
+{{#section "writer-js"}}
+  <script>
+    $(document).on('click', '.menu-item', function () {
+      const listPost = {{{jsonParse listPost}}}
+      const postStatus = this.getAttribute("nav");
+      const displayDate = (post) => {
+        switch(post.Status){
+          case "Publish":
+            return `Đã xuất bản ${post.PublishDate}`
+          case "Unpublish":
+            return `Sẽ xuất bản ${post.PublishDate}`
+          default: 
+            return `Chỉnh sửa gần nhất ${post.UpdatedAt}`
+        }
+      }
+      let newHtml = '';
+      listPost[`${postStatus}`].forEach(
+        post => newHtml +=
+          `
+          <div class="post-item-container">
+            <a class="post-content" href="/writer/posts/${post.PostID}">
+              <div class="post-content-title">${post.Title}</div>
+              <div class="post-content-time">${displayDate(post)}</div>
+            </a>` 
+          +
+          `${postStatus === 'Draft' || postStatus === 'Refused' ?
+            `<div class="post-options">
+              <a href="/writer/posts/edit?id=${post.PostID}" class="post-option">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                Edit
+              </a>`
+            : ''
+          }
+            `+
+          `
+            </div>
+          </div>
+        `
+      )
+      newHtml.length === 0? $('#NoPost').show() : $('#NoPost').hide();
+      $('#listPostRender').html(newHtml);
+      $('.menu-item').attr('class', 'menu-item');
+      $(`[nav=${postStatus}]`).attr('class', 'menu-item active')
+    });
+
+    $(document).ready(function () {
+      const listPost = {{{jsonParse listPost}}};
+      ["Publish", "Unpublish", "Refused", "Draft"].forEach(
+        status => $(`#badge${status}`).text(listPost[`${status}`].length)
+      )
+      $(`[nav=Publish]`).click();
+    })
+
+  </script>
+{{/section}}
+<div class='main-container'>
+  <div class="header-container">
+    <div class="title">
+      Bài viết
+    </div>
+    <div class="subtitle">
+      Thêm, sửa, quản lý các bài viết của bạn.
+    </div>
+  </div>
+  <div class='post-navbar'>
+    <div class='menus'>
+      <a class='active menu-item' nav="Publish">
+        Bài đã đăng
+        <span class="badge" id="badgePublish">0</span>
+      </a>
+      <a class="menu-item" nav="Unpublish">
+        Đang đợi
+        <span class="badge" id="badgeUnpublish">0</span>
+      </a>
+      <a class="menu-item" nav="Refused">
+        Bị từ chối
+        <span class="badge" id="badgeRefused">0</span>
+      </a>
+      <a class="menu-item" nav="Draft">
+        Chưa duyệt
+        <span class="badge" id="badgeDraft">0</span></a>
+    </div>
+  </div>
+  <div class="post-list-container">
+    <div class="post-list-header">
+      <span class="header-label">Bài viết</span>
+      <a class="header-btn" href="/writer/posts/add" id="btn-add-post">Viết bài mới</a>
+    </div>
+    <div id="listPostRender"></div>
+  </div>
+  <div id="NoPost">
+    <img src="/public/svg/emptypost.svg" width="150" alt="">
+    <div style="font-size: 2rem;">Không tìm thấy bài viết nào.</div>
+  </div>
+</div>

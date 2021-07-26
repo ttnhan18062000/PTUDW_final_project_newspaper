@@ -1,5 +1,6 @@
 const categoryModel = require("../models/category.model");
 const moment = require('moment');
+const { hasRole } = require("./auth.mdw");
 
 const postModel = require("../models/post.model");
 
@@ -26,17 +27,17 @@ module.exports = function (app) {
       const element = list10PostPerCat[index];
       element.PublishDate = moment(element.PublishDate).format('LL');
       if (count % 2 == 0) {
-        Object.assign(element, {leftPos: true})
+        Object.assign(element, { leftPos: true })
       }
-      else{
-        Object.assign(element, {leftPos: false});
+      else {
+        Object.assign(element, { leftPos: false });
       }
       listPostACat.push(element);
       count = count + 1;
       if (count == 10) {
         list10PostPerCatReturn.push({
           CategoryName: element.CategoryName,
-          ListTop2Post: listPostACat.slice(0,2),
+          ListTop2Post: listPostACat.slice(0, 2),
           ListTop8Post: listPostACat.slice(2)
         });
         count = 0; listPostACat = [];
@@ -46,52 +47,36 @@ module.exports = function (app) {
     console.log(list10PostPerCat);
     if (req.session.loginState) {
       const state = req.session.loginState;
+      req.session.loginState = undefined;
       if (state.failed) {
-        return res.render('home', {
-          isHome: true,
-          showModal: true,
-          message: state.message,
-          listCategories: res.locals.listCategories,
-          listParentCategories: res.locals.listParentCategories,
-          list10PostByDate: list10PostByDate,
-          list10PostByViewCount: list10PostByViewCount,
-          list10PostPerCat: list10PostPerCat,
-          list10PostPerCatReturn: list10PostPerCatReturn,
-        });
+        if (state.errCode === 1)
+          return res.render('home', {
+            isHome: true,
+            showModal: true,
+            message: state.message,
+            list10PostByDate: list10PostByDate,
+            list10PostByViewCount: list10PostByViewCount,
+            list10PostPerCatReturn: list10PostPerCatReturn,
+          });
+
+        if (state.errCode === 2) {
+          return res.redirect(`/account/verification-email?email=${state.accountEmail}&type=create`);
+        }
       }
       if (state.success) {
         return res.render('home', {
           isHome: true,
-          listCategories: res.locals.listCategories,
-          listParentCategories: res.locals.listParentCategories,
           list10PostByDate: list10PostByDate,
           list10PostByViewCount: list10PostByViewCount,
-          list10PostPerCat: list10PostPerCat,
           list10PostPerCatReturn: list10PostPerCatReturn,
         });
       }
     }
-    if (req.session.requireLogin) {
-      return res.render('home', {
-        showModal: true,
-        isHome: true,
-        message: "You need to login to view this resource",
-        listCategories: res.locals.listCategories,
-        listParentCategories: res.locals.listParentCategories,
-        list10PostByDate: list10PostByDate,
-        list10PostByViewCount: list10PostByViewCount,
-        list10PostPerCat: list10PostPerCat,
-        list10PostPerCatReturn: list10PostPerCatReturn,
-      });
-    }
 
     res.render("home", {
       isHome: true,
-      listCategories: res.locals.listCategories,
-      listParentCategories: res.locals.listParentCategories,
       list10PostByDate: list10PostByDate,
       list10PostByViewCount: list10PostByViewCount,
-      list10PostPerCat: list10PostPerCat,
       list10PostPerCatReturn: list10PostPerCatReturn,
     });
   });
@@ -104,4 +89,5 @@ module.exports = function (app) {
   app.use('/category/', require("../controllers/category.route"));
   app.use('/tag/', require("../controllers/tag.route"));
   app.use('/search', require("../controllers/search.route"));
+  app.use('/writer', hasRole('Writer'), require("../controllers/writer.route"));
 };

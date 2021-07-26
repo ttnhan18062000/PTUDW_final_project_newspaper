@@ -1,0 +1,35 @@
+#new-post-container{
+  padding: 1rem 2rem;
+}
+
+select-pure {
+  --padding: .375rem .75rem;
+  --font-size: 1rem;
+  --color: #495057;
+  --border-color: #ced4da;
+  --border-radius: .25rem;
+}
+
+.mb-6{
+  margin-bottom: 48px;
+}
+
+.alert button {
+  position: absolute;
+  top: 50% !important;
+  transform: translateY(-50%);
+}
+
+
+.form-check-input{
+  position: static !important;
+  margin: 0 !important;
+}
+
+.form-check-input:hover{
+  cursor: pointer;
+}
+
+select:hover{
+  cursor: pointer;
+}

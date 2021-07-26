@@ -1,0 +1,45 @@
+#main{
+  background-color: #f7f7f7; 
+  margin: 2rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+#postCategoryName {
+  color: black;
+}
+
+#postContent p:first-child {
+  font-size: x-large;
+}
+
+#postImg>img {
+  max-width: 100%;
+  min-width: 100%;
+}
+
+#postContent>.imgInContent {
+  max-width: 100%;
+  min-width: 100%;
+}
+
+#postContent>.titleImgInContent {
+  font-style: italic;
+  font-size: medium;
+}
+
+.imgThumb {
+  max-width: 100%;
+  min-width: 100%;
+}
+
+.postTagElement:hover {
+  background-color: black !important;
+  color: white !important;
+}
+
+.relatedPost:hover {
+  background-color: black !important;
+  color: white !important;
+}

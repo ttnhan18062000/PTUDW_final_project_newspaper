@@ -6,7 +6,6 @@ const ENDPOINTS = {
   add: (name) => `Call INS_Tag('${name}');`,
   update: (tag) => `Call UPD_Tag_By_ID(${tag.ID}, '${tag.Name}');`,
   delete: (id) => `Call DEL_Cascade_Post(${id});`,
-  delete: (id) => `Call DEL_Cascade_Post(null);`,
 }
 module.exports = {
   ENDPOINTS,

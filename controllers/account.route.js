@@ -5,11 +5,11 @@ const passport = require('passport');
 const { nanoid } = require('nanoid')
 const nodemailer = require('nodemailer');
 const router = express.Router();
-const { ensureAuth, resBlock } = require('../middlewares/auth.mdw');
+const { hasRole, resBlock } = require('../middlewares/auth.mdw');
 const moment = require('moment');
 const saltRounds = 10;
 
-router.get('/register', async function (req, res) {
+router.get('/register', async function(req, res) {
 
   res.render('../views/vmAccount/register.hbs', {
     listCategories: res.locals.listCategories,
@@ -17,12 +17,25 @@ router.get('/register', async function (req, res) {
   });
 })
 
-router.post('/register', async function (req, res) {
-  req.session.account = { email: req.body.txtEmail, password: req.body.txtPassword };
+router.post('/register', async function(req, res) {
+  const email = req.body.txtEmail;
+  const password = req.body.txtPassword;
+  const otp = nanoid(12);
+
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(password, salt, async function(err, hash) {
+      const newAccount = {
+        Password: hash,
+        Email: email,
+        Otp: otp
+      }
+      await accountModel.add(newAccount);
+    });
+  });
   res.redirect(`/account/verification-email?email=${req.body.txtEmail}&type=create`);
 })
 
-router.get('/is-available', async function (req, res) {
+router.get('/is-available', async function(req, res) {
   const email = req.query.Email;
   if (email) {
     const user = await accountModel.findByEmail(email);
@@ -33,7 +46,7 @@ router.get('/is-available', async function (req, res) {
   res.json(false);
 })
 
-router.get('/is-token-match', function (req, res) {
+router.get('/is-token-match', function(req, res) {
   const type = req.query.type;
 
   let token = null;
@@ -44,14 +57,19 @@ router.get('/is-token-match', function (req, res) {
     token = req.session.verifyToken;
 
   if (token)
-    if (token.Token === req.query.token)
-      res.json(true);
+    if (token.Token === req.query.token) {
+      if (type === "reset")
+        req.session.verifyToken = undefined;
+      if (type === "verify")
+        req.session.resetToken = undefined;
+      return res.json(true);
+    }
 
-  res.json(false);
+  return res.json(false);
 })
 
-router.get('/send-reset-password-token', async function (req, res) {
-  const token = nanoid(8);
+router.get('/send-reset-password-token', async function(req, res) {
+  const token = nanoid(12);
   const email = req.query.email;
   var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -78,7 +96,7 @@ router.get('/send-reset-password-token', async function (req, res) {
             <p>Newspaper</p>`
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
+  transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
       res.json(error);
     } else {
@@ -88,8 +106,13 @@ router.get('/send-reset-password-token', async function (req, res) {
   });
 })
 
-router.get('/send-verify-email-token', async function (req, res) {
-  const token = nanoid(8);
+router.get('/send-verify-email-token', async function(req, res) {
+  const type = req.query.type;
+  let token = "sampletoken1"
+  if (type === "create")
+    token = req.session.verifyToken.Token;
+  else
+    token = nanoid(12);
   const email = req.query.email;
   var transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -118,44 +141,37 @@ router.get('/send-verify-email-token', async function (req, res) {
             <p>Newspaper</p>`
   };
 
-  transporter.sendMail(mailOptions, function (error, info) {
+  transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
-      res.json(error);
+      return res.json(error);
     } else {
       req.session.verifyToken = { Email: email, Token: token };
-      res.json(true);
+      return res.json(true);
     }
   });
 })
 
-router.post('/reset-password-request', function (req, res) {
+router.post('/reset-password-request', function(req, res) {
 
-  res.redirect(`/account/reset-password?email=${req.body.txtEmail}`, {
-    listCategories: res.locals.listCategories,
-    listParentCategories: res.locals.listParentCategories
-  });
+  res.redirect(`/account/reset-password?email=${req.body.txtEmail}`);
 })
 
-router.get('/reset-password', async function (req, res) {
+router.get('/reset-password', async function(req, res) {
   res.render('../views/vmAccount/reset-password.hbs', {
-    email: req.query.email,
-    listCategories: res.locals.listCategories,
-    listParentCategories: res.locals.listParentCategories
+    email: req.query.email
   });
 })
 
-router.post('/reset-password', function (req, res) {
+router.post('/reset-password', function(req, res) {
   const password = req.body.txtPassword;
 
-  bcrypt.genSalt(10, function (err, salt) {
-    bcrypt.hash(password, salt, async function (err, hash) {
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(password, salt, async function(err, hash) {
       const res = await accountModel.updatePasswordByEmail(req.query.email, hash);
     });
   });
   res.render('../views/vmAccount/reset-password.hbs', {
-    message: 'Password change successfully',
-    listCategories: res.locals.listCategories,
-    listParentCategories: res.locals.listParentCategories
+    message: 'Password change successfully'
   });
 })
 
@@ -172,100 +188,91 @@ router.post('/reset-password', function (req, res) {
 //     return res.render('../views/vmAccount/login.hbs');
 // })
 
-router.post('/login', async function (req, res, next) {
+router.post('/login', async function(req, res, next) {
   const email = req.body.txtEmail;
   const password = req.body.txtPassword;
   const account = await accountModel.findByEmail(email);
 
   if (!account) {
-    req.session.loginState = { failed: true, message: 'Your Email or Password not correct' };
-    return res.redirect(req.get('Referrer'));
+    req.session.loginState = { failed: true, loginMessage: 'Your Email or Password not correct', errCode: 1 };
+    rUrl = req.get('Referrer') || '/';
+    return res.redirect(rUrl);
+  }
+
+  if (account.Status === 'inactive') {
+    req.session.loginState = { failed: true, loginMessage: 'Your Account is not verified', errCode: 2, accountEmail: email };
+    rUrl = req.get('Referrer') || '/';
+    return res.redirect(rUrl);
   }
 
   const match = await bcrypt.compare(password, account.Password);
 
   if (match) {
-    req.session.loginState = { success: true, message: "You're logged in" };
+    req.session.loginState = { success: true, loginMessage: "You're logged in" };
     req.session.loggedIn = true;
-    req.session.account = account;
-    return res.redirect(req.get('Referrer'));
+    const accountDetail = await accountModel.detail(account)
+    req.session.account = {...account, [account.AccountType]: accountDetail}
+    
+    rUrl = req.session.retUrl || req.get('Referrer') || '/';
+    return res.redirect(rUrl);
   } else {
-    req.session.loginState = { failed: true, message: 'Your Email or Password not correct' };
-    return res.redirect(req.get('Referrer'));
+    req.session.loginState = { failed: true, loginMessage: 'Your Email or Password not correct' };
+    rUrl = req.get('Referrer') || '/';
+    return res.redirect(rUrl);
   }
 })
 
 router.get('/logout', (req, res) => {
   req.logout();
   req.flash('success_msg', 'You are logged out');
-  res.redirect('/users/login');
+  return res.redirect('/users/login');
 });
 
-router.get('/reset-password-request', function (req, res) {
-  res.render('../views/vmAccount/reset-password-request.hbs')
+router.get('/reset-password-request', function(req, res) {
+  return res.render('../views/vmAccount/reset-password-request.hbs')
 });
 
-router.get('/verification-email', function (req, res) {
-  res.render('../views/vmAccount/verification-email.hbs', { email: req.query.email, type: req.query.type });
+router.get('/verification-email', async function(req, res) {
+  const vtype = req.query.type;
+  const vemail = req.query.email;
+  if (vtype === 'create') {
+    const account = await accountModel.findByEmail(vemail);
+    req.session.verifyToken = { Email: vemail, Token: account.Otp };
+  }
+  return res.render('../views/vmAccount/verification-email.hbs', { email: vemail, type: vtype });
 });
 
-router.post('/verification-email', function (req, res) {
+router.post('/verification-email', async function(req, res) {
   const type = req.query.type;
   if (type === "create") {
-    const email = req.session.account.email;
-    const password = req.session.account.password;
-
-    req.session.destroy();
-
-    bcrypt.genSalt(10, function (err, salt) {
-      bcrypt.hash(password, salt, async function (err, hash) {
-        const newAccount = {
-          Password: hash,
-          Email: email
-        }
-        await accountModel.add(newAccount);
-      });
-    });
-    return res.redirect('/account/register-complete-nortification?type=create', {
-      listCategories: res.locals.listCategories,
-      listParentCategories: res.locals.listParentCategories
-    });
+    const email = req.query.email;
+    accountModel.updateStatusActiveByEmail(email);
+    return res.redirect('/account/register-complete-nortification?type=create');
   } else {
     const aD = req.session.accountDetail;
-    req.session.destroy();
+    req.session.accountDetail = undefined;
     accountModel.insertOrUpdateByID(aD.id, aD.FName, aD.LName, aD.dob, aD.email);
-    return res.redirect('/account/register-complete-nortification?type=edit', {
-      listCategories: res.locals.listCategories,
-      listParentCategories: res.locals.listParentCategories
-    });
+    return res.redirect('/account/register-complete-nortification?type=edit');
   }
 })
 
-router.get('/register-complete-nortification', function (req, res) {
-  res.render('../views/vmAccount/register-complete-nortification.hbs', {
-    listCategories: res.locals.listCategories,
-    listParentCategories: res.locals.listParentCategories
-  })
+router.get('/register-complete-nortification', function(req, res) {
+  res.render('../views/vmAccount/register-complete-nortification.hbs')
 });
 
-router.get('/profile', ensureAuth, async function (req, res) {
+router.get('/profile', hasRole('Subscriber'), async function(req, res) {
   const account = req.session.account;
-  let accountDetail = await accountModel.findAccountDetailByID(account.ID);
+  let accountDetail = await accountModel.findDetailByID(account.ID);
   accountDetail.DOB = moment(accountDetail.DOB).format("DD/MM/YYYY");
 
   if (accountDetail === null)
-    return res.render('../views/vmAccount/profile.hbs', {
-      listCategories: res.locals.listCategories,
-      listParentCategories: res.locals.listParentCategories
-    });
+    return res.render('../views/vmAccount/profile.hbs');
   return res.render('../views/vmAccount/profile.hbs', {
-    accountDetail,
-    listCategories: res.locals.listCategories,
-    listParentCategories: res.locals.listParentCategories
+    accountDetail
   });
 });
 
-router.post('/profile', async function (req, res) {
+router.post('/profile', async function(req, res) {
   const emailChange = req.query.emailChange;
   const email = req.body.txtAEmail;
   const FName = req.body.txtAFName;
@@ -279,13 +286,11 @@ router.post('/profile', async function (req, res) {
   } else {
     await accountModel.insertOrUpdateByID(req.session.account.ID, FName, LName, dob, email);
     const account = req.session.account;
-    let accountDetail = await accountModel.findAccountDetailByID(account.ID);
+    let accountDetail = await accountModel.findDetailByID(account.ID);
     accountDetail.DOB = moment(accountDetail.DOB).format("DD/MM/YYYY");
     return res.render('../views/vmAccount/profile.hbs', {
       message: "Your Account Infomation has been changed",
-      accountDetail,
-      listCategories: res.locals.listCategories,
-      listParentCategories: res.locals.listParentCategories
+      accountDetail
     });
   }
 

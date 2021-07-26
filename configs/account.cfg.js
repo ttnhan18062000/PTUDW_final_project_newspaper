@@ -11,6 +11,10 @@ const ENDPOINTS = {
     Editor: (id) => `Call DEL_Account_Editor(${id});`,
     Writer: (id) => `Call DEL_Account_Writer(${id});`,
     Subscriber: (id) => `Call DEL_Account_Subscriber(${id});`,
+  },
+  detail: {
+    Editor: (id) => `Call GTR_Detail_Editor_Account_By_AccountID(${id});`,
+    Writer: (id) => `Call GTR_Detail_Writer_Account_By_AccountID(${id});`,
   }
 }
 module.exports = {

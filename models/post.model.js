@@ -36,8 +36,8 @@ module.exports = {
     return db.raw(ENDPOINTS.publish(postID, publishDate));
   },
 
-  async create(post) {
-    const rs = await db.raw(ENDPOINTS.create(post));
+  async createByAdmin(post) {
+    const rs = await db.raw(ENDPOINTS.createByAdmin(post));
     return rs[0][0][0] || null;
   },
 
@@ -104,6 +104,7 @@ module.exports = {
     return rs[0][0].length !== 0 ? rs[0][0][0] : null;
   },
 
+<<<<<<< HEAD
   async getTop10PostByDate() {
     const rs = await db.raw(`Call GTT_Top10_PostInfo_By_Date();`);
     return rs[0][0].length !== 0 ? rs[0][0] : null;
@@ -119,4 +120,16 @@ module.exports = {
     return rs[0][0].length !== 0 ? rs[0][0] : null;
   },
 
+=======
+  async getPostByWriterID(id){
+    const endpoint = ENDPOINTS.getPostByWriterID(id);
+    const rs = await db.raw(endpoint);
+    return rs[0][0] || [];
+  },
+
+  async createByWriter(post) {
+    const rs = await db.raw(ENDPOINTS.createByWriter(post));
+    return rs[0][0][0] || null;
+  },
+>>>>>>> b1026d0f9dd6cea81500061f89dc3a5c21ad4914
 }

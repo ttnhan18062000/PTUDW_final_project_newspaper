@@ -1,0 +1,155 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --top: 0;
+  --sidebarWidth: 240px;
+}
+
+
+/*//////////////////////*/
+/* Navbar */
+
+.fixed-top {
+  background-color: rgba(0, 0, 0, 1) !important;
+}
+
+.nav-item{
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
+}
+
+.navbar{
+  font-family: "Roboto";
+  height: 2.5rem;
+}
+
+.navbar a{
+  color: white !important;
+}
+
+
+
+/*//////////////////////*/
+/* Sidebar */
+.sidebar {
+  background-color: #23282D;
+  width: var(--sidebarWidth);
+  height: 100%;
+  position: fixed;
+  top: var(--top);
+  left: 0;
+  transition: left 0.5s ease;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  font-family: "Segoe UI";
+  font-weight: 400;
+}
+
+.sidebar .btn-home {
+  width: 100%;
+  color: #a2aab2;
+  font-weight: 400;
+  border-bottom: 0.5px solid #404040;
+  padding: 0.4rem 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .btn-home:hover {
+  color: #00b9eb;
+  text-decoration: none;
+  background-color: #1d2024;
+}
+
+.sidebar-title {
+  margin: 0.5rem auto;
+  color: #eeeeee !important;
+  font-size: 1.5rem;
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.sidebar a:hover{
+  text-decoration: none;
+}
+
+.sidebar-email {
+  color: #a2aab2;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.sidebar-alias {
+  font-size: 20px;
+  color: #eeeeee;
+  font-family: serif;
+}
+
+.sidebar img{
+  align-self: flex-start;
+  margin-left: 0.8rem;
+}
+
+
+/*//////////////////////*/
+/* Content */
+#writer-main-container{
+  position: fixed;
+  top: var(--top);
+  left: var(--sidebarWidth);
+  right: 0;
+  bottom: 0;
+  -moz-transition: left 0.5s ease;
+  background-color: #f5f5f5 !important; 
+  transition: left 0.5s ease;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#sidebar-checkbox {
+  display: none;
+}
+
+input:checked~#writer-main-container {
+  left: 0;
+}
+
+input:checked~.sidebar {
+  left: calc(var(--sidebarWidth)*-1);
+}
+
+input:checked~.btn-collapse {
+  left: -8px;
+  content: '<i class="fa fa-angle-double-left fa-lg" aria-hidden="true"></i>'
+}
+
+.btn-collapse {
+  z-index: 2;
+  position: fixed;
+  top: 50%;
+  left: calc(var(--sidebarWidth) - 8px);
+  width: 30px;
+  text-align: center;
+  -moz-transition: left 0.5s ease;
+  transition: left 0.5s ease;
+  cursor: pointer;
+  padding-left: 0;
+}
+
+.breadcrumb{
+  background-color: #f5f5f5 !important; 
+  margin: 2rem;
+  padding: 0 !important;
+  color: #0056b3;
+  font-weight: 400;
+  font-family: "Segoe UI";
+}
+
+.breadcrumb-item{
+  padding-left: 0 !important;
+}

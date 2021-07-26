@@ -114,7 +114,7 @@ router.post('/add', async function(req, res) {
       title = title.replace(/'/g, '"');
       abstract = abstract.replace(/'/g, '"');
       content = content.replace(/'/g, '"');
-      const {PostID} = await postModel.create({title, abstract, writer, category, content, premium, status, publishDate});
+      const {PostID} = await postModel.createByAdmin({title, abstract, writer, category, content, premium, status, publishDate});
       req.body.postID = PostID;
       //Add post tags
       Promise.all(tags.map(tagID => postModel.insertTag(PostID, tagID)));
@@ -197,6 +197,7 @@ router.post("/change-publish-date", async function(req, res) {
 router.get("/:id", async function(req, res) {
   const id = +req.params.id || 0;
   const post = await postModel.findByID(id);
+  
   if (!post) {
     return res.redirect('/admin/posts');
   }
