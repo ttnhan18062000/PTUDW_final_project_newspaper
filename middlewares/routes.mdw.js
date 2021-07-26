@@ -1,7 +1,49 @@
 const categoryModel = require("../models/category.model");
+const moment = require('moment');
 
-module.exports = function(app) {
-  app.get("/", async function(req, res) {
+const postModel = require("../models/post.model");
+
+module.exports = function (app) {
+  app.get("/", async function (req, res) {
+    const list10PostByDate = await postModel.getTop10PostByDate();
+    list10PostByDate.forEach(element => {
+      element.PublishDate = moment(element.PublishDate).format("hh:mm");
+    });
+
+    const list10PostByViewCount = await postModel.getTop10PostByViewCount();
+    var count = 1;
+    list10PostByViewCount.forEach(element => {
+      element.PublishDate = moment(element.PublishDate).format("hh:mm");
+      Object.assign(element, { index: count });
+      count = count + 1;
+    });
+
+    const list10PostPerCat = await postModel.getTop10PostPerCategory();
+    count = 0;
+    const list10PostPerCatReturn = [];
+    var listPostACat = [];
+    for (let index = 0; index < list10PostPerCat.length; index++) {
+      const element = list10PostPerCat[index];
+      element.PublishDate = moment(element.PublishDate).format('LL');
+      if (count % 2 == 0) {
+        Object.assign(element, {leftPos: true})
+      }
+      else{
+        Object.assign(element, {leftPos: false});
+      }
+      listPostACat.push(element);
+      count = count + 1;
+      if (count == 10) {
+        list10PostPerCatReturn.push({
+          CategoryName: element.CategoryName,
+          ListTop2Post: listPostACat.slice(0,2),
+          ListTop8Post: listPostACat.slice(2)
+        });
+        count = 0; listPostACat = [];
+      }
+    }
+    console.log(list10PostPerCatReturn);
+    console.log(list10PostPerCat);
     if (req.session.loginState) {
       const state = req.session.loginState;
       if (state.failed) {
@@ -10,14 +52,22 @@ module.exports = function(app) {
           showModal: true,
           message: state.message,
           listCategories: res.locals.listCategories,
-          listParentCategories: res.locals.listParentCategories
+          listParentCategories: res.locals.listParentCategories,
+          list10PostByDate: list10PostByDate,
+          list10PostByViewCount: list10PostByViewCount,
+          list10PostPerCat: list10PostPerCat,
+          list10PostPerCatReturn: list10PostPerCatReturn,
         });
       }
       if (state.success) {
         return res.render('home', {
           isHome: true,
           listCategories: res.locals.listCategories,
-          listParentCategories: res.locals.listParentCategories
+          listParentCategories: res.locals.listParentCategories,
+          list10PostByDate: list10PostByDate,
+          list10PostByViewCount: list10PostByViewCount,
+          list10PostPerCat: list10PostPerCat,
+          list10PostPerCatReturn: list10PostPerCatReturn,
         });
       }
     }
@@ -27,7 +77,11 @@ module.exports = function(app) {
         isHome: true,
         message: "You need to login to view this resource",
         listCategories: res.locals.listCategories,
-        listParentCategories: res.locals.listParentCategories
+        listParentCategories: res.locals.listParentCategories,
+        list10PostByDate: list10PostByDate,
+        list10PostByViewCount: list10PostByViewCount,
+        list10PostPerCat: list10PostPerCat,
+        list10PostPerCatReturn: list10PostPerCatReturn,
       });
     }
 
@@ -35,6 +89,10 @@ module.exports = function(app) {
       isHome: true,
       listCategories: res.locals.listCategories,
       listParentCategories: res.locals.listParentCategories,
+      list10PostByDate: list10PostByDate,
+      list10PostByViewCount: list10PostByViewCount,
+      list10PostPerCat: list10PostPerCat,
+      list10PostPerCatReturn: list10PostPerCatReturn,
     });
   });
 

@@ -102,5 +102,21 @@ module.exports = {
   async getNumPostByInputString(inputString) {
     const rs = await db.raw(`Call GTR_Search_PostInfo_Total('${inputString}');`);
     return rs[0][0].length !== 0 ? rs[0][0][0] : null;
-  }
+  },
+
+  async getTop10PostByDate() {
+    const rs = await db.raw(`Call GTT_Top10_PostInfo_By_Date();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTop10PostByViewCount() {
+    const rs = await db.raw(`Call GTT_Top10_PostInfo_By_ViewCount();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTop10PostPerCategory(){
+    const rs = await db.raw(`Call GTT_Top10_PostInfo_PerCat();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
 }
