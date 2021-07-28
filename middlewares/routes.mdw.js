@@ -43,8 +43,21 @@ module.exports = function (app) {
         count = 0; listPostACat = [];
       }
     }
-    console.log(list10PostPerCatReturn);
-    console.log(list10PostPerCat);
+    const listTopLatestPost10Category = await postModel.getTopLatestPost10Category();
+    count = 0;
+    listTopLatestPost10Category.forEach(element => {
+      element.PublishDate = moment(element.PublishDate).format("LL");
+      if (count % 2 == 0) {
+        Object.assign(element, { leftPos: true })
+      }
+      else {
+        Object.assign(element, { leftPos: false });
+      }
+      count = count + 1;
+    });
+    console.log(listTopLatestPost10Category);
+    
+
     if (req.session.loginState) {
       const state = req.session.loginState;
       req.session.loginState = undefined;
@@ -57,6 +70,7 @@ module.exports = function (app) {
             list10PostByDate: list10PostByDate,
             list10PostByViewCount: list10PostByViewCount,
             list10PostPerCatReturn: list10PostPerCatReturn,
+            listTopLatestPost10Category: listTopLatestPost10Category,
           });
 
         if (state.errCode === 2) {
@@ -69,6 +83,7 @@ module.exports = function (app) {
           list10PostByDate: list10PostByDate,
           list10PostByViewCount: list10PostByViewCount,
           list10PostPerCatReturn: list10PostPerCatReturn,
+          listTopLatestPost10Category: listTopLatestPost10Category,
         });
       }
     }
@@ -78,6 +93,7 @@ module.exports = function (app) {
       list10PostByDate: list10PostByDate,
       list10PostByViewCount: list10PostByViewCount,
       list10PostPerCatReturn: list10PostPerCatReturn,
+      listTopLatestPost10Category: listTopLatestPost10Category,
     });
   });
 

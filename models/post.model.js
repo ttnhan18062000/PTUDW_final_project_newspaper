@@ -119,6 +119,11 @@ module.exports = {
     return rs[0][0].length !== 0 ? rs[0][0] : null;
   },
 
+  async getTopLatestPost10Category(){
+    const rs = await db.raw(`Call GTT_Top10_Cat_PostInfo_With_LastestPost();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
   async getPostByWriterID(id){
     const endpoint = ENDPOINTS.getPostByWriterID(id);
     const rs = await db.raw(endpoint);

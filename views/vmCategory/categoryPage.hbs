@@ -60,11 +60,11 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active carousel4Post">
-                        <img class="d-block w-100 img-fluid" src="/public/imgs/post/{{top5Post.0.PostID}}/thumb.jpg">
+                        <img class="d-block w-100 img-fluid" src="/public/imgs/post/{{top5Post.0.PostID}}/main.jpg">
                     </div>
                     {{#each top4Post}}
                     <div class="carousel-item carousel4Post">
-                        <img class="d-block w-100 img-fluid" src="/public/imgs/post/{{PostID}}/thumb.jpg">
+                        <img class="d-block w-100 img-fluid" src="/public/imgs/post/{{PostID}}/main.jpg">
                     </div>
                     {{/each}}
                 </div>
@@ -113,7 +113,8 @@
     {{#each listPostWithTag}}
     <div class="row my-3">
         <div class="col-4">
-            <img class="d-block w-100 img-fluid" src="/public/imgs/post/{{Post.PostID}}/thumb.jpg">
+            <div style="height: 100%; min-height: 20vh; background: url('/public/imgs/post/{{Post.PostID}}/main.jpg') ; background-size: cover;">
+            </div>
         </div>
         <div class="col-8">
             <a class="h3" href="/post/{{Post.PostID}}">
