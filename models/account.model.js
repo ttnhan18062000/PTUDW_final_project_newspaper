@@ -11,10 +11,8 @@ module.exports = {
   },
 
   async findByEmail(email) {
-    const account = await db('Account').where({ Email: email });
-    if (account.length === 0)
-      return null;
-    return account[0];
+    const res = await db.raw(`Call GTR_Account_By_Email('${email}');`);
+    return res[0][0][0] || null;
   },
 
   async findByID(id) {

@@ -1,76 +1,81 @@
 a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .navbar-light .navbar-brand {
-    color: #fff;
-    font-size: 25px;
-    text-transform: uppercase;
-    font-weight: bold;
-    letter-spacing: 2px;
+  color: #fff;
+  font-size: 25px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
-.navbar-brand:hover{
-    color: #fff !important;
+.navbar-brand:hover {
+  color: #fff !important;
 }
 
-.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
-    color: #fff;
+.navbar-light .navbar-nav .active>.nav-link,
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .nav-link.show,
+.navbar-light .navbar-nav .show>.nav-link {
+  color: #fff;
 }
 
 .navbar-light .navbar-nav .nav-link {
-    color: #fff;
+  color: #fff;
 }
 
 .navbar-toggler {
-    background: #fff;
+  background: #fff;
 }
 
 .navbar-nav {
-    text-align: center;
+  text-align: center;
 }
 
 .nav-link {
-    padding: .2rem 1rem;
+  padding: .2rem 1rem;
 }
 
-.nav-link.active, .nav-link:focus {
-    color: #fff;
+.nav-link.active,
+.nav-link:focus {
+  color: #fff;
 }
 
 .navbar-toggler {
-    padding: 1px 5px;
-    font-size: 18px;
-    line-height: 0.3;
+  padding: 1px 5px;
+  font-size: 18px;
+  line-height: 0.3;
 }
 
-.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
-    color: #fff;
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #fff;
 }
 
 .facebook_icon:hover {
-    transition: 1s;
-    transform: rotateY(360deg);
-    background-color: #3b5999;
+  transition: 1s;
+  transform: rotateY(360deg);
+  background-color: #3b5999;
 }
 
 .twitter_icon:hover {
-    transition: 1s;
-    transform: rotateY(360deg);
-    background-color: #55acee;
+  transition: 1s;
+  transform: rotateY(360deg);
+  background-color: #55acee;
 }
 
 .linkedin_icon:hover {
-    transition: 1s;
-    transform: rotateY(360deg);
-    background-color: #0077b5;
+  transition: 1s;
+  transform: rotateY(360deg);
+  background-color: #0077b5;
 }
 
 .googleplus_icon:hover {
-    transition: 1s;
-    transform: rotateY(360deg);
-    background-color: #dd4b39;
+  transition: 1s;
+  transform: rotateY(360deg);
+  background-color: #dd4b39;
 }
 
 .fixed-top.scrolled {
@@ -80,17 +85,25 @@ a {
 }
 
 .fixed-top {
-    background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .navbar-dark {
-    background-color: rgba(0, 0, 0, 1) !important;
+  background-color: rgba(0, 0, 0, 1) !important;
 }
 
 .fixed-top.scrolled .navbar-dark {
-    background-color: rgba(0, 0, 0, 0.05) !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
 .fixed-top.scrolled a {
     color: white !important;
+}
+
+.dropdown-item:hover {
+  color: black !important;
+}
+
+.account-triger:hover {
+  background-color: #414449;
 }
