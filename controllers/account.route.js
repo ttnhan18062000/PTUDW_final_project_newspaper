@@ -5,7 +5,7 @@ const passport = require('passport');
 const { nanoid } = require('nanoid')
 const nodemailer = require('nodemailer');
 const router = express.Router();
-const { hasRole, resBlock } = require('../middlewares/auth.mdw');
+const { hasRole, resBlock, hasAnyRole } = require('../middlewares/auth.mdw');
 const moment = require('moment');
 const saltRounds = 10;
 
@@ -269,7 +269,7 @@ router.get('/register-complete-nortification', function(req, res) {
   res.render('../views/vmAccount/register-complete-nortification.hbs')
 });
 
-router.get('/profile', hasRole('Subscriber'), async function(req, res) {
+router.get('/profile', hasAnyRole(), async function(req, res) {
   const account = req.session.account;
   let accountDetail = await accountModel.findDetailByID(account.ID);
   accountDetail.DOB = moment(accountDetail.DOB).format("DD/MM/YYYY");

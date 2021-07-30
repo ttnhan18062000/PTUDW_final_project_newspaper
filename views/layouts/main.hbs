@@ -350,8 +350,11 @@
       {{/if}}
     });
 
-      const accountName = "{{account.DisplayName}}";
-      if(accountName){
+      const accountID = "{{account.ID}}";
+      let accountName = "{{account.DisplayName}}";
+      if(!accountName)
+        accountName = "[None]";
+      if(accountID){
         $('#btnLogin').attr('data-toggle','dropdown');
         $('#btnLogin').removeAttr('data-target');
         $('#txtLogin').html(accountName);
