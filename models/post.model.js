@@ -134,4 +134,9 @@ module.exports = {
     const rs = await db.raw(ENDPOINTS.createByWriter(post));
     return rs[0][0][0] || null;
   },
+
+  async getTop10PostACateByViewPoint(categoryID){
+    const rs = await db.raw(`Call GTT_Top10_Post_By_Cate(${categoryID});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
 }

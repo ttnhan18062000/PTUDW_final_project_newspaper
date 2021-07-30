@@ -4,6 +4,19 @@ const { hasRole } = require("./auth.mdw");
 
 const postModel = require("../models/post.model");
 
+async function getTop10CateWithTop10Post(){
+  const listTop10Category = await categoryModel.getTop10CategoryByViewPoint();
+  const listReturn = [];
+  for (let index = 0; index < listTop10Category.length; index++) {
+    const element = listTop10Category[index];
+    const listTop10 = await postModel.getTop10PostACateByViewPoint(element.ID);
+    listTop10.forEach(item => {
+      listReturn.push(item);
+    });
+  }
+  return listReturn.reverse();
+};
+
 module.exports = function (app) {
   app.get("/", async function (req, res) {
     const list10PostByDate = await postModel.getTop10PostByDate();
@@ -19,7 +32,7 @@ module.exports = function (app) {
       count = count + 1;
     });
 
-    const list10PostPerCat = await postModel.getTop10PostPerCategory();
+    const list10PostPerCat = await getTop10CateWithTop10Post();
     count = 0;
     const list10PostPerCatReturn = [];
     var listPostACat = [];
@@ -55,9 +68,7 @@ module.exports = function (app) {
       }
       count = count + 1;
     });
-    console.log(listTopLatestPost10Category);
     
-
     if (req.session.loginState) {
       const state = req.session.loginState;
       req.session.loginState = undefined;
