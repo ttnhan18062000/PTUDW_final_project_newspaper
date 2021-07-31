@@ -79,6 +79,7 @@
 
 .post:hover{
     background-color: #000000;
+    cursor: pointer;
 }
 
 .post:hover div{
