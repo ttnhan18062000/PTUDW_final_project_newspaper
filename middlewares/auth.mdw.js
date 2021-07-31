@@ -1,4 +1,14 @@
 module.exports = {
+  hasAnyRole: function(req, res, next){
+    if (req.session.loggedIn) {
+      next();
+    } else {
+      req.session.retUrl = req.originalUrl;
+      req.session.requireLogin = true;
+      return res.redirect('/');
+    }
+  },
+
   hasRole: function(role) {
     return function(req, res, next) {
       if (req.session.loggedIn && req.session.account.AccountType === role) {

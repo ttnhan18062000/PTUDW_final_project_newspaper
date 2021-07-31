@@ -5,7 +5,7 @@ const passport = require('passport');
 const { nanoid } = require('nanoid')
 const nodemailer = require('nodemailer');
 const router = express.Router();
-const { hasRole, resBlock } = require('../middlewares/auth.mdw');
+const { hasRole, hasAnyRole, resBlock } = require('../middlewares/auth.mdw');
 const moment = require('moment');
 const saltRounds = 10;
 
@@ -191,7 +191,7 @@ router.post('/reset-password', function(req, res) {
 router.post('/login', async function(req, res, next) {
   const email = req.body.txtEmail;
   const password = req.body.txtPassword;
-  const account = await accountModel.findByEmail(email);
+  let account = await accountModel.findByEmail(email);
 
   if (!account) {
     req.session.loginState = { failed: true, loginMessage: 'Your Email or Password not correct', errCode: 1 };
@@ -199,7 +199,7 @@ router.post('/login', async function(req, res, next) {
     return res.redirect(rUrl);
   }
 
-  if (account.Status === 'inactive') {
+  if (account.Status !== null && account.Status === 'inactive') {
     req.session.loginState = { failed: true, loginMessage: 'Your Account is not verified', errCode: 2, accountEmail: email };
     rUrl = req.get('Referrer') || '/';
     return res.redirect(rUrl);
@@ -208,6 +208,8 @@ router.post('/login', async function(req, res, next) {
   const match = await bcrypt.compare(password, account.Password);
 
   if (match) {
+    account = await accountModel.findDetailByID(account.ID); 
+
     req.session.loginState = { success: true, loginMessage: "You're logged in" };
     req.session.loggedIn = true;
     const accountDetail = await accountModel.detail(account)
@@ -265,42 +267,77 @@ router.post('/verification-email', function(req, res) {
   }
 })
 
-router.get('/register-complete-nortification', function(req, res) {
+router.get('/register-complete-nortification', async function(req, res) {
+  const account = accountModel.findDetailByID(req.session.account.ID);
+  const accountDetail = await accountModel.detail(account);
+  req.session.account = {...account, [account.AccountType]: accountDetail};
+
   res.render('../views/vmAccount/register-complete-nortification.hbs')
 });
 
-router.get('/profile', hasRole('Subscriber'), async function(req, res) {
-  const account = req.session.account;
-  let accountDetail = await accountModel.findDetailByID(account.ID);
-  accountDetail.DOB = moment(accountDetail.DOB).format("DD/MM/YYYY");
+router.get('/profile', hasAnyRole, async function(req, res) {
+  // const account = req.session.account;
+  // let accountDetail = await accountModel.detail(account);
+  // accountDetail.DOB = moment(accountDetail.DOB).format("DD/MM/YYYY");
 
-  if (accountDetail === null)
+  let descriptions = [];
+  switch(req.session.account.AccountType){
+    case "Subscriber":
+      descriptions.push({'desp': 'Tài khoản của bạn là một đọc giả.'});
+      descriptions.push({'desp': 'Bạn có thể xem các bài báo và đưa ra nhận xét.'});
+      descriptions.push({'desp': 'Để xem các bài báo premium, vui lòng gửi yêu cầu đăng ký premium cho quản trị viên.'});
+      break;
+    case "Writer":
+      descriptions.push({'desp': 'Tài khoản của bạn là một phóng viên.'});
+      descriptions.push({'desp': 'Bạn có thể viết các bài báo và gửi yêu cầu duyệt lên các biên tập viên.'});
+      descriptions.push({'desp': 'Nếu được duyệt, bài báo của bạn sẽ được đăng vào một ngày cố định. Ngược lại, nếu bị từ chối, bạn có thể xem ghi chú của biên tập viên và gửi yêu cầu duyệt lại sau khi đã sửa đổi.'});
+      break;
+    case "Editor":
+      descriptions.push({'desp': 'Tài khoản của bạn là một biên tập viên.'});
+      descriptions.push({'desp': 'Bạn có thể duyệt các bài báo do phóng viên đăng lên các chuyên mục do bạn quản lý.'});
+      descriptions.push({'desp': 'Nếu từ chối vui lòng đưa ra nhận xét cụ thể.'});
+      break;
+    case "Adminstrator":
+      descriptions.push({'desp': 'Tài khoản của bạn là một quản trị viên'});
+      descriptions.push({'desp': 'Bạn có toàn quyền thay đổi thông tin của tài khoản, bài báo, chuyên mục,...'});
+    break;
+  }
+
+  if (!req.session.account)
     return res.render('../views/vmAccount/profile.hbs');
-  return res.render('../views/vmAccount/profile.hbs', {
-    accountDetail
-  });
+  return res.render('../views/vmAccount/profile.hbs', {'descriptions' : descriptions});
 });
 
 router.post('/profile', async function(req, res) {
   const emailChange = req.query.emailChange;
   const email = req.body.txtAEmail;
+  const DName = req.body.txtADName;
   const FName = req.body.txtAFName;
   const LName = req.body.txtALName;
   const dob = moment(req.body.txtADOB, 'DD/MM/YYYY').format("YYYY-MM-DD");
   const id = req.session.account.ID;
 
   if (emailChange === "1") {
-    req.session.accountDetail = { id, email, FName, LName, dob };
+    req.session.accountDetail = { id, email, DName, FName, LName, dob };
     return res.redirect(`/account/verification-email?email=${email}&type=edit`);
   } else {
-    await accountModel.insertOrUpdateByID(req.session.account.ID, FName, LName, dob, email);
-    const account = req.session.account;
-    let accountDetail = await accountModel.findDetailByID(account.ID);
-    accountDetail.DOB = moment(accountDetail.DOB).format("DD/MM/YYYY");
-    return res.render('../views/vmAccount/profile.hbs', {
-      message: "Your Account Infomation has been changed",
-      accountDetail
-    });
+    await accountModel.insertOrUpdateByID(req.session.account.ID, DName, FName, LName, dob, email);
+    
+    // const account = req.session.account;
+    // let accountDetail = await accountModel.findDetailByID(account.ID);
+    // accountDetail.DOB = moment(accountDetail.DOB).format("DD/MM/YYYY");
+    // return res.render('../views/vmAccount/profile.hbs', {
+    //   message: "Your Account Infomation has been changed",
+    //   accountDetail
+    // });
+    const account = await accountModel.findDetailByID(req.session.account.ID);
+    const accountDetail = await accountModel.detail(account);
+    req.session.account = {...account, [account.AccountType]: accountDetail};
+    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+    );
+    console.log(req.session.account);
+
+    return res.redirect('/account/profile');
   }
 
 });
