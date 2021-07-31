@@ -22,6 +22,6 @@ app.get('/bs4', function(req, res){
   res.sendFile(__dirname+'/bs4.html')
 })
 
-app.listen(process.env.PORT, function() {
-  console.log(`EC Web App listening at http://localhost:${PORT}`);
+app.listen(process.env.PORT || 5000, function() {
+  console.log(`EC Web App listening`);
 });
