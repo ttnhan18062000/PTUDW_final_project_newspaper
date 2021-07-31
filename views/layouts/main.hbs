@@ -154,7 +154,7 @@
         {{/each}}
         {{#if isHome}}
         {{else}}
-          <li class="nav-item ml-2">
+          <li class="nav-item">
             <form class="form-inline ml-5 my-2 my-lg-0">
               <input class="ml-4 form-control" type="search" placeholder="Nhập thông tin" aria-label="Search"
                 id="inputField">
@@ -183,7 +183,7 @@
               type="submit" onclick="return goSearch()">Tìm kiếm&nbsp;&nbsp;</button>
           </div>
         {{/if}}
-        <ul style="list-style: none; flex-wrap: wrap; justify-content: center;" class="d-flex">
+        <ul style="list-style: none; flex-wrap: wrap; justify-content: center; display: flex">
           {{#each listCategories}}
             <li class="m-5">
               <a style="text-decoration: none;" class="text-light h4" href="/category/{{ID}}?page=0">{{Name}}</a>
