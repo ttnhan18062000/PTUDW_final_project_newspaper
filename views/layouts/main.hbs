@@ -108,7 +108,7 @@
                     Sign In
                   </p>
                 </button>
-                <div class="dropdown-menu bg-transparent border mt-2">
+                <div class="dropdown-menu bg-dark border mt-2" style="z-index: 100;">
                   <a href="/account/profile" class="dropdown-item text-white"><i class="fa fa-user-o"></i> Profile</a>
                   <a href="/account/logout" class="dropdown-item text-white"><i class="fa fa-sign-out"></i> Logout</a>
                 </div>
@@ -349,9 +349,11 @@
         $('#btn-func').attr('href', href);
       {{/if}}
     });
-
-      const accountName = "{{account.DisplayName}}";
-      if(accountName){
+      const accountID = "{{account.ID}}";
+      let accountName = "{{account.DisplayName}}";
+      if(!accountName)
+        accountName = "[None]";
+      if(accountID){
         $('#btnLogin').attr('data-toggle','dropdown');
         $('#btnLogin').removeAttr('data-target');
         $('#txtLogin').html(accountName);

@@ -25,6 +25,7 @@
                 return null;
         }
 
+    const baseDName = $('#txtADName').val();
     const baseFName = $('#txtAFName').val();
     const baseLName = $('#txtALName').val();
     const baseEmail = $('#txtAEmail').val();
@@ -33,14 +34,23 @@
     $('#btnSave').hide();
     $('#btnClose').hide();
 
+
     $('#btnEdit').click(function(){
       $('#btnSave').show();
       $('#btnClose').show();
-      $('#txtAFName').removeAttr("readonly");
-      $('#txtALName').removeAttr("readonly");
-      $('#txtAEmail').removeAttr("readonly");
-      $('#txtADOB').removeAttr("readonly");
+      $('#txtADName').prop("disabled", false);
+      $('#txtAFName').prop("disabled", false);
+      $('#txtALName').prop("disabled", false);
+      $('#txtAEmail').prop("disabled", false);
+      $('#txtADOB').prop("disabled", false);
       $('#h3Title').toggleClass('mt-4');
+
+      $('#lbDName').toggleClass('disabled');
+      $('#lbFName').toggleClass('disabled');
+      $('#lbLName').toggleClass('disabled');
+      $('#lbEmai').toggleClass("disabled");
+      $('#lbDOB').toggleClass("disabled");
+
       $(this).hide();
     });
 
@@ -48,11 +58,25 @@
       $('#btnEdit').show();
       $('#btnSave').hide();
       $('#btnClose').hide();
-      $('#txtAFName').attr("readonly", "readonly");
-      $('#txtALName').attr("readonly", "readonly");
-      $('#txtAEmail').attr("readonly", "readonly");
-      $('#txtADOB').attr("readonly", "readonly");
+
+      $('#txtADName').val(baseDName);
+      $('#txtAFName').val(baseFName);
+      $('#txtALName').val(baseLName);
+      $('#txtAEmail').val(baseEmail);
+      $('#txtADOB').val(baseDOB);
+
+      $('#txtADName').prop("disabled", true);
+      $('#txtAFName').prop("disabled", true);
+      $('#txtALName').prop("disabled", true);
+      $('#txtAEmail').prop("disabled", true);
+      $('#txtADOB').prop("disabled", true);
       $('#h3Title').toggleClass('mt-4');
+
+      $('#lbDName').toggleClass("disabled");
+      $('#lbFName').toggleClass("disabled");
+      $('#lbLName').toggleClass("disabled");
+      $('#lbEmai').toggleClass("disabled");
+      $('#lbDOB').toggleClass("disabled");
     })
 
     $('#frmEdit').on('submit', async function(e){
@@ -114,11 +138,12 @@
             <div class="card-body">
               <h5 class="card-title">{{account.DisplayName}} - {{account.AccountType}}</h5>
               <p class="card-text text-white">
-                This is a wider card with supporting text below as a natural lead-in to
-                additional content. This content is a little bit longer.
+                {{#each descriptions}}
+                <p>{{desp}}</p>
+                {{/each}}
               </p>
               <p class="card-text text-white">
-                You can change your account's information below
+                Bạn có thể thay đổi thông tin tài khoản bên dưới
               </p>
             </div>
           </div>
@@ -134,7 +159,7 @@
                 <button type="button" class="btn btn-info align-self-end py-2 px-3" id="btnEdit"> 
                   <i class="fa fa-pencil"></i>
                 </button>
-                <h3 class="mb-0 font-weight-bold" id="h3Title">Account Information</h3>
+                <h3 class="mb-0 font-weight-bold" id="h3Title">Thông tin tài khoản</h3>
               </div>
             </div>
             <!-- Card image -->
@@ -152,23 +177,28 @@
             <!-- Edit Form -->
             <form class="p-3" id="frmEdit" method="POST" autocomplete="off">
                 <div class="md-form mb-0">
-                    <input type="text" id="txtAFName" name="txtAFName" class="form-control validate text-white" value="{{accountDetail.FirstName}}"  readonly="readonly" >
-                    <label for="txtAFName" data-error="wrong" data-success="right">First Name</label>
+                    <input type="text" id="txtADName" name="txtADName" class="form-control validate text-white" value="{{account.DisplayName}}" disabled>
+                    <label id="lbDName" for="txtADName" class="disabled" data-error="wrong" data-success="right">Display Name</label>
                 </div>
 
                 <div class="md-form mb-0">
-                    <input type="text" id="txtALName" name="txtALName" class="form-control validate text-white" value="{{accountDetail.LastName}}"  readonly="readonly" >
-                    <label for="txtALName" data-error="wrong" data-success="right">Last Name</label>
+                    <input type="text" id="txtAFName" name="txtAFName" class="form-control validate text-white" value="{{account.FirstName}}" disabled>
+                    <label id="lbFName" for="txtAFName" class="disabled" data-error="wrong" data-success="right">First Name</label>
                 </div>
 
                 <div class="md-form mb-0">
-                    <input type="text" id="txtAEmail" name="txtAEmail" class="form-control validate text-white" value="{{accountDetail.Email}}"  readonly="readonly" >
-                    <label for="txtAEmail" data-error="wrong" data-success="right">Email</label>
+                    <input type="text" id="txtALName" name="txtALName" class="form-control validate text-white" value="{{account.LastName}}" disabled >
+                    <label id="lbLName" for="txtALName" class="disabled" data-error="wrong" data-success="right">Last Name</label>
                 </div>
 
                 <div class="md-form mb-0">
-                    <input type="text" id="txtADOB" name="txtADOB" class="form-control" readonly="readonly" value="{{accountDetail.DOB}}" >
-                    <label for="txtADOB" data-error="wrong" data-success="right">DOB</label>
+                    <input type="text" id="txtAEmail" name="txtAEmail" class="form-control validate text-white" value="{{account.Email}}" disabled >
+                    <label id="lbEmail" for="txtAEmail" data-error="wrong" data-success="right">Email</label>
+                </div>
+
+                <div class="md-form mb-0">
+                    <input type="text" id="txtADOB" name="txtADOB" class="form-control" readonly="readonly" value="{{account.DOB}}" disabled>
+                    <label id="lbDOB" for="txtADOB" data-error="wrong" data-success="right">DOB</label>
                 </div>
 
               <div id="btnSaveContainer">

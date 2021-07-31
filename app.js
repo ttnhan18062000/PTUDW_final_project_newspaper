@@ -23,6 +23,6 @@ app.get('/bs4', function(req, res){
 })
 
 const PORT = 5000;
-app.listen(PORT, function() {
+app.listen(process.env.PORT || PORT, function() {
   console.log(`EC Web App listening at http://localhost:${PORT}`);
 });

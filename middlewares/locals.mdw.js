@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 const categoryModel = require("../models/category.model");
 
 module.exports = function(app) {
@@ -42,12 +44,23 @@ module.exports = function(app) {
       res.locals.loginMessage = `You must login as ${req.session.requireRole}`
       req.session.requireRole = undefined
     }
+  
+    if(req.session.requireLogin){
+      res.locals.showModal = true
+      res.locals.loginMessage = `You must login to view this resource`
+      req.session.requireLogin = undefined
+    }
 
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
     res.locals.listParentCategories = listParentCategories;
     res.locals.listCategories = listCategories;
     res.locals.account = req.session.account;
+    if(res.locals.account)
+      res.locals.account.DOB = moment(res.locals.account.DOB).format("DD/MM/YYYY")
+
+    console.log(res.locals.account);
+
     next();
   });
 
