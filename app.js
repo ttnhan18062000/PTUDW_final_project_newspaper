@@ -22,7 +22,6 @@ app.get('/bs4', function(req, res){
   res.sendFile(__dirname+'/bs4.html')
 })
 
-const PORT = 5000;
-app.listen(process.env.PORT || PORT, function() {
+app.listen(process.env.PORT, function() {
   console.log(`EC Web App listening at http://localhost:${PORT}`);
 });
