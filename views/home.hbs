@@ -100,13 +100,13 @@
       <div class="col-6">
         {{#each listTopLatestPost10Category}}
         {{#if leftPos}}
-        <div class="row mb-4" style="height: 15vh;">
+        <div class="row mb-4" style="min-height: 15vh;">
           <div class="col-4">
             <div
-              style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+              style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
             </div>
           </div>
-          <div class="col-8 d-flex pb-3 flex-column justify-content-between">
+          <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
             <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
               style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
               {{CategoryName}}
@@ -136,13 +136,13 @@
         {{#each listTopLatestPost10Category}}
         {{#if leftPos}}
         {{else}}
-        <div class="row mb-4" style="height: 15vh;">
+        <div class="row mb-4" style="min-height: 15vh;">
           <div class="col-4">
             <div
-              style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+              style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
             </div>
           </div>
-          <div class="col-8 pb-3 d-flex flex-column justify-content-between">
+          <div class="col-8 pb-3 d-flex flex-column justify-content-between" style="height: 100%;">
             <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
               style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
               {{CategoryName}}
