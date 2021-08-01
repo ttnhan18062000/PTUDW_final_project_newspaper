@@ -102,7 +102,8 @@
         {{#if leftPos}}
         <div class="row mb-4" style="height: 15vh;">
           <div class="col-4">
-            <div style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+            <div
+              style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
             </div>
           </div>
           <div class="col-8 d-flex pb-3 flex-column justify-content-between">
@@ -137,7 +138,8 @@
         {{else}}
         <div class="row mb-4" style="height: 15vh;">
           <div class="col-4">
-            <div style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+            <div
+              style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
             </div>
           </div>
           <div class="col-8 pb-3 d-flex flex-column justify-content-between">
@@ -197,7 +199,7 @@
                   style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
                 </div>
               </div>
-              <div class="h4 pt-3 pb-1" style="height: 8.5vh;">
+              <div class="h4 pt-3 pb-1" style="min-height: 8.5vh;">
                 <strong>{{Title}}</strong>
               </div>
               <div class="row" style="font-size: small;">
@@ -218,9 +220,17 @@
                 {{Abstract}}
               </div>
             </div>
-            <hr class="p-0 mb-4" style="border-top: 1px solid #d1cfcf; width: 90%">
+
           </div>
           {{/each}}
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <hr class="p-0 mb-4" style="border-top: 1px solid #d1cfcf; width: 90%">
+          </div>
+          <div class="col-6">
+            <hr class="p-0 mb-4" style="border-top: 1px solid #d1cfcf; width: 90%">
+          </div>
         </div>
 
         <div class="row">
