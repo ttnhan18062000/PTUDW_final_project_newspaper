@@ -81,7 +81,6 @@ router.get("/detail", async function(req, res) {
   });
 });
 
-
 router.post("/delete-category-of-editor", async function(req, res) {
   const {catID, editorID}= req.body;
   await accountModel.delCatOfEditor(catID, editorID);
