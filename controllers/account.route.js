@@ -323,19 +323,9 @@ router.post('/profile', async function(req, res) {
   } else {
     await accountModel.insertOrUpdateByID(req.session.account.ID, DName, FName, LName, dob, email);
     
-    // const account = req.session.account;
-    // let accountDetail = await accountModel.findDetailByID(account.ID);
-    // accountDetail.DOB = moment(accountDetail.DOB).format("DD/MM/YYYY");
-    // return res.render('../views/vmAccount/profile.hbs', {
-    //   message: "Your Account Infomation has been changed",
-    //   accountDetail
-    // });
     const account = await accountModel.findDetailByID(req.session.account.ID);
     const accountDetail = await accountModel.detail(account);
     req.session.account = {...account, [account.AccountType]: accountDetail};
-    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-    );
-    console.log(req.session.account);
 
     return res.redirect('/account/profile');
   }

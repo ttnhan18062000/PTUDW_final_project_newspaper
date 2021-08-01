@@ -70,7 +70,6 @@ router.post('/posts/add', async function(req, res) {
 });
 
 router.post('/posts/upload', async function(req, res) {
-  console.log('zo')
   const storage = multer.diskStorage({
     destination(req, file, cb) {
       cb(null, `./public/imgs/post`)
