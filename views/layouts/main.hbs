@@ -76,28 +76,43 @@
     <div class="fixed-top" style="background-color: rgba(0, 0, 0, 0);">
   {{else}}
     <div class="fixed-top" style="background-color: rgba(0, 0, 0, 1) !important;">
-  {{/if}}
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="/"><strong>CNTN NEWS</strong></a>
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="#">Contact</a>
-          </li>
-        </ul>
-      </div>
+      {{/if}}
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/"><strong>CNTN NEWS</strong></a>
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link text-white" href="#">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="#">Contact</a>
+              </li>
+            </ul>
+          </div>
       <div class="collapse navbar-collapse navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
           <li>
             <a href="#" id="btn-func" style="margin-right: 1rem; color: white"></a>
+          </li>
+          <li class="nav-item">
+              <div class="dropdown d-flex justify-content-center">
+                <button type="button" id="btnLogin" class="btn bg-transparent text-white p-0 m-0 d-flex align-items-center justify-content-center" data-toggle="modal"
+                  data-target="#modalLogin">
+                  <i class="fa fa-user-circle fa-2x mr-2" aria-hidden="true"></i>
+                  <p class="text-center m-0" id="txtLogin">
+                    Sign In
+                  </p>
+                </button>
+                <div class="dropdown-menu bg-dark border mt-2" style="z-index: 100;">
+                  <a href="/account/profile" class="dropdown-item text-white"><i class="fa fa-user-o"></i> Profile</a>
+                  <a href="/account/logout" class="dropdown-item text-white"><i class="fa fa-sign-out"></i> Logout</a>
+                </div>
+              </div>
           </li>
           <li class="nav-item facebook_icon h5">
             <a class="nav-link text-white" href="#">
@@ -118,12 +133,6 @@
             <a class="nav-link text-white" href="#">
               <i class="fa fa-google-plus"></i>
             </a>
-          </li>
-          <li class="nav-item">
-            <button type="button" id="btnLogin" class="btn bg-transparent text-white p-0 m-0" data-toggle="modal"
-              data-target="#modalLogin">
-              <i class="fa fa-user-circle fa-2x" aria-hidden="true"></i>
-            </button>
           </li>
         </ul>
       </div>
@@ -340,8 +349,22 @@
         $('#btn-func').attr('href', href);
       {{/if}}
     });
-  </script>
-  {{{_sections.js}}}
+      const accountID = "{{account.ID}}";
+      let accountName = "{{account.DisplayName}}";
+      if(!accountName)
+        accountName = "[None]";
+      if(accountID){
+        $('#btnLogin').attr('data-toggle','dropdown');
+        $('#btnLogin').removeAttr('data-target');
+        $('#txtLogin').html(accountName);
+      }
+      else{
+        $('#btnLogin').attr('data-toggle','modal');
+        $('#btnLogin').attr('data-target', '#modalLogin');
+        $('#txtLogin').html('Sign In');
+      }
+    </script>
+    {{{_sections.js}}}
 </body>
 
 </html>

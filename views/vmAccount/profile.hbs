@@ -25,6 +25,7 @@
                 return null;
         }
 
+    const baseDName = $('#txtADName').val();
     const baseFName = $('#txtAFName').val();
     const baseLName = $('#txtALName').val();
     const baseEmail = $('#txtAEmail').val();
@@ -33,14 +34,23 @@
     $('#btnSave').hide();
     $('#btnClose').hide();
 
+
     $('#btnEdit').click(function(){
       $('#btnSave').show();
       $('#btnClose').show();
-      $('#txtAFName').removeAttr("readonly");
-      $('#txtALName').removeAttr("readonly");
-      $('#txtAEmail').removeAttr("readonly");
-      $('#txtADOB').removeAttr("readonly");
+      $('#txtADName').prop("disabled", false);
+      $('#txtAFName').prop("disabled", false);
+      $('#txtALName').prop("disabled", false);
+      $('#txtAEmail').prop("disabled", false);
+      $('#txtADOB').prop("disabled", false);
       $('#h3Title').toggleClass('mt-4');
+
+      $('#lbDName').toggleClass('disabled');
+      $('#lbFName').toggleClass('disabled');
+      $('#lbLName').toggleClass('disabled');
+      $('#lbEmai').toggleClass("disabled");
+      $('#lbDOB').toggleClass("disabled");
+
       $(this).hide();
     });
 
@@ -48,11 +58,25 @@
       $('#btnEdit').show();
       $('#btnSave').hide();
       $('#btnClose').hide();
-      $('#txtAFName').attr("readonly", "readonly");
-      $('#txtALName').attr("readonly", "readonly");
-      $('#txtAEmail').attr("readonly", "readonly");
-      $('#txtADOB').attr("readonly", "readonly");
+
+      $('#txtADName').val(baseDName);
+      $('#txtAFName').val(baseFName);
+      $('#txtALName').val(baseLName);
+      $('#txtAEmail').val(baseEmail);
+      $('#txtADOB').val(baseDOB);
+
+      $('#txtADName').prop("disabled", true);
+      $('#txtAFName').prop("disabled", true);
+      $('#txtALName').prop("disabled", true);
+      $('#txtAEmail').prop("disabled", true);
+      $('#txtADOB').prop("disabled", true);
       $('#h3Title').toggleClass('mt-4');
+
+      $('#lbDName').toggleClass("disabled");
+      $('#lbFName').toggleClass("disabled");
+      $('#lbLName').toggleClass("disabled");
+      $('#lbEmai').toggleClass("disabled");
+      $('#lbDOB').toggleClass("disabled");
     })
 
     $('#frmEdit').on('submit', async function(e){
@@ -94,69 +118,105 @@
       timepicker: false,
       mask: true
     });
+    const imgSrc = "../../public/svg/" + "{{account.AccountType}}".toLowerCase() + ".svg";
+    $('#imgAccount').attr('src', imgSrc);
   </script>
 {{/section}}
-
+<div class="container-fluid bg-dark p-5">
 <div class="container mt-5 d-flex justify-content-center">
-            <!-- Card -->
-            <div class="card w-50 card-cascade narrower bg-main mb-5">
-
-                <!-- Card image -->
-                <div class="view view-cascade gradient-card-header mdb-color lighten-3 text-center pt-0">
-                  <div id="dvATitle" class="row d-flex align-items-center justify-content-center flex-column">
-                    
-                    <button type="button" class="btn btn-info align-self-end py-2 px-3" id="btnEdit"> 
-                      <i class="fa fa-pencil"></i>
-                    </button>
-                    <h3 class="mb-0 font-weight-bold" id="h3Title">Account Information</h3>
-                  </div>
-                </div>
-                <!-- Card image -->
-
-              <!-- Card content -->
-              <div class="card-body card-body-cascade text-center">
-                <div id="dvAccountMessage">
-                    {{#if message}}
-                        <div class="alert alert-success w-100 bg-transparent color-lightgreen" role='alert'>{{message}}
-                          <button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button>
-                        </div>
-                    {{/if}}
-                </div>
-
-                <!-- Edit Form -->
-                <form class="p-3" id="frmEdit" method="POST" autocomplete="off">
-                    <div class="md-form mb-0">
-                        <input type="text" id="txtAFName" name="txtAFName" class="form-control validate text-white" value="{{accountDetail.FirstName}}"  readonly="readonly" >
-                        <label for="txtAFName" data-error="wrong" data-success="right">First Name</label>
-                    </div>
-
-                    <div class="md-form mb-0">
-                        <input type="text" id="txtALName" name="txtALName" class="form-control validate text-white" value="{{accountDetail.LastName}}"  readonly="readonly" >
-                        <label for="txtALName" data-error="wrong" data-success="right">Last Name</label>
-                    </div>
-
-                    <div class="md-form mb-0">
-                        <input type="text" id="txtAEmail" name="txtAEmail" class="form-control validate text-white" value="{{accountDetail.Email}}"  readonly="readonly" >
-                        <label for="txtAEmail" data-error="wrong" data-success="right">Email</label>
-                    </div>
-
-                    <div class="md-form mb-0">
-                        <input type="text" id="txtADOB" name="txtADOB" class="form-control" readonly="readonly" value="{{accountDetail.DOB}}" >
-                        <label for="txtADOB" data-error="wrong" data-success="right">DOB</label>
-                    </div>
-
-                  <div id="btnSaveContainer">
-                      <button type="submit" class="btn btn-info text-black" id="btnSave"> Save </button>
-                      <button type="button" class="btn btn-info text-black" id="btnClose"> Close </button>
-                  </div>
-
-                </form>
-                <!-- Edit Form -->
-
-              </div>
-              <!-- Card content -->
-
+  <div class="row w-75">
+      <div class="card w-100 bg-main p-3">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img id="imgAccount"
+              src="../../public/svg/user.svg"
+              alt="..."
+              class="img-fluid"
+            />
+          </div>
+          <div class="col-md-8 text-white">
+            <div class="card-body">
+              <h5 class="card-title">{{account.DisplayName}} - {{account.AccountType}}</h5>
+              <p class="card-text text-white">
+                {{#each descriptions}}
+                <p>{{desp}}</p>
+                {{/each}}
+              </p>
+              <p class="card-text text-white">
+                Bạn có thể thay đổi thông tin tài khoản bên dưới
+              </p>
             </div>
-            <!-- Card -->
+          </div>
+        </div>
+      </div>
+             <!-- Card -->
+        <div class="card w-100 card-cascade narrower bg-main my-5">
 
+            <!-- Card image -->
+            <div class="view view-cascade gradient-card-header mdb-color lighten-3 text-center pt-0">
+              <div id="dvATitle" class="row d-flex align-items-center justify-content-center flex-column">
+                
+                <button type="button" class="btn btn-info align-self-end py-2 px-3" id="btnEdit"> 
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <h3 class="mb-0 font-weight-bold" id="h3Title">Thông tin tài khoản</h3>
+              </div>
+            </div>
+            <!-- Card image -->
+
+          <!-- Card content -->
+          <div class="card-body card-body-cascade text-center">
+            <div id="dvAccountMessage">
+                {{#if message}}
+                    <div class="alert alert-success w-100 bg-transparent color-lightgreen" role='alert'>{{message}}
+                      <button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button>
+                    </div>
+                {{/if}}
+            </div>
+
+            <!-- Edit Form -->
+            <form class="p-3" id="frmEdit" method="POST" autocomplete="off">
+                <div class="md-form mb-0">
+                    <input type="text" id="txtADName" name="txtADName" class="form-control validate text-white" value="{{account.DisplayName}}" disabled>
+                    <label id="lbDName" for="txtADName" class="disabled" data-error="wrong" data-success="right">Display Name</label>
+                </div>
+
+                <div class="md-form mb-0">
+                    <input type="text" id="txtAFName" name="txtAFName" class="form-control validate text-white" value="{{account.FirstName}}" disabled>
+                    <label id="lbFName" for="txtAFName" class="disabled" data-error="wrong" data-success="right">First Name</label>
+                </div>
+
+                <div class="md-form mb-0">
+                    <input type="text" id="txtALName" name="txtALName" class="form-control validate text-white" value="{{account.LastName}}" disabled >
+                    <label id="lbLName" for="txtALName" class="disabled" data-error="wrong" data-success="right">Last Name</label>
+                </div>
+
+                <div class="md-form mb-0">
+                    <input type="text" id="txtAEmail" name="txtAEmail" class="form-control validate text-white" value="{{account.Email}}" disabled >
+                    <label id="lbEmail" for="txtAEmail" data-error="wrong" data-success="right">Email</label>
+                </div>
+
+                <div class="md-form mb-0">
+                    <input type="text" id="txtADOB" name="txtADOB" class="form-control" readonly="readonly" value="{{account.DOB}}" disabled>
+                    <label id="lbDOB" for="txtADOB" data-error="wrong" data-success="right">DOB</label>
+                </div>
+
+              <div id="btnSaveContainer">
+                  <button type="submit" class="btn btn-outline-info text-black" id="btnSave"> Save </button>
+                  <button type="button" class="btn btn-outline-info text-black" id="btnClose"> Close </button>
+              </div>
+
+            </form>
+            <!-- Edit Form -->
+
+          </div>
+          <!-- Card content -->
+
+        </div>
+        <!-- Card -->
+
+      </div>
+       
     </div>
+
+</div>

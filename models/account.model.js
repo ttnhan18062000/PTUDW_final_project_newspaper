@@ -11,10 +11,8 @@ module.exports = {
   },
 
   async findByEmail(email) {
-    const account = await db('Account').where({ Email: email });
-    if (account.length === 0)
-      return null;
-    return account[0];
+    const res = await db.raw(`Call GTR_Account_By_Email('${email}');`);
+    return res[0][0][0] || null;
   },
 
   async findByID(id) {
@@ -46,9 +44,9 @@ module.exports = {
     return account[0][0][0] || null;
   },
 
-  async insertOrUpdateByID(id, fname, lname, email, dob) {
+  async insertOrUpdateByID(id, dname, fname, lname, email, dob) {
     const nId = parseInt(id);
-    const result = await db.raw(`Call UPD_INS_AccountDetail_By_ID(${nId}, '${fname}', '${lname}', '${dob}', '${email}');`);
+    const result = await db.raw(`Call UPD_INS_AccountDetail_By_ID(${nId},'${dname}',  '${fname}', '${lname}', '${dob}', '${email}');`);
   },
 
   async detailAll() {
@@ -102,7 +100,8 @@ module.exports = {
         const rs = await db.raw(endpoint);
         return rs[0][0] || {};
       }
-      default: return {}
+      default:{
+      }
     }
   },
 
