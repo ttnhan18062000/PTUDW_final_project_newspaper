@@ -59,8 +59,6 @@ module.exports = function(app) {
     if(res.locals.account)
       res.locals.account.DOB = moment(res.locals.account.DOB).format("DD/MM/YYYY")
 
-    console.log(res.locals.account);
-
     next();
   });
 
