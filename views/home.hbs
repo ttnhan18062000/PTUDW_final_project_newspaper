@@ -37,6 +37,11 @@
     window.location = "/post/" + id.toString();
     return false;
   }
+
+  function goToCategory(id) {
+    window.location = "/category/" + id.toString();
+    return false;
+  }
 </script>
 {{/section}}
 
@@ -102,8 +107,8 @@
         {{#if leftPos}}
         <div class="row mb-4" style="min-height: 15vh;">
           <div class="col-4">
-            <div
-              style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+            <div class="imgTrendyPost"
+              style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;" onclick="goToPost({{ID}})">
             </div>
           </div>
           <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
@@ -138,8 +143,8 @@
         {{else}}
         <div class="row mb-4" style="min-height: 15vh;">
           <div class="col-4">
-            <div
-              style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+            <div class="imgTrendyPost"
+              style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;" onclick="goToPost({{ID}})">
             </div>
           </div>
           <div class="col-8 pb-3 d-flex flex-column justify-content-between" style="height: 100%;">
@@ -178,7 +183,7 @@
       <div class="list10Post col-9 pt-2 mb-5">
         {{#each list10PostPerCatReturn}}
         {{!-- CategoryName --}}
-        <div class="pb-3">
+        <div class="pb-3 category" onclick="goToCategory({{ListTop2Post.0.CategoryID}})">
           <span class="px-4 py-2 text-white"
             style="font-weight:bold; text-transform: uppercase; background-color:black">{{CategoryName}}
           </span>
