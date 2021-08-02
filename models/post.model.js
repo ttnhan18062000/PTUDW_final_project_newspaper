@@ -139,4 +139,8 @@ module.exports = {
     const rs = await db.raw(`Call GTT_Top10_Post_By_Cate(${categoryID});`);
     return rs[0][0].length !== 0 ? rs[0][0] : null;
   },
+
+  async increaseViewCountBy1(PostID){
+    await db.raw(`Call UPD_Post_ViewCount(${PostID});`);
+  }
 }
