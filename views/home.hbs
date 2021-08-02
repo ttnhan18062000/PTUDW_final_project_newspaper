@@ -101,79 +101,77 @@
     <div class="h3 mb-4">
       TRENDY NEWS
     </div>
-    <div class="row">
-      <div class="col-6">
         {{#each listTopLatestPost10Category}}
         {{#if leftPos}}
-        <div class="row mb-4" style="min-height: 15vh;">
-          <div class="col-4">
-            <div class="imgTrendyPost"
-              style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;" onclick="goToPost({{ID}})">
+        <div class="row">
+        <div class="col-6">
+          <div class="row mb-4" style="min-height: 15vh;">
+            <div class="col-4">
+              <div class="imgTrendyPost"
+                style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;"
+                onclick="goToPost({{ID}})">
+              </div>
             </div>
-          </div>
-          <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
-            <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
-              style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
-              {{CategoryName}}
-            </a>
-            <a class="mt-2 h4" href="/post/{{ID}}">
-              {{Title}}
-            </a>
-            <div class="row">
-              <div class="col-5">
-                {{PublishDate}}
-              </div>
-              <div class="col-4" style="text-align: right;">
-                <i class="fa fa-eye" aria-hidden="true"></i>
-                &nbsp;{{ViewCount}}
-              </div>
-              <div class="col-3" style="text-align: right;">
-                <i class="fa fa-comment" aria-hidden="true"></i>
-                &nbsp;{{TotalComment}}
+            <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
+              <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
+                style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
+                {{CategoryName}}
+              </a>
+              <a class="mt-2 h4" href="/post/{{ID}}">
+                {{Title}}
+              </a>
+              <div class="row">
+                <div class="col-5">
+                  {{PublishDate}}
+                </div>
+                <div class="col-4" style="text-align: right;">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  &nbsp;{{ViewCount}}
+                </div>
+                <div class="col-3" style="text-align: right;">
+                  <i class="fa fa-comment" aria-hidden="true"></i>
+                  &nbsp;{{TotalComment}}
+                </div>
               </div>
             </div>
           </div>
         </div>
-        {{/if}}
-        {{/each}}
-      </div>
-      <div class="col-6">
-        {{#each listTopLatestPost10Category}}
-        {{#if leftPos}}
         {{else}}
-        <div class="row mb-4" style="min-height: 15vh;">
-          <div class="col-4">
-            <div class="imgTrendyPost"
-              style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;" onclick="goToPost({{ID}})">
+        <div class="col-6">
+          <div class="row mb-4" style="min-height: 15vh;">
+            <div class="col-4">
+              <div class="imgTrendyPost"
+                style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;"
+                onclick="goToPost({{ID}})">
+              </div>
             </div>
-          </div>
-          <div class="col-8 pb-3 d-flex flex-column justify-content-between" style="height: 100%;">
-            <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
-              style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
-              {{CategoryName}}
-            </a>
-            <a class="mt-2 h4" href="/post/{{ID}}">
-              {{Title}}
-            </a>
-            <div class="row">
-              <div class="col-5">
-                {{PublishDate}}
-              </div>
-              <div class="col-4" style="text-align: right;">
-                <i class="fa fa-eye" aria-hidden="true"></i>
-                &nbsp;{{ViewCount}}
-              </div>
-              <div class="col-3" style="text-align: right;">
-                <i class="fa fa-comment" aria-hidden="true"></i>
-                &nbsp;{{TotalComment}}
+            <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
+              <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
+                style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
+                {{CategoryName}}
+              </a>
+              <a class="mt-2 h4" href="/post/{{ID}}">
+                {{Title}}
+              </a>
+              <div class="row">
+                <div class="col-5">
+                  {{PublishDate}}
+                </div>
+                <div class="col-4" style="text-align: right;">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  &nbsp;{{ViewCount}}
+                </div>
+                <div class="col-3" style="text-align: right;">
+                  <i class="fa fa-comment" aria-hidden="true"></i>
+                  &nbsp;{{TotalComment}}
+                </div>
               </div>
             </div>
           </div>
         </div>
+        </div>
         {{/if}}
         {{/each}}
-      </div>
-    </div>
   </div>
 </div>
 
