@@ -1,3 +1,4 @@
+const { ENDPOINTS } = require("../configs/category.cfg");
 const db = require("../utils/db");
 
 module.exports = {
@@ -27,4 +28,9 @@ module.exports = {
     const query = `Call DEL_Category(${id})`;
     const rs = await db.raw(query);
   },
+  async getEditorCategories(id){
+    const endpoint = ENDPOINTS.getEditorCategories(id);
+    const rs = await db.raw(endpoint);
+    return rs[0][0] || [];
+  }
 };

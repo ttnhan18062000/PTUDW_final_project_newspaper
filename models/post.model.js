@@ -114,4 +114,16 @@ module.exports = {
     const rs = await db.raw(ENDPOINTS.createByWriter(post));
     return rs[0][0][0] || null;
   },
+  async getDraftPostByCatID(id){
+    const rs = await db.raw(ENDPOINTS.getDraftPostByCatID(id));
+    return rs[0][0] || [];
+  },
+
+  publishPostByEditor(postID, publishDate, catID){
+    return db.raw(ENDPOINTS.publishPostByEditor(postID, publishDate, catID));
+  },
+
+  refusePostByEditor(accID, postID, date, note){
+    return db.raw(ENDPOINTS.refusePostByEditor(accID, postID, date, note));
+  }
 }

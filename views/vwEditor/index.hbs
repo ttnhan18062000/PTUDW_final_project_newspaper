@@ -1,0 +1,53 @@
+{{#section "editor-css"}}
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="/public/css/pages/editor-index.css">
+{{/section}}
+{{#section "editor-js"}}
+  <script>
+    $(document).ready( () => {
+      const listCat = {{{jsonParse account.Editor}}};
+      if(listCat.length > 0){
+        $('#NoCategory').hide();
+      }
+      else{
+        $('#NoCategory').show();
+      }
+      listCat.forEach(cat => {
+        if(cat.NumDraft > 0){
+          $(`#cat${cat.ID}`).removeClass('fa-folder-o').addClass('fa-folder');
+        }
+      })
+    });
+  </script>
+{{/section}}
+<div class='main-container'>
+  <div class="header-container">
+    <div class="title">
+      Chuyên mục
+    </div>
+    <div class="subtitle">
+      Nhấn vào từng chuyên mục để duyệt, từ chối các bài viết do phóng viên đăng.
+    </div>
+  </div>
+  <div class="category-list-container">
+    <div class="category-list-header">
+      Chuyên mục
+    </div>
+    {{#each account.Editor}}
+      <a href="/editor/categories/{{ID}}" class="category-item-container">
+        <i class="fa fa-folder-o category-icon" id="cat{{ID}}" aria-hidden="true"></i>
+        <div class="category-content">{{Name}}</div>
+        <span class="badge">{{NumDraft}}</span>
+      </a>
+    {{/each}}
+  </div>
+  <div id="NoCategory" hidden>
+    <img src="/public/svg/emptypost.svg" width="150" alt="">
+    <div style="font-size: 2rem;">Không tìm thấy chuyên mục nào.</div>
+  </div>
+</div>

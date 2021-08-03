@@ -174,6 +174,7 @@ router.post('/posts/edit', async function(req, res) {
 router.get('/posts/:id', async function(req, res){
   const id = +req.params.id || 0;
   const post = await postModel.findByID(id);
+  const listTag = await tagModel.getAllTagRelatedPost(id);
   if (!post || post.WriterID !== res.locals.account.Writer.ID) {
     return res.redirect('/writer');
   }
@@ -181,6 +182,7 @@ router.get('/posts/:id', async function(req, res){
   res.render("vwWriter/postDetail", {
     layout: "writer.hbs",
     post,
+    listTag
   });
 
 })

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newspaper Web Application</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <!-- Material Design Bootstrap -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">
+  <link rel="stylesheet" type="text/css" href="/public/styles/main.css">
+  <link rel="stylesheet" href="/public/css/pages/editor-main.css">
+  {{{_sections.editor-css}}}
+</head>
+<script>
+</script>
+
+<body>
+  <div class="fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light py-0">
+      <a class="nav-item navbar-brand" href="/"><strong>CNTN NEWS</strong></a>
+      <a class="nav-item nav-link text-white" href="#">About</a>
+      <a class="nav-item nav-link text-white" href="#">Contact</a>
+      <div class="navbar-nav ml-auto mr-5">
+        <div class="dropdown d-flex justify-content-center">
+          <button type="button" id="btnLogin"
+            class="btn bg-transparent text-white p-0 m-0 d-flex align-items-center justify-content-center"
+            data-toggle="dropdown" >
+            <i class="fa fa-user-circle fa-2x mr-2" aria-hidden="true"></i>
+            <p class="text-center m-0" id="txtLogin">
+              DisplayName
+            </p>
+          </button>
+          <div class="dropdown-menu bg-dark border mt-2" style="z-index: 100;">
+            <a href="/account/profile" class="dropdown-item text-white"><i class="fa fa-user-o"></i> Profile</a>
+            <a href="/account/logout" class="dropdown-item text-white"><i class="fa fa-sign-out"></i> Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <input id="sidebar-checkbox" type="checkbox" role="button" />
+  <label for="sidebar-checkbox" id="label-sidebar" class="btn-collapse">
+    <i class="fa fa-angle-double-left fa-lg" aria-hidden="true"></i>
+  </label>
+  <div class="sidebar" id="sidebar">
+    <a href="/" class="btn-home">
+      <i class="fa fa-angle-left fa-lg mr-2" aria-hidden="true"></i>
+      Trở về trang đọc báo
+    </a>
+    <a href="/editor" class="sidebar-title">Biên tập viên</a>
+    <img src="/public/svg/editor.svg" width="200px" alt="editor">
+    <div class="sidebar-alias">{{account.DisplayName}}</div>
+    <div class="sidebar-email">{{account.Email}}</div>
+    <a href="/editor" class="sidebar-category active">
+      <i class="fa fa-thumb-tack" aria-hidden="true" style="margin-right: 0.3rem;"></i>
+      Chuyên mục quản lý
+    </a>
+    <div class="sidebar-item-container">
+    {{#each account.Editor}}
+      <a href="/editor/categories/{{ID}}" class="sidebar-category-item 
+      {{#if isActive}}active{{/if}}">
+      {{Name}}
+      <span class="sidebar-badge">{{NumDraft}}</span>
+      </a>
+    {{/each}}
+    </div>
+
+  </div>
+  <div id="editor-main-container">
+    {{{_sections.editor-breadcrumb}}}
+    {{{body}}}
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+  <script>
+    document.documentElement.style.setProperty('--top', (jQuery('.fixed-top').height()).toString() + "px");
+    jQuery('#sidebar-checkbox').change(
+      function () {
+        if (jQuery(this).is(':checked')) {
+          jQuery('#label-sidebar').html('<i class="fa fa-angle-double-right fa-lg" aria-hidden="true"></i>')
+        }
+        else {
+          jQuery('#label-sidebar').html('<i class="fa fa-angle-double-left fa-lg" aria-hidden="true"></i>')
+        }
+      });
+    jQuery(document).ready(function() {
+      let accountName = "{{account.DisplayName}}";
+      if(!accountName)
+        accountName = "[None]";
+      jQuery('#txtLogin').html(accountName);
+    })
+
+  </script>
+  {{{_sections.editor-js}}}
+</body>
+
+</html>

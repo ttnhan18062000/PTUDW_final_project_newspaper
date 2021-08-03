@@ -209,12 +209,12 @@ router.post('/login', async function(req, res, next) {
 
   if (match) {
     account = await accountModel.findDetailByID(account.ID); 
-
+    account.DOB = moment(account.DOB, 'YYYY/MM/DD').format("DD/MM/YYYY") || '';
     req.session.loginState = { success: true, loginMessage: "You're logged in" };
     req.session.loggedIn = true;
     const accountDetail = await accountModel.detail(account)
     req.session.account = {...account, [account.AccountType]: accountDetail}
-    
+
     rUrl = req.session.retUrl || req.get('Referrer') || '/';
     return res.redirect(rUrl);
   } else {
@@ -227,7 +227,6 @@ router.post('/login', async function(req, res, next) {
 router.get('/logout', (req, res) => {
   req.session.account = undefined;
   req.session.loggedIn = undefined;
-  //return res.redirect(req.get('Referrer'));
   return res.redirect('/');
 });
 
@@ -270,15 +269,13 @@ router.post('/verification-email', function(req, res) {
 router.get('/register-complete-nortification', async function(req, res) {
   const account = accountModel.findDetailByID(req.session.account.ID);
   const accountDetail = await accountModel.detail(account);
+  account.DOB = moment(account.DOB, 'YYYY/MM/DD').format("DD/MM/YYYY") || '';
   req.session.account = {...account, [account.AccountType]: accountDetail};
 
   res.render('../views/vmAccount/register-complete-nortification.hbs')
 });
 
 router.get('/profile', hasAnyRole, async function(req, res) {
-  // const account = req.session.account;
-  // let accountDetail = await accountModel.detail(account);
-  // accountDetail.DOB = moment(accountDetail.DOB).format("DD/MM/YYYY");
 
   let descriptions = [];
   switch(req.session.account.AccountType){
@@ -325,6 +322,7 @@ router.post('/profile', async function(req, res) {
     
     const account = await accountModel.findDetailByID(req.session.account.ID);
     const accountDetail = await accountModel.detail(account);
+    account.DOB = moment(account.DOB, 'YYYY/MM/DD').format("DD/MM/YYYY") || '';
     req.session.account = {...account, [account.AccountType]: accountDetail};
 
     return res.redirect('/account/profile');

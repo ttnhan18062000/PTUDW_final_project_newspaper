@@ -51,14 +51,15 @@ module.exports = function(app) {
       req.session.requireLogin = undefined
     }
 
+    if(req.session.account && req.session.account.AccountType === 'Editor'){
+      req.session.account.Editor = await categoryModel.getEditorCategories(req.session.account.ID);
+    }
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
     res.locals.listParentCategories = listParentCategories;
     res.locals.listCategories = listCategories;
-    res.locals.account = req.session.account;
-    if(res.locals.account)
-      res.locals.account.DOB = moment(res.locals.account.DOB).format("DD/MM/YYYY")
 
+    res.locals.account = req.session.account;
     next();
   });
 
