@@ -2,7 +2,6 @@ const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const keys = require("../utils/key");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
 const cookieSession = require("cookie-session");
 
 const accountModel = require("../models/account.model");
@@ -49,35 +48,6 @@ module.exports = function(app){
           }
         }
       }
-  ));
-
-  passport.use(new FacebookStrategy({
-      clientID: keys.facebook.ClientID,
-      clientSecret: keys.facebook.ClientSecret,
-      callbackURL: "/auth/facebook/callback"
-    },
-    async function(accessToken, refreshToken, profile, done){
-      if(profile.id){
-        console.log(profile);
-        const existingExternal = await accountModel.findExternalByID(profile.id, 'facebook');
-        if(existingExternal){
-          done(null, existingExternal);
-        }
-        else{
-          const existingUser = await accountModel.findByEmail(profile.emails[0].value);
-          if (existingUser){
-            const user = await accountModel.insertExternalLink(existingUser.ID, profile.id, 'facebook');
-            
-            done(null, user);
-          }
-          else{
-            const user = await accountModel.insertExternalAccount(profile.emails[0].value, profile.id, 'facebook');
-            
-            done(null, user);
-          }
-        }
-      }
-    }
   ));
 }
 
