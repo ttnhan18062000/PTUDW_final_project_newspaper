@@ -1,6 +1,6 @@
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
-const keys = require("../utils/key");
+const keys = require("../configs/key.cfg");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const cookieSession = require("cookie-session");
 

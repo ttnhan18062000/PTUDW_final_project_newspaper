@@ -10,7 +10,7 @@ router.get('/google',
 );
 
 router.get('/google/callback', passport.authenticate('google'), async function(req, res){
-    rUrl = req.session.retUrl || req.get('Referrer') || '/';
+    rUrl = req.session.retOUrl || req.get('Referrer') || '/';
     const account = await accountModel.findDetailByID(req.user.AccountID);
     const accountDetail = await accountModel.detail(account);
     req.session.account = {...account, [account.AccountType]: accountDetail};
