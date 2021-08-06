@@ -79,8 +79,9 @@ a {
 }
 
 .fixed-top.scrolled {
-  background-color: white !important;
-  transition: background-color 200ms linear;
+    background-color: black !important;
+    transition: background-color 200ms linear;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .fixed-top {
@@ -96,7 +97,7 @@ a {
 }
 
 .fixed-top.scrolled a {
-  color: black !important;
+    color: white !important;
 }
 
 .dropdown-item:hover {

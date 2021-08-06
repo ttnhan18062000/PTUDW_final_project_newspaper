@@ -39,7 +39,8 @@
     {{#each listPostWithTag}}
     <div class="row my-3">
         <div class="col-4">
-            <img class="d-block w-100 img-fluid" src="/public/imgs/post/{{Post.ID}}/thumb.jpg">
+            <div style="height: 100%; min-height: 20vh; background: url('/public/imgs/post/{{Post.ID}}/main.jpg') ; background-size: cover;">
+            </div>
         </div>
         <div class="col-8">
             <a class="h3" href="/post/{{Post.ID}}">

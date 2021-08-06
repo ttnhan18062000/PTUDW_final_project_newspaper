@@ -5,7 +5,43 @@
 
 {{#section 'js'}}
 <script>
+  $(document).scroll(function () {
+    var $nav = $(".postTags");
+    if ($(this).scrollTop() > $("#carouselTop3Post").height() + $("#trendyNews").height() - 160) {
+      if ($(this).scrollTop() < $("#carouselTop3Post").height() + $("#trendyNews").height() - 1100 + $(".list10Post").height()) {
+        $nav.css({ 'position': 'relative', 'top': $(this).scrollTop() - ($("#carouselTop3Post").height() + $("#trendyNews").height() - 160) })
+      }
+    }
+    else {
+      $nav.css({ 'position': 'static', 'top': '0px' });
+    }
+    if ($(this).scrollTop() > $("#carouselTop3Post").height()) {
+      $('#back-to-top').fadeIn();
+    } else {
+      $('#back-to-top').fadeOut();
+    }
+  });
 
+  function goToTop() {
+    $('body,html').animate({
+      scrollTop: 0
+    }, 500);
+    return false;
+  }
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  });
+
+  function goToPost(id) {
+    window.location = "/post/" + id.toString();
+    return false;
+  }
+
+  function goToCategory(id) {
+    window.location = "/category/" + id.toString();
+    return false;
+  }
 </script>
 {{/section}}
 
@@ -17,7 +53,8 @@
   </ol>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img class="d-block w-100" src="https://i.postimg.cc/bNQp0RDW/1.jpg" alt="First slide">
+      <img class="d-block w-100 h-100" style="background-size: contain;" src="https://i.postimg.cc/bNQp0RDW/1.jpg"
+        alt="First slide">
       <div class="carousel-caption d-none d-md-block">
         <h5>
           Banner Text one</h5>
@@ -27,7 +64,8 @@
       </div>
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="https://i.postimg.cc/MKqwz5T1/2.jpg" alt="Second slide">
+      <img class="d-block w-100 h-100" style="background-size: contain;" src="https://i.postimg.cc/MKqwz5T1/2.jpg"
+        alt="Second slide">
       <div class="carousel-caption d-none d-md-block">
         <h5>
           Banner Text two</h5>
@@ -37,7 +75,8 @@
       </div>
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="https://i.postimg.cc/0y2F6Gpp/3.jpg" alt="Third slide">
+      <img class="d-block w-100 h-100" style="background-size: contain;" src="https://i.postimg.cc/0y2F6Gpp/3.jpg"
+        alt="Third slide">
       <div class="carousel-caption d-none d-md-block">
         <h5>
           Banner Text three</h5>
@@ -55,4 +94,253 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
+</div>
+
+<div class="pt-3" id="trendyNews">
+  <div class="container">
+    <div class="h3 mb-4">
+      TRENDY NEWS
+    </div>
+        {{#each listTopLatestPost10Category}}
+        {{#if leftPos}}
+        <div class="row">
+        <div class="col-6">
+          <div class="row mb-4" style="min-height: 15vh;">
+            <div class="col-4">
+              <div class="imgTrendyPost"
+                style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;"
+                onclick="goToPost({{ID}})">
+              </div>
+            </div>
+            <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
+              <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
+                style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
+                {{CategoryName}}
+              </a>
+              <a class="mt-2 h4" href="/post/{{ID}}">
+                {{Title}}
+              </a>
+              <div class="row">
+                <div class="col-5">
+                  {{PublishDate}}
+                </div>
+                <div class="col-4" style="text-align: right;">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  &nbsp;{{ViewCount}}
+                </div>
+                <div class="col-3" style="text-align: right;">
+                  <i class="fa fa-comment" aria-hidden="true"></i>
+                  &nbsp;{{TotalComment}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{else}}
+        <div class="col-6">
+          <div class="row mb-4" style="min-height: 15vh;">
+            <div class="col-4">
+              <div class="imgTrendyPost"
+                style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;"
+                onclick="goToPost({{ID}})">
+              </div>
+            </div>
+            <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
+              <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
+                style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
+                {{CategoryName}}
+              </a>
+              <a class="mt-2 h4" href="/post/{{ID}}">
+                {{Title}}
+              </a>
+              <div class="row">
+                <div class="col-5">
+                  {{PublishDate}}
+                </div>
+                <div class="col-4" style="text-align: right;">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  &nbsp;{{ViewCount}}
+                </div>
+                <div class="col-3" style="text-align: right;">
+                  <i class="fa fa-comment" aria-hidden="true"></i>
+                  &nbsp;{{TotalComment}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        {{/if}}
+        {{/each}}
+  </div>
+</div>
+
+<div class="pt-3">
+  <div class="container ">
+    <div class="row">
+      <div class="list10Post col-9 pt-2 mb-5">
+        {{#each list10PostPerCatReturn}}
+        {{!-- CategoryName --}}
+        <div class="pb-3 category" onclick="goToCategory({{ListTop2Post.0.CategoryID}})">
+          <span class="px-4 py-2 text-white"
+            style="font-weight:bold; text-transform: uppercase; background-color:black">{{CategoryName}}
+          </span>
+          <span class="triangle py-2 px-1">
+            &nbsp;&nbsp;
+          </span>
+          <hr class="my-1" style="border-bottom: 5px solid black;">
+        </div>
+
+        {{!-- Content --}}
+        <div class="row">
+          {{!-- First post --}}
+          {{#each ListTop2Post}}
+          <div class="col-6">
+            <div class="pl-3 pr-3 post mb-3" onclick="goToPost({{ID}})" style="min-height: 48vh; height: auto">
+              <div class="img" style="height: 30vh;">
+                <div class="rounded"
+                  style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+                </div>
+              </div>
+              <div class="h4 pt-3 pb-1" style="min-height: 8.5vh;">
+                <strong>{{Title}}</strong>
+              </div>
+              <div class="row" style="font-size: small;">
+                <div class="col-7">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                  &nbsp;{{PublishDate}}
+                </div>
+                <div class="col-3">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  &nbsp;{{ViewCount}}
+                </div>
+                <div class="col-2">
+                  <i class="fa fa-comment" aria-hidden="true"></i>
+                  &nbsp;{{TotalComment}}
+                </div>
+              </div>
+              <div class="pt-3" style="font-size: small;">
+                {{Abstract}}
+              </div>
+            </div>
+
+          </div>
+          {{/each}}
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <hr class="p-0 mb-4" style="border-top: 1px solid #d1cfcf; width: 90%">
+          </div>
+          <div class="col-6">
+            <hr class="p-0 mb-4" style="border-top: 1px solid #d1cfcf; width: 90%">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6 d-flex justify-content-between flex-column">
+            {{#each ListTop8Post}}
+            {{#if leftPos}}
+            <div class="post px-3 pb-2" onclick="goToPost({{ID}})">
+              <div class="row py-2" style="min-height: 8.5vh; height: auto">
+                <div class="col-4">
+                  <div class="rounded"
+                    style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+                  </div>
+                </div>
+                <div class="col-8 d-flex flex-column justify-content-between">
+                  <div>
+                    <strong>
+                      {{Title}}
+                    </strong>
+                  </div>
+                  <div style="font-size: small;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    {{PublishDate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/if}}
+            {{/each}}
+          </div>
+          <div class="col-6 d-flex justify-content-between flex-column">
+            {{#each ListTop8Post}}
+            {{#if leftPos}}
+            {{else}}
+            <div class="post px-3 pb-2" onclick="goToPost({{ID}})">
+              <div class="row py-2" style="min-height: 8.5vh; height: auto">
+                <div class="col-4">
+                  <div class="rounded"
+                    style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+                  </div>
+                </div>
+                <div class="col-8 d-flex flex-column justify-content-between">
+                  <div>
+                    <strong>
+                      {{Title}}
+                    </strong>
+                  </div>
+                  <div style="font-size: small;">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    {{PublishDate}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/if}}
+            {{/each}}
+          </div>
+        </div>
+
+        <div class="mb-4"></div>
+        {{/each}}
+      </div>
+      <div class="col-3 postTags" style="height: 100%;">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item top10PostTag">
+            <a class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest-posts" role="tab"
+              aria-controls="latest-posts" aria-selected="true"><strong>TIN MỚI</strong></a>
+          </li>
+          <li class="nav-item top10PostTag">
+            <a class="nav-link" id="mostviewed-tab" data-toggle="tab" href="#mostviewed-posts" role="tab"
+              aria-controls="mostviewed-posts" aria-selected="false"><strong>ĐỌC NHIỀU</strong></a>
+          </li>
+        </ul>
+        <div class="tab-content jumbotron p-2 mt-0 bg-dark text-white " id="myTabContent"
+          style="background-color: white; overflow-y:scroll; overflow-x:hidden; height: 50vh">
+          <div class="tab-pane fade show active" id="latest-posts" role="tabpanel" aria-labelledby="latest-tab">
+            {{#each list10PostByDate}}
+            <div class="row" data-toggle="tooltip" data-html="true" style="cursor: pointer;"
+              title="<img src='/public/imgs/post/{{ID}}/thumb.jpg' class='imgThumb' alt=''><div>{{Abstract}}</div>">
+              <div class="col-2 mr-2" style="font-size:small;">
+                {{PublishDate}}
+              </div>
+              <div class="col-9" onclick="window.location='/post/{{ID}}'">
+                {{Title}}
+              </div>
+              <hr class="p-0 my-2" style="border-top: 1px solid white; width: 90%">
+            </div>
+            {{/each}}
+          </div>
+          <div class="tab-pane" id="mostviewed-posts" role="tabpanel" aria-labelledby="mostviewed-tab">
+            {{#each list10PostByViewCount}}
+            <div class="row" data-toggle="tooltip" data-html="true" style="cursor: pointer;"
+              title="<img src='/public/imgs/post/{{ID}}/thumb.jpg' class='imgThumb' alt=''><div>{{Abstract}}</div>">
+              <div class="col-2 mr-2" style="font-size:large;">
+                {{index}}
+              </div>
+              <div class="col-9" onclick="window.location='/post/{{ID}}'">
+                {{Title}}
+              </div>
+              <hr class="p-0 my-2" style="border-top: 1px solid white; width: 90%">
+            </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="back-to-top" class="btn btn-dark back-to-top text-white p-2" onclick="goToTop()" style="display: none;">
+  <i class="fa fa-chevron-circle-up fa-3x" aria-hidden="true"></i>
 </div>
