@@ -50,7 +50,7 @@ module.exports = function(app) {
       res.locals.loginMessage = `You must login to view this resource`
       req.session.requireLogin = undefined
     }
-
+    console.log("Use Local");
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
     res.locals.listParentCategories = listParentCategories;

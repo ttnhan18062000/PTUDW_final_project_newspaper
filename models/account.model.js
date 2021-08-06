@@ -23,6 +23,23 @@ module.exports = {
     return account[0];
   },
 
+  async findExternalByID(id, domain){
+    const eAccount = await db('AccountLink').where({ExternalID: id, DomainName: domain});
+    if (eAccount.length === 0)
+      return null;
+    return eAccount[0];
+  },
+
+  async insertExternalLink(accountID, externalID, domainName){
+    const res = await db.raw(`Call INS_External_AccountLink_Subscriber('${accountID}', '${externalID}', '${domainName}');`)
+    return res[0][0][0] || null;
+  },
+
+  async insertExternalAccount(email, externalID, domainName){
+    const res = await db.raw(`Call INS_External_Account_Subscriber('${email}', '${externalID}', '${domainName}');`)
+    return res[0][0][0] || null;
+  },
+
   async updatePasswordByEmail(email, password) {
     const res = await db.raw(`Call UPD_Account_Password_By_Email('${email}', '${password}');`);
     if (res[0].length === 0 || res[0][0].result === 0)
