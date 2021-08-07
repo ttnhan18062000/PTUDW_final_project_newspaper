@@ -134,6 +134,12 @@
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
+          <li class="nav-item pt-1">
+            <button type="button" id="btnLogin" class="btn bg-transparent text-white p-0 m-0" data-toggle="modal"
+              data-target="#modalLogin">
+              <i class="fa fa-user-circle fa-2x" aria-hidden="true"></i>
+            </button>
+          </li>
         </ul>
       </div>
     </div>
@@ -148,7 +154,7 @@
         {{/each}}
         {{#if isHome}}
         {{else}}
-          <li class="nav-item ml-2">
+          <li class="nav-item">
             <form class="form-inline ml-5 my-2 my-lg-0">
               <input class="ml-4 form-control" type="search" placeholder="Nhập thông tin" aria-label="Search"
                 id="inputField">
@@ -177,7 +183,7 @@
               type="submit" onclick="return goSearch()">Tìm kiếm&nbsp;&nbsp;</button>
           </div>
         {{/if}}
-        <ul style="list-style: none; flex-wrap: wrap; justify-content: center;" class="d-flex">
+        <ul style="list-style: none; flex-wrap: wrap; justify-content: center; display: flex">
           {{#each listCategories}}
             <li class="m-5">
               <a style="text-decoration: none;" class="text-light h4" href="/category/{{ID}}?page=0">{{Name}}</a>
@@ -202,6 +208,62 @@
       {{{body}}}
     </div>
   {{/if}}
+  <div class="py-4" style="background-color: black;">
+  <div class="container">
+    <div class="row">
+      <div class="col-8 h3" style=" color: white">
+        CNTN NEWS
+      </div>
+      <div class="col-4">
+        <div class="d-flex justify-content-end ml-auto">
+          <div class="facebook_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-facebook icon"></i>
+            </a>
+          </div>
+          <div class="twitter_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-twitter icon"></i>
+            </a>
+          </div>
+          <div class="linkedin_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-linkedin icon"></i>
+            </a>
+          </div>
+          <div class="googleplus_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="my-1" style="border-bottom: 2px solid white;">
+    <div class="row mt-2">
+      <div class="col-4 text-white" style="font-size: small">
+        Thích đọc CNTN NEWS tức là biết đánh đổi những giờ phút buồn tẻ không thể tránh được trong cuộc đời lấy những giờ phút lý thú.<br>
+        
+        CNTN NEWS - Không chỉ là tin tức.
+      </div>
+      <div class="col-4">
+
+      </div>
+      <div class="col-4" >
+        <div style="text-align:right; font-size: small; color: white">
+          Tổng biên tập: <strong>18120537 - Nguyễn Thái Sơn</strong>
+        </div>
+        <div style="text-align:right; font-size: small; color: white">
+          Biên kịch: <strong>18120495 - Trương Trung Nhân</strong>
+        </div>
+        <div style="text-align:right; font-size: small; color: white">
+          Thiết kế: <strong>18120313 - Trần Tuấn Đạt</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
   <div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog bg-main" role="document">
@@ -215,12 +277,8 @@
         <div class="modal-body mx-3">
           <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
             <div class="d-flex justify-content-center mb-3">
-              <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i
+              <a href="/auth/google" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i
                   class="fa fa-google fa-fw"></i></a>
-              <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i
-                  class="fa fa-facebook fa-fw"></i></a>
-              <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i
-                  class="fa fa-github fa-fw"></i></a>
             </div>
             <div id="dvMessage">
               {{#if error_msg}}

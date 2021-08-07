@@ -32,5 +32,9 @@ module.exports = {
     const endpoint = ENDPOINTS.getEditorCategories(id);
     const rs = await db.raw(endpoint);
     return rs[0][0] || [];
-  }
+  },
+  async getTop10CategoryByViewPoint(){
+    const rs = await db.raw(`Call GTT_Top10_Cate_By_ViewCount();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
 };

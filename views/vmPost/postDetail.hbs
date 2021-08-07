@@ -49,7 +49,7 @@
             </a>
         </div>
         <div class="p-2" id="postImg">
-            <img src="/public/imgs/post/{{post.PostID}}/thumb.jpg" class="img-fluid" alt="Responsive image">
+            <img src="/public/imgs/post/{{post.PostID}}/main.jpg" class="img-fluid" alt="Responsive image">
         </div>
         <div id="postTitle" class="h1 my-2">
             {{post.Title}}
@@ -98,7 +98,7 @@
                     {{#each top5RelatedPost}}
                     <div class="row my-2 py-2 relatedPost" style="background-color: #f7f7f7;">
                         <div class="col-5">
-                            <img src="/public/imgs/post/{{PostID}}/thumb.jpg" class="imgThumb" alt="">
+                            <img src="/public/imgs/post/{{PostID}}/main.jpg" class="imgThumb" alt="">
                         </div>
                         <a class="col-7 pl-0 h6 postTitleRelated" href="/post/{{PostID}}" style="font-size: medium;">
                             {{Title}}

@@ -29,7 +29,17 @@
           <div class="post-item-container">
             <a class="post-content" href="/writer/posts/${post.PostID}">
               <div class="post-content-title">${post.Title}</div>
-              <div class="post-content-time">${displayDate(post)}</div>
+              <div class="post-info"> 
+                <i class="fa fa-tag" aria-hidden="true"></i>
+                <span class="post-content-label">Nhãn:</span>
+                ${post.tags.map(tag => 
+                  `<span class="badge">${tag.TagName}</span>`)
+                  .join('')}
+              </div>
+              <div class="post-info">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <span class="post-content-label">${displayDate(post)}</span>
+              </div>
             </a>` 
           +
           `${postStatus === 'Draft' || postStatus === 'Refused' ?
@@ -39,8 +49,7 @@
                 Edit
               </a>`
             : ''
-          }
-            `+
+          }`+
           `
             </div>
           </div>

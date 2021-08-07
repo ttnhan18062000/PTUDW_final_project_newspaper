@@ -18,6 +18,8 @@ const ENDPOINTS = {
   getDraftPostByCatID: (id) => `Call GTT_Draft_Post_By_Category(${id});`,
   publishPostByEditor: (postID, publishDate, catID) => `Call UPD_Publish_Post_Editor(${postID}, '${publishDate}', ${catID});`,
   refusePostByEditor: (accountID, postID, date, note) => `Call INS_PostReport(${accountID}, ${postID}, '${date}', '${note}');`,
+  getRefusedPost: (postID) => `Call GTR_Refused_PostDetail_By_ID(${postID})`,
+  updateRefusedToDraft: (postID) => `Call UPD_Post_Draft(${postID})`
 }
 module.exports = {
   ENDPOINTS,

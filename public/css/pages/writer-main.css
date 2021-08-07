@@ -129,21 +129,27 @@ input:checked~.sidebar {
 }
 
 input:checked~.btn-collapse {
-  left: -8px;
+  left: 0;
   content: '<i class="fa fa-angle-double-left fa-lg" aria-hidden="true"></i>'
 }
 
 .btn-collapse {
   z-index: 2;
   position: fixed;
-  top: 50%;
-  left: calc(var(--sidebarWidth) - 8px);
+  display: flex;
+  align-items: center;
+  top: 40%;
+  left: calc(var(--sidebarWidth));
   width: 30px;
   text-align: center;
   -moz-transition: left 0.5s ease;
   transition: left 0.5s ease;
   cursor: pointer;
-  padding-left: 0;
+  height: 37px;
+  width: 15px;
+  color:#7A9FA7;
+  background-color: #23282D;
+  clip-path: polygon(0 0, 100% 20%, 100% 80%, 0 100%);
 }
 
 .breadcrumb{
