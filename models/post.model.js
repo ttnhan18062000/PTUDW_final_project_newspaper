@@ -1,7 +1,5 @@
 const { ENDPOINTS } = require("../configs/post.cfg");
 const db = require("../utils/db");
-const { updateWriter } = require("./account.model");
-const { patch } = require("./category.model");
 
 
 module.exports = {
@@ -104,6 +102,26 @@ module.exports = {
     return rs[0][0].length !== 0 ? rs[0][0][0] : null;
   },
 
+  async getTop10PostByDate() {
+    const rs = await db.raw(`Call GTT_Top10_PostInfo_By_Date();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTop10PostByViewCount() {
+    const rs = await db.raw(`Call GTT_Top10_PostInfo_By_ViewCount();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTop10PostPerCategory(){
+    const rs = await db.raw(`Call GTT_Top10_PostInfo_PerCat();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTopLatestPost10Category(){
+    const rs = await db.raw(`Call GTT_Top10_Cat_PostInfo_With_LastestPost();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
   async getPostByWriterID(id){
     const endpoint = ENDPOINTS.getPostByWriterID(id);
     const rs = await db.raw(endpoint);
@@ -125,5 +143,10 @@ module.exports = {
 
   refusePostByEditor(accID, postID, date, note){
     return db.raw(ENDPOINTS.refusePostByEditor(accID, postID, date, note));
-  }
+  },
+
+  async getTop10PostACateByViewPoint(categoryID){
+    const rs = await db.raw(`Call GTT_Top10_Post_By_Cate(${categoryID});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
 }

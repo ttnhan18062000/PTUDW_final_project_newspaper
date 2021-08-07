@@ -18,9 +18,11 @@ router.get('/register', async function(req, res) {
 })
 
 router.post('/register', async function(req, res) {
+  
   const email = req.body.txtEmail;
   const password = req.body.txtPassword;
   const otp = nanoid(12);
+  req.session.verifyToken = otp;
 
   bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(password, salt, async function(err, hash) {
@@ -94,8 +96,8 @@ router.get('/send-reset-password-token', async function(req, res) {
             <p></p>
             <p>Thanks,</p>
             <p>Newspaper</p>`
-  };
-
+    };
+    
   transporter.sendMail(mailOptions, function(error, info) {
     if (error) {
       res.json(error);
@@ -152,17 +154,17 @@ router.get('/send-verify-email-token', async function(req, res) {
 })
 
 router.post('/reset-password-request', function(req, res) {
-
+  
   res.redirect(`/account/reset-password?email=${req.body.txtEmail}`);
 })
 
-router.get('/reset-password', async function(req, res) {
+router.get('/reset-password',  async function(req, res) {
   res.render('../views/vmAccount/reset-password.hbs', {
     email: req.query.email
   });
 })
 
-router.post('/reset-password', function(req, res) {
+router.post('/reset-password',  function(req, res) {
   const password = req.body.txtPassword;
 
   bcrypt.genSalt(10, function(err, salt) {
@@ -174,19 +176,6 @@ router.post('/reset-password', function(req, res) {
     message: 'Password change successfully'
   });
 })
-
-// router.get('/login', async function (req, res) {
-//     if(req.session.loginState){
-//         const state = req.session.loginState;
-//         if(state.failed){      
-//             return res.render('../views/vmAccount/login.hbs', { message: state.message});
-//         }
-//         if(state.success){
-//             return res.render('../views/vmAccount/login.hbs');
-//         }
-//     }
-//     return res.render('../views/vmAccount/login.hbs');
-// })
 
 router.post('/login', async function(req, res, next) {
   const email = req.body.txtEmail;
@@ -231,14 +220,17 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/reset-password-request', function(req, res) {
+  
   res.render('../views/vmAccount/reset-password-request.hbs')
 });
 
-router.get('/verification-email', function(req, res) {
+router.get('/verification-email',  function(req, res) {
+  
   res.render('../views/vmAccount/verification-email.hbs', { email: req.query.email, type: req.query.type });
 });
 
-router.post('/verification-email', function(req, res) {
+router.post('/verification-email',  function(req, res) {
+  
   const type = req.query.type;
   if (type === "create") {
     const email = req.session.account.email;
@@ -266,7 +258,7 @@ router.post('/verification-email', function(req, res) {
   }
 })
 
-router.get('/register-complete-nortification', async function(req, res) {
+router.get('/register-complete-nortification',  async function(req, res) {
   const account = accountModel.findDetailByID(req.session.account.ID);
   const accountDetail = await accountModel.detail(account);
   account.DOB = moment(account.DOB, 'YYYY/MM/DD').format("DD/MM/YYYY") || '';
@@ -305,7 +297,7 @@ router.get('/profile', hasAnyRole, async function(req, res) {
   return res.render('../views/vmAccount/profile.hbs', {'descriptions' : descriptions});
 });
 
-router.post('/profile', async function(req, res) {
+router.post('/profile', hasAnyRole, async function(req, res) {
   const emailChange = req.query.emailChange;
   const email = req.body.txtAEmail;
   const DName = req.body.txtADName;

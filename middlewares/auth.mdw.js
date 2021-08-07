@@ -22,8 +22,14 @@ module.exports = {
   },
 
   resBlock: function(req, res, next) {
-    req.flash('error_msg', 'Sorry you cannot view this resource');
-    return res.redirect('/');
+    if(req.session.serverRouting){
+      req.session.serverRouting = undefined;
+      next();
+    }
+    else{
+      req.flash('error_msg', 'Sorry you cannot view this resource');
+      return res.redirect('/');
+    }
   }
 
   //usertype: writer, editor,..
