@@ -8,9 +8,14 @@ const router = express.Router();
 router.get('/:id', async function (req, res) {
     var accountID = -1;
     var accountName = null;
+    var hasAccount = false;
+    var isPremium = false;
+    console.log(req.session.account);
     if (req.session.account != null) {
         accountID = req.session.account.ID;
         accountName = req.session.account.DisplayName;
+        hasAccount = true;
+        isPremium = req.session.account.PremiumStatus != 0;
     }
 
     const postId = +req.params.id || 0;
@@ -35,6 +40,8 @@ router.get('/:id', async function (req, res) {
         accountID: accountID,
         accountName: accountName,
         listComment: listComment,
+        hasAccount: hasAccount,
+        isPremium: isPremium,
     });
 })
 
