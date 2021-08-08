@@ -301,6 +301,7 @@
             </div>
             <div class="row d-flex justify-content-between align-items-center h-a px-3">
               <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
+              <button type="button" id="btnVerifyEmail" class="bg-transparent b-0"><a id="aVerify" href="/account/verification-email/" class="color-cyan">Verify your account?</a></button>
               <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
                 <i class="fa fa-eye"></i>
               </button>
@@ -379,7 +380,25 @@
           `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${message}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
         );
       }
+
+      const verifyEmail = "{{verifyEmail}}";
+      if(verifyEmail){
+        $('#btnVerifyEmail').click(function(){
+          const email = $('#txtEmail').val();
+          $('#aVerify').attr('href', `/account/verification-email?email=${email}&type=create`);
+        }) 
+      }
+      else{
+        $('#btnVerifyEmail').hide();
+      }
     }
+    else{
+      $('#btnVerifyEmail').hide();
+    }
+
+    $('#modalLogin').on('hidden.bs.modal', function(){
+      $('#dvMessage').empty();
+    });
 
     $(document).ready(function () {
       {{#if account}}
