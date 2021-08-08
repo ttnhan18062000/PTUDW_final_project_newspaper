@@ -22,7 +22,7 @@ router.post('/register', async function(req, res) {
   const email = req.body.txtEmail;
   const password = req.body.txtPassword;
   const otp = nanoid(12);
-  req.session.verifyToken = otp;
+  req.session.verifyToken = {Token: otp, Email: email};
 
   bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(password, salt, async function(err, hash) {
@@ -221,38 +221,30 @@ router.get('/logout', (req, res) => {
 
 router.get('/reset-password-request', function(req, res) {
   
-  res.render('../views/vmAccount/reset-password-request.hbs')
+  return res.render('../views/vmAccount/reset-password-request.hbs')
 });
 
-router.get('/verification-email',  function(req, res) {
-  
-  res.render('../views/vmAccount/verification-email.hbs', { email: req.query.email, type: req.query.type });
+router.get('/verification-email', async function(req, res) {
+  const vtype = req.query.type;
+  const vemail = req.query.email;
+  if (vtype === 'create') {
+    const account = await accountModel.findByEmail(vemail);
+    req.session.account = account;
+    req.session.verifyToken = { Email: vemail, Token: account.Otp };
+  }
+  return res.render('../views/vmAccount/verification-email.hbs', { email: vemail, type: vtype });
 });
 
-router.post('/verification-email',  function(req, res) {
+router.post('/verification-email', function(req, res) {
   
   const type = req.query.type;
   if (type === "create") {
-    const email = req.session.account.email;
-    const password = req.session.account.password;
-
-    req.session.account = undefined;
-
-    bcrypt.genSalt(10, function(err, salt) {
-      bcrypt.hash(password, salt, async function(err, hash) {
-        const newAccount = {
-          Password: hash,
-          Email: email
-        }
-        await accountModel.add(newAccount);
-      });
-    });
-    return res.redirect('/account/register-complete-nortification?type=create', {
-      listCategories: res.locals.listCategories,
-      listParentCategories: res.locals.listParentCategories
-    });
+    const email = req.query.email;
+    accountModel.updateStatusActiveByEmail(email);
+    return res.redirect('/account/register-complete-nortification?type=create');
   } else {
     const aD = req.session.accountDetail;
+    req.session.accountDetail = undefined;
     accountModel.insertOrUpdateByID(aD.id, aD.FName, aD.LName, aD.dob, aD.email);
     return res.redirect('/account/register-complete-nortification?type=edit');
   }

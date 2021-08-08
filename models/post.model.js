@@ -157,5 +157,8 @@ module.exports = {
 
   updateRefusedToDraft(postID){
     return db.raw(ENDPOINTS.updateRefusedToDraft(postID));
+  },
+  async increaseViewCountBy1(PostID){
+    await db.raw(`Call UPD_Post_ViewCount(${PostID});`);
   }
 }

@@ -38,17 +38,30 @@ module.exports = function(app) {
         }
       }
     });
+
+    if(req.session.loginState){
+      const state = req.session.loginState;
+      if(state.failed){
+        res.locals.showModal = true;
+        res.locals.loginMessage = state.loginMessage;
+      }
+      if(state.errCode && state.errCode === 2){
+        res.locals.verifyEmail = true;
+      }
+      req.session.loginState = undefined;
+    }
+
     //checking auth
     if (req.session.requireRole) {
-      res.locals.showModal = true
-      res.locals.loginMessage = `You must login as ${req.session.requireRole}`
-      req.session.requireRole = undefined
+      res.locals.showModal = true;
+      res.locals.loginMessage = `You must login as ${req.session.requireRole}`;
+      req.session.requireRole = undefined;
     }
   
     if(req.session.requireLogin){
-      res.locals.showModal = true
-      res.locals.loginMessage = `You must login to view this resource`
-      req.session.requireLogin = undefined
+      res.locals.showModal = true;
+      res.locals.loginMessage = `You must login to view this resource`;
+      req.session.requireLogin = undefined;
     }
 
     if(req.session.account && req.session.account.AccountType === 'Editor'){
@@ -58,8 +71,11 @@ module.exports = function(app) {
     res.locals.authUser = req.session.authUser;
     res.locals.listParentCategories = listParentCategories;
     res.locals.listCategories = listCategories;
+    if (req.session.loggedIn)
+      res.locals.account = req.session.account;
+    if(res.locals.account)
+      res.locals.account.DOB = moment(res.locals.account.DOB).format("DD/MM/YYYY")
 
-    res.locals.account = req.session.account;
     next();
   });
 
