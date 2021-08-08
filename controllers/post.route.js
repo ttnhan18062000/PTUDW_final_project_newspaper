@@ -10,7 +10,6 @@ router.get('/:id', async function (req, res) {
     var accountName = null;
     var hasAccount = false;
     var isPremium = false;
-    console.log(req.session.account);
     if (req.session.account != null) {
         accountID = req.session.account.ID;
         accountName = req.session.account.DisplayName;
@@ -29,7 +28,6 @@ router.get('/:id', async function (req, res) {
         listComment.forEach(comment => {
             comment.Date = moment(comment.Date).local().format("YYYY-MM-DD HH:mm:ss");
         });
-        console.log(listComment);
         listComment = listComment.reverse();
     }
 

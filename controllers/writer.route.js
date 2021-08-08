@@ -27,15 +27,13 @@ router.post('/posts/add', async function(req, res) {
   const storage = multer.diskStorage({
     async destination(req, file, cb) {
       let {title, abstract, writer, category, content, premium = '0'} = req.body;
-      const tags = req.body.tags? req.body.tags.split(',').filter(e => e.length > 0) : [];
       
       title = title.replace(/'/g, '"');
       abstract = abstract.replace(/'/g, '"');
       content = content.replace(/'/g, '"');
       const {PostID} = await postModel.createByWriter({title, abstract, writer, category, content, premium});
       req.body.postID = PostID;
-      //Add post tags
-      Promise.all(tags.map(tagID => postModel.insertTag(PostID, tagID)));
+
       const dir = `./public/imgs/post/${PostID}`;
       if (!fs.existsSync(dir)){
           fs.mkdirSync(dir);
@@ -58,6 +56,8 @@ router.post('/posts/add', async function(req, res) {
       if(req.file === undefined){
         console.log('There no main photo.')
       }else{
+        const tags = req.body.tags? req.body.tags.split(',').filter(e => e.length > 0) : [];
+        await Promise.all(tags.map(tagID => postModel.insertTag(req.body.postID, tagID)));
         await sharp(req.file.path).resize(SIZE.THUMBNAIL) 
         .jpeg({
             quality: 40,

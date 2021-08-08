@@ -106,9 +106,11 @@ router.post('/edit', async function(req, res) {
 router.post('/add', async function(req, res) {
   const storage = multer.diskStorage({
     async destination(req, file, cb) {
+      //here we can not get tags because in actual html, input which hold values of select-pure 
+      //is behind the img, so multer will only read form control up to img part
       let {title, abstract, writer, category, content, status="Publish", premium = '0'} = req.body;
       const publishDate = moment(req.body.publishDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
-      const tags = req.body.tags? req.body.tags.split(',').filter(e => e.length > 0) : [];
+
       //create post
       ///replace single quote by double quote to avoid sql syntax error
       title = title.replace(/'/g, '"');
@@ -117,7 +119,6 @@ router.post('/add', async function(req, res) {
       const {PostID} = await postModel.createByAdmin({title, abstract, writer, category, content, premium, status, publishDate});
       req.body.postID = PostID;
       //Add post tags
-      Promise.all(tags.map(tagID => postModel.insertTag(PostID, tagID)));
       const dir = `./public/imgs/post/${PostID}`;
       if (!fs.existsSync(dir)){
           fs.mkdirSync(dir);
@@ -139,7 +140,9 @@ router.post('/add', async function(req, res) {
       //generate and create thumbnail
       if(req.file === undefined){
         console.log('There no main photo.')
-      }else{
+      }else{//after handle the img off the body, now we can access the tags 
+        const tags = req.body.tags? req.body.tags.split(',').filter(e => e.length > 0) : [];
+        await Promise.all(tags.map(tagID => postModel.insertTag(req.body.postID, tagID)));
         await sharp(req.file.path).resize(SIZE.THUMBNAIL) 
         .jpeg({
             quality: 40,

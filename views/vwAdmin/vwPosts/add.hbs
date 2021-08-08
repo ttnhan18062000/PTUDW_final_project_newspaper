@@ -64,6 +64,7 @@
     }
     jQuery('#form').on('submit', function (e) {
       e.preventDefault();
+      console.log(jQuery('#form'));
       const validateFields = ['title', 'abstract', 'content', 'imgMain', 'category', 'writer', 'publishDate'];
       validateFields.forEach(field => jQuery(`#${field}Err`).empty())
       const emptyFields = validateFields.filter(field => isEmpty(field));
@@ -81,6 +82,7 @@
         return;
       }
       else {
+
         jQuery('#form').off('submit').submit();
       }
     })
@@ -178,7 +180,7 @@
         </div>
       </div>
       <div class="form-group mb-4">
-        <label for="tag">Tags</label>
+        <label for="tags">Tags</label>
         <select-pure name="tags" id="tags" multiple>
           {{#each this.tagList}}
             <option-pure value={{ID}}>{{Name}}</option-pure>
