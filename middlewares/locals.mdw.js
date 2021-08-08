@@ -73,8 +73,6 @@ module.exports = function(app) {
     res.locals.listCategories = listCategories;
     if (req.session.loggedIn)
       res.locals.account = req.session.account;
-    if(res.locals.account)
-      res.locals.account.DOB = moment(res.locals.account.DOB).format("DD/MM/YYYY")
 
     next();
   });
