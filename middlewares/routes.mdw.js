@@ -68,7 +68,6 @@ module.exports = function (app) {
       }
       count = count + 1;
     });
-    console.log(list10PostPerCatReturn);
     
     if (req.session.loginState) {
       const state = req.session.loginState;
@@ -118,5 +117,6 @@ module.exports = function (app) {
   app.use('/tag/', require("../controllers/tag.route"));
   app.use('/search', require("../controllers/search.route"));
   app.use('/writer', hasRole('Writer'), require("../controllers/writer.route"));
+  app.use('/editor', hasRole('Editor'), require("../controllers/editor.route"));
   app.use('/auth', require("../controllers/auth.route"));
 };
