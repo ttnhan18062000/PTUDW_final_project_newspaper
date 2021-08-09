@@ -297,7 +297,7 @@ router.get('/profile', hasAnyRole, async function(req, res) {
 
   if (!req.session.account)
     return res.render('../views/vmAccount/profile.hbs');
-  return res.render('../views/vmAccount/profile.hbs', {'descriptions' : descriptions});
+    return res.render('../views/vmAccount/profile.hbs', { 'descriptions': descriptions, isPremium: req.session.account.PremiumStatus === 'Active', isPending: req.session.account.PremiumStatus === 'Pending' });
 });
 
 router.post('/profile', hasAnyRole, async function(req, res) {
@@ -323,5 +323,12 @@ router.post('/profile', hasAnyRole, async function(req, res) {
   }
 
 });
+
+router.post("/insertPremiumRequest", async function(req, res){
+  const {AccountID} = req.body;
+  var x= await accountModel.insRequest(AccountID);
+  req.session.account.PremiumStatus = 'Pending';
+  res.end();
+})
 
 module.exports = router;

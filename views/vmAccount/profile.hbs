@@ -7,10 +7,21 @@
 {{#section 'js'}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
   <script>
+    $('#modalPremiumRequest').on('hidden.bs.modal', function(){
+        window.location.reload();
+    })
     function validateEmail(email) {
             const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         }
+
+    function insPremium(){
+        $.post('/post/insertPremiumRequest', {
+            AccountID: {{account.ID}},
+        }, function() {});
+        $('#modalPremiumRequest').modal('show');
+        return true;
+    }
 
     function removeDiv(elem){
         $(elem).parent('div').remove();
@@ -122,6 +133,27 @@
     $('#imgAccount').attr('src', imgSrc);
   </script>
 {{/section}}
+<div class="modal fade" id="modalPremiumRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><strong>Đã gửi yêu cầu</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    Chúng tôi đã nhận được yêu cầu của bạn và sẽ duyệt yêu cầu sớm nhất có thể.
+                    <br>
+                    Cảm ơn bạn đã theo dõi <a href="/"><strong>CNTN NEWS</strong></a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark mr-0 rounded p-2" data-dismiss="modal">THOÁT</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container-fluid bg-dark p-5">
 <div class="container mt-5 d-flex justify-content-center">
   <div class="row w-75">
@@ -205,13 +237,18 @@
                   <button type="submit" class="btn btn-outline-info text-black" id="btnSave"> Save </button>
                   <button type="button" class="btn btn-outline-info text-black" id="btnClose"> Close </button>
               </div>
-
             </form>
             <!-- Edit Form -->
-
           </div>
           <!-- Card content -->
-
+          {{#if isPremium}}
+          {{else}}
+          {{#if isPending}}
+          <div class="text-white py-2 px-4">Tài khoản của bạn đã đăng ký PREMIUM và đang chờ xét duyệt.</div>
+          {{else}}
+          <button type="button" class="mx-5 btn btn-white rounded p-2" style="vertical-align:middle; font-size:x-large" onclick="return insPremium()" data-dismiss="modal" ><strong>NÂNG CẤP PREMIUM</strong></button>
+          {{/if}}
+          {{/if}}
         </div>
         <!-- Card -->
 

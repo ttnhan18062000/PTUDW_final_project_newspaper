@@ -68,7 +68,6 @@ module.exports = function (app) {
       }
       count = count + 1;
     });
-    console.log(list10PostPerCatReturn);
     
     if (req.session.loginState) {
       const state = req.session.loginState;

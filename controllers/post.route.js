@@ -3,6 +3,8 @@ const postModel = require("../models/post.model");
 const tagModel = require("../models/tag.model");
 const commentModel = require("../models/comment.model");
 const moment = require('moment');
+const accountModel = require('../models/account.model');
+const { response } = require('express');
 const router = express.Router();
 
 router.get('/:id', async function (req, res) {
@@ -10,12 +12,13 @@ router.get('/:id', async function (req, res) {
     var accountName = null;
     var hasAccount = false;
     var isPremium = false;
-    console.log(req.session.account);
+    var isPending = false;
     if (req.session.account != null) {
         accountID = req.session.account.ID;
         accountName = req.session.account.DisplayName;
         hasAccount = true;
-        isPremium = req.session.account.PremiumStatus != 0;
+        isPremium = req.session.account.PremiumStatus === 'Active';
+        isPending = req.session.account.PremiumStatus === 'Pending';
     }
 
     const postId = +req.params.id || 0;
@@ -29,7 +32,6 @@ router.get('/:id', async function (req, res) {
         listComment.forEach(comment => {
             comment.Date = moment(comment.Date).local().format("YYYY-MM-DD HH:mm:ss");
         });
-        console.log(listComment);
         listComment = listComment.reverse();
     }
 
@@ -42,12 +44,21 @@ router.get('/:id', async function (req, res) {
         listComment: listComment,
         hasAccount: hasAccount,
         isPremium: isPremium,
+        isPending: isPending,
     });
 })
 
 router.post("/addComment", async function (req, res) {
     const { PostID, AccountID, DateTime, Content } = req.body;
     commentModel.insComment(PostID, AccountID, DateTime, Content);
+    res.end();
+})
+
+router.post("/insertPremiumRequest", async function(req, res){
+    const {AccountID} = req.body;
+    var x= await accountModel.insRequest(AccountID);
+    req.session.account.PremiumStatus = 'Pending';
+    res.end();
 })
 
 module.exports = router;

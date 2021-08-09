@@ -1,4 +1,7 @@
 <script>
+    $('#modalPremiumRequest').on('hidden.bs.modal', function(){
+        window.location.reload();
+    })
     $(document).scroll(function () {
         var $nav = $(".relatedPostContainer");
         if ($(this).scrollTop() > $("#postContent").offset().top - 150) {
@@ -12,7 +15,6 @@
     });
 
     function postNewComment() {
-        console.log($('#postPdf').html())
         if ({{ accountID }} !== -1) {
         var comment = $('#inputComment').val();
             if (comment !== "") {
@@ -29,7 +31,7 @@
                 }
                 timeStr = timeStr + day.toString() + ' ' + time.toTimeString().substring(0, 8);
 
-                var newDiv = $('<div class="comment my-3"><div class="d-flex"><div class="mr-1"><i class="fa fa-user-circle fa-2x" aria-hidden="true"></i></div><div class="triangle-left"><div class="inner-triangle"></div></div><div><div class="rounded px-2 py-1 comment-content"><div class="comment-user"><strong>' + '{{accountName}}' + '</strong></div><div class="comment-text">' + comment + '</div></div><div class="mt-1 comment-time d-flex justify-content-end"><i class="fa fa-clock-o" aria-hidden="true"></i><small>&nbsp;' + timeStr.toString() + '</small></div></div></div></div>');
+                var newDiv = $('<div class="comment my-3"><div class="d-flex"><div class="mr-1"><i class="fa fa-user-circle fa-2x" aria-hidden="true"></i></div><div class="triangle-left"><div class="inner-triangle"></div></div><div><div class="rounded px-2 py-1 comment-content"><div class="comment-user"><strong>' + '{{accountName}}' + '</strong></div><div class="comment-text">' + comment + '</div></div><div class="mt-1 comment-time d-flex justify-content-start"><i class="fa fa-clock-o" aria-hidden="true"></i><small>&nbsp;' + timeStr.toString() + '</small></div></div></div></div>');
                 $("#listComments").before(newDiv);
                 var dateComment =
                     $.post('/post/addComment', {
@@ -60,6 +62,14 @@
     function goToRegister(){
         window.location = "/account/register/";
         return false;
+    }
+
+    function insPremium(){
+        $.post('/post/insertPremiumRequest', {
+            AccountID: {{accountID}},
+        }, function() {});
+        $('#modalPremiumRequest').modal('show');
+        return true;
     }
 </script>
 
@@ -159,16 +169,47 @@
                 </button>
             </div>
             <div class="modal-body">
-                Nâng cấp <strong>PREMIUM</strong> để có những trải nghiệm tuyệt vời này nhé!!!
+                {{#if isPemding}}
+                    Chúng tôi đã nhận được yêu cầu của bạn và sẽ duyệt yêu cầu sớm nhất có thể.
+                    <br>
+                    Cảm ơn bạn đã theo dõi <a href="/"><strong>CNTN NEWS</strong></a>
+                {{else}}
+                    Nâng cấp <strong>PREMIUM</strong> để có những trải nghiệm tuyệt vời này nhé!!!
+                {{/if}}
             </div>
             <div class="modal-footer">
                 {{#if hasAccount}}
-                    <button type="button" class="btn btn-dark mr-0 rounded p-2">NÂNG CẤP NGAY</button>
+                {{#if isPending}}
+                    <button type="button" class="btn btn-dark mr-0 rounded p-2" data-dismiss="modal">THOÁT</button>
+                {{else}}
+                    <button type="button" class="btn btn-dark mr-0 rounded p-2" onclick="return insPremium()" data-dismiss="modal">NÂNG CẤP NGAY</button>
+                {{/if}}
                 {{else}}
                     <button type="button" class="btn btn-dark mr-0 rounded p-2" onclick="return goToLogin()" data-dismiss="modal">ĐĂNG NHẬP</button>
                     <button type="button" class="btn btn-dark mr-0 rounded p-2" onclick="return goToRegister()">ĐĂNG KÝ</button>
                 {{/if}}
-                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalPremiumRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><strong>Đã gửi yêu cầu</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    Chúng tôi đã nhận được yêu cầu của bạn và sẽ duyệt yêu cầu sớm nhất có thể.
+                    <br>
+                    Cảm ơn bạn đã theo dõi <a href="/"><strong>CNTN NEWS</strong></a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark mr-0 rounded p-2" data-dismiss="modal">THOÁT</button>
             </div>
         </div>
     </div>
@@ -222,21 +263,37 @@
                     </a>
                     {{/each}}
                 </div>
+                {{#if isPremium}}
+                {{else}}
                 {{#if post.Premium}}
                 <div class="layout-premium d-flex flex-column justify-content-center">
                     {{#if hasAccount}}
+                    {{#if isPending}}
+                    <div class="h3" style="text-align: center;">
+                        Chúng tôi đã nhận được yêu cầu của bạn và sẽ duyệt yêu cầu sớm nhất có thể.
+                        <br>
+                        Cảm ơn bạn đã theo dõi <a href="/"><strong>CNTN NEWS</strong></a>
+                    </div>
+                    {{else}}
                     <div class="h1" style="text-align: center;">Oops!... Bài viết này là bài viết Premium đó</div>
-                    <div class="h4" style="text-align: center;">Hãy <a href="/account/register/"><strong>đăng
-                                ký</strong> hoặc <strong>gia hạn tài khoản</strong></a> để có những trải nghiệm tuyệt
-                        vời nhé!!!</div>
+                    <div class="h4" style="text-align: center;">
+                        <style>
+                            #linkReqPremium:hover{
+                                cursor: pointer;
+                                color: blue;
+                            }
+                        </style>
+                        Hãy <span id="linkReqPremium" onclick="return insPremium()"><strong>đăng ký</strong> hoặc <strong>gia hạn tài khoản</strong></span> để có những trải nghiệm tuyệt vời nhé!!!
+                    </div>  
+                    {{/if}}
                     {{else}}
                     <div class="h1" style="text-align: center;">Oops!... Bài viết này bị giới hạn truy cập mất rồi</div>
                     <div class="h4" style="text-align: center;">Hãy <a href="/account/register/"> đăng ký ngay</a> để có
                         những trải nghiệm tuyệt vời nhé!!!</div>
                     {{/if}}
                 </div>
+                {{/if}} 
                 {{/if}}
-
             </div>
             <div class="col-4 relatedPostContainer" style="background-color: #f7f7f7; height: fit-content">
                 <div class="h4 mt-2">
@@ -297,8 +354,13 @@
             {{#if isPremium}}
             <button type="submit" class="btn btn-dark mr-0 rounded p-2" onclick="return getPDF()">LƯU BÀI VIẾT</button>
             {{else}}
+            {{#if isPending}}
+            <button class="btn btn-dark mr-0 rounded p-2" data-toggle="modal" data-target="#modalPremiumRequest"
+                onclick="return false;">LƯU BÀI VIẾT</button>
+            {{else}}
             <button class="btn btn-dark mr-0 rounded p-2" data-toggle="modal" data-target="#modalPremium"
                 onclick="return false;">LƯU BÀI VIẾT</button>
+            {{/if}}
             {{/if}}
 
         </form>
@@ -343,7 +405,7 @@
                                 {{Content}}
                             </div>
                         </div>
-                        <div class="mt-1 comment-time d-flex justify-content-end">
+                        <div class="mt-1 comment-time d-flex justify-content-start">
                             <i class="fa fa-clock-o" aria-hidden="true"></i>
                             <small>&nbsp;{{Date}}</small>
                         </div>
