@@ -1,7 +1,5 @@
 const { ENDPOINTS } = require("../configs/post.cfg");
 const db = require("../utils/db");
-const { updateWriter } = require("./account.model");
-const { patch } = require("./category.model");
 
 
 module.exports = {
@@ -134,12 +132,32 @@ module.exports = {
     const rs = await db.raw(ENDPOINTS.createByWriter(post));
     return rs[0][0][0] || null;
   },
+  async getDraftPostByCatID(id){
+    const rs = await db.raw(ENDPOINTS.getDraftPostByCatID(id));
+    return rs[0][0] || [];
+  },
+
+  publishPostByEditor(postID, publishDate, catID){
+    return db.raw(ENDPOINTS.publishPostByEditor(postID, publishDate, catID));
+  },
+
+  refusePostByEditor(accID, postID, date, note){
+    return db.raw(ENDPOINTS.refusePostByEditor(accID, postID, date, note));
+  },
 
   async getTop10PostACateByViewPoint(categoryID){
     const rs = await db.raw(`Call GTT_Top10_Post_By_Cate(${categoryID});`);
     return rs[0][0].length !== 0 ? rs[0][0] : null;
   },
 
+  async getRefusedPost(postID){
+    const rs = await db.raw(ENDPOINTS.getRefusedPost(postID));
+    return rs[0][0][0] || null;
+  },
+
+  updateRefusedToDraft(postID){
+    return db.raw(ENDPOINTS.updateRefusedToDraft(postID));
+  },
   async increaseViewCountBy1(PostID){
     await db.raw(`Call UPD_Post_ViewCount(${PostID});`);
   }

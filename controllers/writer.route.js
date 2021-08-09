@@ -27,15 +27,13 @@ router.post('/posts/add', async function(req, res) {
   const storage = multer.diskStorage({
     async destination(req, file, cb) {
       let {title, abstract, writer, category, content, premium = '0'} = req.body;
-      const tags = req.body.tags? req.body.tags.split(',').filter(e => e.length > 0) : [];
       
       title = title.replace(/'/g, '"');
       abstract = abstract.replace(/'/g, '"');
       content = content.replace(/'/g, '"');
       const {PostID} = await postModel.createByWriter({title, abstract, writer, category, content, premium});
       req.body.postID = PostID;
-      //Add post tags
-      Promise.all(tags.map(tagID => postModel.insertTag(PostID, tagID)));
+
       const dir = `./public/imgs/post/${PostID}`;
       if (!fs.existsSync(dir)){
           fs.mkdirSync(dir);
@@ -58,6 +56,8 @@ router.post('/posts/add', async function(req, res) {
       if(req.file === undefined){
         console.log('There no main photo.')
       }else{
+        const tags = req.body.tags? req.body.tags.split(',').filter(e => e.length > 0) : [];
+        await Promise.all(tags.map(tagID => postModel.insertTag(req.body.postID, tagID)));
         await sharp(req.file.path).resize(SIZE.THUMBNAIL) 
         .jpeg({
             quality: 40,
@@ -97,8 +97,12 @@ router.post('/posts/upload', async function(req, res) {
 
 router.get("/posts/edit", async function(req, res) {
   const id = req.query.id || 0;
-  const post = await postModel.findByID(id);
+  let post = await postModel.findByID(id);
 
+  if(post.Status === 'Refused'){
+    post = await postModel.getRefusedPost(id);
+    post.ReportDate = moment(post.ReportDate, 'YYYY-MM-DD').format('DD/MM/YYYY');
+  }
 
   if (!post || post.WriterID !== res.locals.account.Writer.ID) {
     return res.redirect("/writer");
@@ -139,7 +143,7 @@ router.post('/posts/edit', async function(req, res) {
     if (err) {
       console.log(err);
     } else {
-      let {postID, title, abstract, writer, category, content, premium = '0', tags = [], originTags = [] } = req.body;
+      let {postID, title, abstract, writer, category, content, premium = '0', tags = [], originTags = [], status } = req.body;
       //generate and create thumbnail
       if( req.file === undefined){
         console.log('There no main photo.')
@@ -166,6 +170,11 @@ router.post('/posts/edit', async function(req, res) {
       Promise.all(deleteTags.map(tagID => postModel.deleteTag(postID, tagID)));
       Promise.all(insertTags.map(tagID => postModel.insertTag(postID, tagID)));
 
+      //if refused post, change to draft
+      if(status === 'Refused'){
+        await postModel.updateRefusedToDraft(postID);
+      }
+
       res.redirect('/writer');
     }
   })
@@ -174,6 +183,8 @@ router.post('/posts/edit', async function(req, res) {
 router.get('/posts/:id', async function(req, res){
   const id = +req.params.id || 0;
   const post = await postModel.findByID(id);
+  
+  const listTag = await tagModel.getAllTagRelatedPost(id);
   if (!post || post.WriterID !== res.locals.account.Writer.ID) {
     return res.redirect('/writer');
   }
@@ -181,25 +192,31 @@ router.get('/posts/:id', async function(req, res){
   res.render("vwWriter/postDetail", {
     layout: "writer.hbs",
     post,
+    listTag,
   });
 
 })
 
-router.get('/', async function(req, res) {
+router.get('/', function(req, res) {
+  res.redirect('/writer/posts');
+});
+
+router.get('/posts', async function(req,res){
   const allPost = await postModel.getPostByWriterID(res.locals.account.ID);
   const newAllPost = allPost.map(post => ({...post, PublishDate: formatTime(post.PublishDate)}))
+  await Promise.all(newAllPost.map(async (post) => {
+    post.tags = await postModel.getPostTags(post.PostID);
+  }));
   const Publish = newAllPost.filter(post => post.Status === 'Publish') 
   const Unpublish = newAllPost.filter(post => post.Status === 'Unpublish') 
   const Draft = newAllPost.filter(post => post.Status === 'Draft') 
-  const Refused = newAllPost.filter(post => post.Status === 'Refused') 
+  const Refused = newAllPost.filter(post => post.Status === 'Refused')
+
+
   res.render('vwWriter/index',{
     layout: 'writer.hbs',
     listPost: {Publish, Unpublish, Draft, Refused},
   });
-});
-
-router.get('/posts', function(req,res){
-  res.redirect('/writer');
 })
 
 router.get('*', function(req, res) {

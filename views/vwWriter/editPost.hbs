@@ -11,6 +11,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css"
     crossorigin="anonymous">
   <link rel="stylesheet" href="/public/css/pages/writer-post-add.css">
+  <style>
+    .card-header:not(:first-child) {
+      border-top: 1px solid #D8D8D8;
+    }
+  </style>
 {{/section}}
 {{#section "writer-breadcrumb"}}
   <nav aria-label="breadcrumb">
@@ -109,12 +114,36 @@
 {{/section}}
 <div id="new-post-container">
   <div class="card">
+    {{#if post.ReportDate}}
+      <h4 class="card-header">
+        Bài viết bị từ chối
+      </h4>
+      <div class="card-body">
+        <form>
+          <div class="form-row mb-1">
+            <div class="col-md-5">
+              <label for="editorRefuse">BTV chịu trách nhiệm</label>
+              <input type="text" class="form-control w-75" id="editorRefuse" disabled value="{{post.EditorName}}">
+            </div>
+            <div class="col-md-5">
+              <label for="refusedDate">Ngày từ chối</label>
+              <input type="text" class="form-control w-75" id="refusedDate" disabled value="{{post.ReportDate}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="refuseNote">Lý do từ chối</label>
+            <textarea disabled class="form-control" id="refuseNote">{{post.Note}}</textarea>
+          </div>
+        </form>
+      </div>
+    {{/if}}
     <h4 class="card-header">
-      Bài viết
+      Chỉnh sửa bài viết
     </h4>
     <div class="card-body">
       <form method="POST" id="form" enctype="multipart/form-data">
         <input type="hidden" value='{{this.post.PostID}}' id="postID" name='postID'>
+        <input type="hidden" value='{{this.post.Status}}' id="postStatus" name='status'>
         <div class="form-group">
           <label for="title">Tiêu đề</label>
           <input type="text" class="form-control" id="title" name="title" value="{{this.post.Title}}" autofocus />
@@ -129,9 +158,9 @@
           <div class="col-md-4 mb-1">
             <label for="writer">Tác giả</label>
             <select id="writer" class="form-control w-75" disabled>
-                <option selected value={{this.account.ID}}>{{this.account.Writer.Alias}}</option>
-              </select>
-              <input type="hidden" name="writer" value="{{this.account.ID}}">
+              <option selected value={{this.account.ID}}>{{this.account.Writer.Alias}}</option>
+            </select>
+            <input type="hidden" name="writer" value="{{this.account.ID}}">
           </div>
           <div class="col-md-4 mb-1">
             <label for="category">Chuyên mục</label>

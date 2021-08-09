@@ -22,7 +22,7 @@ router.post('/register', async function(req, res) {
   const email = req.body.txtEmail;
   const password = req.body.txtPassword;
   const otp = nanoid(12);
-  req.session.verifyToken = otp;
+  req.session.verifyToken = {Token: otp, Email: email};
 
   bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(password, salt, async function(err, hash) {
@@ -198,12 +198,12 @@ router.post('/login', async function(req, res, next) {
 
   if (match) {
     account = await accountModel.findDetailByID(account.ID); 
-
+    account.DOB = moment(account.DOB, 'YYYY/MM/DD').format("DD/MM/YYYY") || '';
     req.session.loginState = { success: true, loginMessage: "You're logged in" };
     req.session.loggedIn = true;
     const accountDetail = await accountModel.detail(account)
     req.session.account = {...account, [account.AccountType]: accountDetail}
-    
+
     rUrl = req.session.retUrl || req.get('Referrer') || '/';
     return res.redirect(rUrl);
   } else {
@@ -216,44 +216,35 @@ router.post('/login', async function(req, res, next) {
 router.get('/logout', (req, res) => {
   req.session.account = undefined;
   req.session.loggedIn = undefined;
-  //return res.redirect(req.get('Referrer'));
   return res.redirect('/');
 });
 
 router.get('/reset-password-request', function(req, res) {
   
-  res.render('../views/vmAccount/reset-password-request.hbs')
+  return res.render('../views/vmAccount/reset-password-request.hbs')
 });
 
-router.get('/verification-email',  function(req, res) {
-  
-  res.render('../views/vmAccount/verification-email.hbs', { email: req.query.email, type: req.query.type });
+router.get('/verification-email', async function(req, res) {
+  const vtype = req.query.type;
+  const vemail = req.query.email;
+  if (vtype === 'create') {
+    const account = await accountModel.findByEmail(vemail);
+    req.session.account = account;
+    req.session.verifyToken = { Email: vemail, Token: account.Otp };
+  }
+  return res.render('../views/vmAccount/verification-email.hbs', { email: vemail, type: vtype });
 });
 
-router.post('/verification-email',  function(req, res) {
+router.post('/verification-email', function(req, res) {
   
   const type = req.query.type;
   if (type === "create") {
-    const email = req.session.account.email;
-    const password = req.session.account.password;
-
-    req.session.account = undefined;
-
-    bcrypt.genSalt(10, function(err, salt) {
-      bcrypt.hash(password, salt, async function(err, hash) {
-        const newAccount = {
-          Password: hash,
-          Email: email
-        }
-        await accountModel.add(newAccount);
-      });
-    });
-    return res.redirect('/account/register-complete-nortification?type=create', {
-      listCategories: res.locals.listCategories,
-      listParentCategories: res.locals.listParentCategories
-    });
+    const email = req.query.email;
+    accountModel.updateStatusActiveByEmail(email);
+    return res.redirect('/account/register-complete-nortification?type=create');
   } else {
     const aD = req.session.accountDetail;
+    req.session.accountDetail = undefined;
     accountModel.insertOrUpdateByID(aD.id, aD.FName, aD.LName, aD.dob, aD.email);
     return res.redirect('/account/register-complete-nortification?type=edit');
   }
@@ -262,15 +253,13 @@ router.post('/verification-email',  function(req, res) {
 router.get('/register-complete-nortification',  async function(req, res) {
   const account = accountModel.findDetailByID(req.session.account.ID);
   const accountDetail = await accountModel.detail(account);
+  account.DOB = moment(account.DOB, 'YYYY/MM/DD').format("DD/MM/YYYY") || '';
   req.session.account = {...account, [account.AccountType]: accountDetail};
 
   res.render('../views/vmAccount/register-complete-nortification.hbs')
 });
 
 router.get('/profile', hasAnyRole, async function(req, res) {
-  // const account = req.session.account;
-  // let accountDetail = await accountModel.detail(account);
-  // accountDetail.DOB = moment(accountDetail.DOB).format("DD/MM/YYYY");
 
   let descriptions = [];
   switch(req.session.account.AccountType){
@@ -317,6 +306,7 @@ router.post('/profile', hasAnyRole, async function(req, res) {
     
     const account = await accountModel.findDetailByID(req.session.account.ID);
     const accountDetail = await accountModel.detail(account);
+    account.DOB = moment(account.DOB, 'YYYY/MM/DD').format("DD/MM/YYYY") || '';
     req.session.account = {...account, [account.AccountType]: accountDetail};
 
     return res.redirect('/account/profile');

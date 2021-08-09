@@ -1,7 +1,10 @@
 <script>
+<<<<<<< HEAD
     $('#modalPremiumRequest').on('hidden.bs.modal', function(){
         window.location.reload();
     })
+=======
+>>>>>>> 5093f3c82c8d759ae3fd9a37193ee409e1659abb
     $(document).scroll(function () {
         var $nav = $(".relatedPostContainer");
         if ($(this).scrollTop() > $("#postContent").offset().top - 150) {
@@ -31,7 +34,11 @@
                 }
                 timeStr = timeStr + day.toString() + ' ' + time.toTimeString().substring(0, 8);
 
+<<<<<<< HEAD
                 var newDiv = $('<div class="comment my-3"><div class="d-flex"><div class="mr-1"><i class="fa fa-user-circle fa-2x" aria-hidden="true"></i></div><div class="triangle-left"><div class="inner-triangle"></div></div><div><div class="rounded px-2 py-1 comment-content"><div class="comment-user"><strong>' + '{{accountName}}' + '</strong></div><div class="comment-text">' + comment + '</div></div><div class="mt-1 comment-time d-flex justify-content-start"><i class="fa fa-clock-o" aria-hidden="true"></i><small>&nbsp;' + timeStr.toString() + '</small></div></div></div></div>');
+=======
+                var newDiv = $('<div class="comment my-3"><div class="d-flex"><div class="mr-1"><i class="fa fa-user-circle fa-2x" aria-hidden="true"></i></div><div class="triangle-left"><div class="inner-triangle"></div></div><div><div class="rounded px-2 py-1 comment-content"><div class="comment-user"><strong>' + '{{accountName}}' + '</strong></div><div class="comment-text">' + comment + '</div></div><div class="mt-1 comment-time d-flex justify-content-end"><i class="fa fa-clock-o" aria-hidden="true"></i><small>&nbsp;' + timeStr.toString() + '</small></div></div></div></div>');
+>>>>>>> 5093f3c82c8d759ae3fd9a37193ee409e1659abb
                 $("#listComments").before(newDiv);
                 var dateComment =
                     $.post('/post/addComment', {
@@ -63,6 +70,7 @@
         window.location = "/account/register/";
         return false;
     }
+<<<<<<< HEAD
 
     function insPremium(){
         $.post('/post/insertPremiumRequest', {
@@ -71,6 +79,8 @@
         $('#modalPremiumRequest').modal('show');
         return true;
     }
+=======
+>>>>>>> 5093f3c82c8d759ae3fd9a37193ee409e1659abb
 </script>
 
 <style>
@@ -169,6 +179,7 @@
                 </button>
             </div>
             <div class="modal-body">
+<<<<<<< HEAD
                 {{#if isPemding}}
                     Chúng tôi đã nhận được yêu cầu của bạn và sẽ duyệt yêu cầu sớm nhất có thể.
                     <br>
@@ -184,10 +195,18 @@
                 {{else}}
                     <button type="button" class="btn btn-dark mr-0 rounded p-2" onclick="return insPremium()" data-dismiss="modal">NÂNG CẤP NGAY</button>
                 {{/if}}
+=======
+                Nâng cấp <strong>PREMIUM</strong> để có những trải nghiệm tuyệt vời này nhé!!!
+            </div>
+            <div class="modal-footer">
+                {{#if hasAccount}}
+                    <button type="button" class="btn btn-dark mr-0 rounded p-2">NÂNG CẤP NGAY</button>
+>>>>>>> 5093f3c82c8d759ae3fd9a37193ee409e1659abb
                 {{else}}
                     <button type="button" class="btn btn-dark mr-0 rounded p-2" onclick="return goToLogin()" data-dismiss="modal">ĐĂNG NHẬP</button>
                     <button type="button" class="btn btn-dark mr-0 rounded p-2" onclick="return goToRegister()">ĐĂNG KÝ</button>
                 {{/if}}
+<<<<<<< HEAD
             </div>
         </div>
     </div>
@@ -210,6 +229,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-dark mr-0 rounded p-2" data-dismiss="modal">THOÁT</button>
+=======
+                
+>>>>>>> 5093f3c82c8d759ae3fd9a37193ee409e1659abb
             </div>
         </div>
     </div>
@@ -263,6 +285,7 @@
                     </a>
                     {{/each}}
                 </div>
+<<<<<<< HEAD
                 {{#if isPremium}}
                 {{else}}
                 {{#if post.Premium}}
@@ -286,14 +309,28 @@
                         Hãy <span id="linkReqPremium" onclick="return insPremium()"><strong>đăng ký</strong> hoặc <strong>gia hạn tài khoản</strong></span> để có những trải nghiệm tuyệt vời nhé!!!
                     </div>  
                     {{/if}}
+=======
+                {{#if post.Premium}}
+                <div class="layout-premium d-flex flex-column justify-content-center">
+                    {{#if hasAccount}}
+                    <div class="h1" style="text-align: center;">Oops!... Bài viết này là bài viết Premium đó</div>
+                    <div class="h4" style="text-align: center;">Hãy <a href="/account/register/"><strong>đăng
+                                ký</strong> hoặc <strong>gia hạn tài khoản</strong></a> để có những trải nghiệm tuyệt
+                        vời nhé!!!</div>
+>>>>>>> 5093f3c82c8d759ae3fd9a37193ee409e1659abb
                     {{else}}
                     <div class="h1" style="text-align: center;">Oops!... Bài viết này bị giới hạn truy cập mất rồi</div>
                     <div class="h4" style="text-align: center;">Hãy <a href="/account/register/"> đăng ký ngay</a> để có
                         những trải nghiệm tuyệt vời nhé!!!</div>
                     {{/if}}
                 </div>
+<<<<<<< HEAD
                 {{/if}} 
                 {{/if}}
+=======
+                {{/if}}
+
+>>>>>>> 5093f3c82c8d759ae3fd9a37193ee409e1659abb
             </div>
             <div class="col-4 relatedPostContainer" style="background-color: #f7f7f7; height: fit-content">
                 <div class="h4 mt-2">
@@ -405,7 +442,11 @@
                                 {{Content}}
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div class="mt-1 comment-time d-flex justify-content-start">
+=======
+                        <div class="mt-1 comment-time d-flex justify-content-end">
+>>>>>>> 5093f3c82c8d759ae3fd9a37193ee409e1659abb
                             <i class="fa fa-clock-o" aria-hidden="true"></i>
                             <small>&nbsp;{{Date}}</small>
                         </div>

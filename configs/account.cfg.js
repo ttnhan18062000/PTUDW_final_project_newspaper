@@ -13,7 +13,7 @@ const ENDPOINTS = {
     Subscriber: (id) => `Call DEL_Account_Subscriber(${id});`,
   },
   detail: {
-    Editor: (id) => `Call GTR_Detail_Editor_Account_By_AccountID(${id});`,
+    Editor: (id) => `Call GTT_CategoryManageDetail_By_AccountID(${id});`,
     Writer: (id) => `Call GTR_Detail_Writer_Account_By_AccountID(${id});`,
   }
 }
