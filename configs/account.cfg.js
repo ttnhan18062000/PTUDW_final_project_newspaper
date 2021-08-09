@@ -15,9 +15,14 @@ const ENDPOINTS = {
   detail: {
     Editor: (id) => `Call GTT_CategoryManageDetail_By_AccountID(${id});`,
     Writer: (id) => `Call GTR_Detail_Writer_Account_By_AccountID(${id});`,
-  }
+  },
+  getPremiumRequests: `Call GTT_PremiumRequest();`,
+  acceptPremium: (accID, expriredDate) => `Call UPD_PremiumRequest(${accID}, '${expriredDate}');`,
 }
+
+const PREMIUM_EXPRIRED_DATE_IN = 7;
 module.exports = {
   listType, 
   ENDPOINTS,
+  PREMIUM_EXPRIRED_DATE_IN
 };

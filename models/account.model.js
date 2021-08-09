@@ -130,8 +130,16 @@ module.exports = {
   async delete(account) {
     const endpoint = ENDPOINTS.delete[account.AccountType](account.ID);
     return db.raw(endpoint);
-  }
+  },
 
+  async getPremiumRequests() {
+    const rs = await db.raw(ENDPOINTS.getPremiumRequests);
+    return rs[0][0] || [];
+  },
+
+  acceptPremium(accID, expriredDate){
+    return db.raw(ENDPOINTS.acceptPremium(accID, expriredDate));
+  }
 
 
 };
