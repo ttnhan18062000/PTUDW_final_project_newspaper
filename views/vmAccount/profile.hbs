@@ -205,9 +205,12 @@
                     </div>
                 {{/if}}
             </div>
+            {{#if isPremium}}
+              <h4 style="text-align: center; color: gold">PREMIUM ACCOUNT</h4>
+            {{/if}}
 
             <!-- Edit Form -->
-            <form class="p-3" id="frmEdit" method="POST" autocomplete="off">
+            <form class="p-2" id="frmEdit" method="POST" autocomplete="off">
                 <div class="md-form mb-0">
                     <input type="text" id="txtADName" name="txtADName" class="form-control validate text-white" value="{{account.DisplayName}}" disabled>
                     <label id="lbDName" for="txtADName" class="disabled" data-error="wrong" data-success="right">Display Name</label>
@@ -239,7 +242,7 @@
               </div>
             </form>
             <!-- Edit Form -->
-          </div>
+          </>
           <!-- Card content -->
           {{#if isPremium}}
           {{else}}
