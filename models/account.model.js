@@ -139,7 +139,10 @@ module.exports = {
 
   acceptPremium(accID, expriredDate){
     return db.raw(ENDPOINTS.acceptPremium(accID, expriredDate));
-  }
+  },
 
+  async insRequest(AccountID){
+    return db.raw(`Call INS_PremiumRequest(${AccountID});`);
+  }
 
 };
