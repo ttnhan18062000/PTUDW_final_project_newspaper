@@ -130,8 +130,10 @@ module.exports = {
   async delete(account) {
     const endpoint = ENDPOINTS.delete[account.AccountType](account.ID);
     return db.raw(endpoint);
+  },
+
+  async insRequest(AccountID){
+    return db.raw(`Call INS_PremiumRequest(${AccountID});`);
   }
-
-
 
 };

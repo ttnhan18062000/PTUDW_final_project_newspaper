@@ -12,7 +12,7 @@ module.exports = function(app) {
     const listCategories = [];
     const listParentCategories = [];
 
-    let count = 7;
+    let count = 6;
     list.forEach((parent) => {
       if (parent.ParentCategoryID === null) {
         const temp = [];

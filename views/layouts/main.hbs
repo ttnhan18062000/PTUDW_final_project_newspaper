@@ -100,7 +100,7 @@
           <li>
             <a href="#" id="btn-func" style="margin-right: 1rem; color: white"></a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item mr-5 pr-3">
               <div class="dropdown d-flex justify-content-center">
                 <button type="button" id="btnLogin" class="btn bg-transparent text-white p-0 m-0 d-flex align-items-center justify-content-center" data-toggle="modal"
                   data-target="#modalLogin">
@@ -114,26 +114,6 @@
                   <a href="/account/logout" class="dropdown-item text-white"><i class="fa fa-sign-out"></i> Logout</a>
                 </div>
               </div>
-          </li>
-          <li class="nav-item facebook_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-facebook icon"></i>
-            </a>
-          </li>
-          <li class="nav-item twitter_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-twitter icon"></i>
-            </a>
-          </li>
-          <li class="nav-item linkedin_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-linkedin icon"></i>
-            </a>
-          </li>
-          <li class="nav-item googleplus_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-google-plus"></i>
-            </a>
           </li>
         </ul>
       </div>
@@ -149,7 +129,7 @@
         {{/each}}
         {{#if isHome}}
         {{else}}
-          <li class="nav-item">
+          <li class="nav-item" style="margin-left: auto; margin-right: 0">
             <form class="form-inline ml-5 my-2 my-lg-0">
               <input class="ml-4 form-control" type="search" placeholder="Nhập thông tin" aria-label="Search"
                 id="inputField">
@@ -423,12 +403,16 @@
     });
       const accountID = "{{account.ID}}";
       let accountName = "{{account.DisplayName}}";
+      
       if(!accountName)
         accountName = "[None]";
       if(accountID){
         $('#btnLogin').attr('data-toggle','dropdown');
         $('#btnLogin').removeAttr('data-target');
         $('#txtLogin').html(accountName);
+        if('{{account.PremiumStatus}}' === 'Active'){
+          $('#txtLogin').css('color','gold');
+        }
       }
       else{
         $('#btnLogin').attr('data-toggle','modal');
