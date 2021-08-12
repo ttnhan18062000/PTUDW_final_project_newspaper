@@ -200,7 +200,7 @@ router.post("/change-publish-date", async function(req, res) {
 router.get("/:id", async function(req, res) {
   const id = +req.params.id || 0;
   const post = await postModel.findByID(id);
-  const listTag = await tagModel.getAllTagRelatedPost(postId);
+  const listTag = await tagModel.getAllTagRelatedPost(id);
   if (!post) {
     return res.redirect('/admin/posts');
   }

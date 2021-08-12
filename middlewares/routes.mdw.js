@@ -111,12 +111,12 @@ module.exports = function (app) {
 
 
   app.use("/account/", require("../controllers/account.route"));
-  app.use('/admin', require("../controllers/admin.route"));
   app.use('/post/', require("../controllers/post.route"));
   app.use('/category/', require("../controllers/category.route"));
   app.use('/tag/', require("../controllers/tag.route"));
   app.use('/search', require("../controllers/search.route"));
   app.use('/writer', hasRole('Writer'), require("../controllers/writer.route"));
   app.use('/editor', hasRole('Editor'), require("../controllers/editor.route"));
+  app.use('/admin', hasRole('Adminstrator'), require("../controllers/admin.route"));
   app.use('/auth', require("../controllers/auth.route"));
 };
