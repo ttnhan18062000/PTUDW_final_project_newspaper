@@ -57,6 +57,11 @@ module.exports = function (app) {
       }
     }
     const listTopLatestPost10Category = await postModel.getTopLatestPost10Category();
+    var listTop4PostPerWeek = await postModel.getTop4Post();
+    listTop4PostPerWeek.forEach(element => {
+      element.PublishDate = moment(element.PublishDate).format('LL');
+    });
+
     count = 0;
     listTopLatestPost10Category.forEach(element => {
       element.PublishDate = moment(element.PublishDate).format("LL");
@@ -68,7 +73,7 @@ module.exports = function (app) {
       }
       count = count + 1;
     });
-    
+    const listTop3PostPerWeek = listTop4PostPerWeek.slice(1,4);
     if (req.session.loginState) {
       const state = req.session.loginState;
       req.session.loginState = undefined;
@@ -82,6 +87,8 @@ module.exports = function (app) {
             list10PostByViewCount: list10PostByViewCount,
             list10PostPerCatReturn: list10PostPerCatReturn,
             listTopLatestPost10Category: listTopLatestPost10Category,
+            listTop4PostPerWeek: listTop4PostPerWeek,
+            listTop3PostPerWeek: listTop3PostPerWeek,
           });
 
         if (state.errCode === 2) {
@@ -95,6 +102,8 @@ module.exports = function (app) {
           list10PostByViewCount: list10PostByViewCount,
           list10PostPerCatReturn: list10PostPerCatReturn,
           listTopLatestPost10Category: listTopLatestPost10Category,
+          listTop4PostPerWeek: listTop4PostPerWeek,
+          listTop3PostPerWeek: listTop3PostPerWeek
         });
       }
     }
@@ -105,6 +114,8 @@ module.exports = function (app) {
       list10PostByViewCount: list10PostByViewCount,
       list10PostPerCatReturn: list10PostPerCatReturn,
       listTopLatestPost10Category: listTopLatestPost10Category,
+      listTop4PostPerWeek: listTop4PostPerWeek,
+      listTop3PostPerWeek: listTop3PostPerWeek
     });
   });
 

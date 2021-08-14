@@ -114,3 +114,7 @@
 .category:hover{
     cursor: pointer;
 }
+
+.postTitle:hover{
+    cursor: pointer;
+}

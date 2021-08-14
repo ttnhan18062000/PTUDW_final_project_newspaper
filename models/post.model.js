@@ -102,6 +102,11 @@ module.exports = {
     return rs[0][0].length !== 0 ? rs[0][0][0] : null;
   },
 
+  async getTop4Post(){
+    const rs = await db.raw(`Call GTT_TopWeek_PostInfo_By_ViewCount();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
   async getTop10PostByDate() {
     const rs = await db.raw(`Call GTT_Top10_PostInfo_By_Date();`);
     return rs[0][0].length !== 0 ? rs[0][0] : null;
