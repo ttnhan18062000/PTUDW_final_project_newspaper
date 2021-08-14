@@ -1,11 +1,3 @@
-{{#section "admin-breadcrumb"}}
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
-      <li class="breadcrumb-item active" aria-current="page">Accounts</li>
-    </ol>
-  </nav>
-{{/section}}
 {{#section "admin-css"}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css" />
@@ -13,12 +5,15 @@
     .widget-header {
       padding: 0.5rem;
     }
+
     div.dataTables_filter input {
       height: 1.2rem;
     }
+
     .dataTables_wrapper {
       padding: 0.5rem;
     }
+
     .table.table-bordered.dataTable {
       margin-top: 0 !important;
     }
@@ -30,21 +25,26 @@
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
   <script>
     $(document).ready(function () { $('#example').DataTable(); });
-    function handleDelete(account){
-      $.post("/admin/accounts/delete", {...account}, () => location.reload());
-    }
+    $(document).on('click', '.btnAccept', function(){
+      const accID = $(this).parent('td').siblings('th').html();
+      $.post('premium/accept', {accID}, () => { location.reload(); });
+    })
   </script>
+{{/section}}
+{{#section "admin-breadcrumb"}}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Premium</li>
+    </ol>
+  </nav>
 {{/section}}
 <div class="widget widget-table action-table maxWidth8">
   <div class="widget-header d-flex justify-content-between align-items-center" style="height: 3rem">
     <div>
       <i class="icon-th-list"></i>
-      <h3>Account Table</h3>
+      <h3>Premium request</h3>
     </div>
-    <a class="btn btn-success" href="/admin/accounts/add" role="button">
-      <i class="fa fa-plus" aria-hidden="true"></i>
-      Add Account
-    </a>
   </div>
   <div class="widget-content">
     {{#if this.empty}}
@@ -56,28 +56,21 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
+            <th>Display Name</th>
             <th>Email</th>
-            <th>Role</th>
-            <th class="td-actions">&nbsp;</th>
+            <th class="td-actions">Accept</th>
           </tr>
         </thead>
         <tbody>
-          {{#each this.accounts as |account|}}
+          {{#each this.listRequest}}
             <tr>
               <th>{{ID}}</th>
               <td>{{DisplayName}}</td>
               <td>{{Email}}</td>
-              <td>{{AccountType}}</td>
-              <td style="text-align: left;">
-                <a class="btn btn-primary btn-large" href="/admin/accounts/detail?id={{ID}}" role="button" title="Edit">
-                  <i class="fa fa-eye" aria-hidden="true"></i>
+              <td style="text-align: center;">
+                <a class="btn btn-success btn-large btnAccept" role="button" title="Edit">
+                  <i class="fa fa-check" aria-hidden="true"></i>
                 </a>
-                {{#isNotAdmin AccountType}}
-                  <button type="button" class='btn btn-danger' onclick="handleDelete({{jsonParse this}})">
-                  <i class='fa fa-trash-o' aria-hidden='true'></i>
-                </button>
-                {{/isNotAdmin}}
               </td>
             </tr>
           {{/each}}
@@ -85,9 +78,8 @@
         <tfoot>
           <tr>
             <th>#</th>
-            <th>Name</th>
+            <th>Display Name</th>
             <th>Email</th>
-            <th>Role</th>
             <th class="td-actions">&nbsp;</th>
           </tr>
         </tfoot>
