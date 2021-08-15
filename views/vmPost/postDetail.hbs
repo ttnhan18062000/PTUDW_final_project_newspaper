@@ -154,7 +154,16 @@
         top: 0;
         left: 0;
         background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.9), white);
-        ;
+    }
+
+    @media only screen and (max-width: 1000px) {
+        #postComputer {
+            display: none;
+        }
+
+        #postPhone {
+            display: block !important;
+        }
     }
 </style>
 
@@ -257,7 +266,8 @@
             </div>
         </div>
 
-        <div class="row mt-4">
+        <div id="postComputer"> 
+            <div class="row mt-4">
             <div class="col-8">
                 <div class="font-weight-normal" id="postContent">
                     {{{post.Content}}}
@@ -319,6 +329,69 @@
                     {{/each}}
                 </div>
             </div>
+            </div>
+        </div>
+        <div id="postPhone" class="row" style="display: none;">
+            <div class="col-12">
+            <div class="font-weight-normal" id="postContent">
+                    {{{post.Content}}}
+                </div>
+                <div id="postTag">
+                    {{#each listTag}}
+                    <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}?page=0"
+                        style="background-color: #eeeeee;">
+                        {{TagName}}
+                    </a>
+                    {{/each}}
+                </div>
+                {{#if isPremium}}
+                {{else}}
+                {{#if post.Premium}}
+                <div class="layout-premium d-flex flex-column justify-content-center">
+                    {{#if hasAccount}}
+                    {{#if isPending}}
+                    <div class="h3" style="text-align: center;">
+                        Chúng tôi đã nhận được yêu cầu của bạn và sẽ duyệt yêu cầu sớm nhất có thể.
+                        <br>
+                        Cảm ơn bạn đã theo dõi <a href="/"><strong>CNTN NEWS</strong></a>
+                    </div>
+                    {{else}}
+                    <div class="h1" style="text-align: center;">Oops!... Bài viết này là bài viết Premium đó</div>
+                    <div class="h4" style="text-align: center;">
+                        <style>
+                            #linkReqPremium:hover{
+                                cursor: pointer;
+                                color: blue;
+                            }
+                        </style>
+                        Hãy <span id="linkReqPremium" onclick="return insPremium()"><strong>đăng ký</strong> hoặc <strong>gia hạn tài khoản</strong></span> để có những trải nghiệm tuyệt vời nhé!!!
+                    </div>  
+                    {{/if}}
+                    {{else}}
+                    <div class="h1" style="text-align: center;">Oops!... Bài viết này bị giới hạn truy cập mất rồi</div>
+                    <div class="h4" style="text-align: center;">Hãy <a href="/account/register/"> đăng ký ngay</a> để có
+                        những trải nghiệm tuyệt vời nhé!!!</div>
+                    {{/if}}
+                </div>
+                {{/if}} 
+                {{/if}}
+                
+            </div>
+                <div class="h4 mt-2">
+                    Các bài viết liên quan
+                </div>
+                <div>
+                    {{#each top5RelatedPost}}
+                    <div class="row my-2 py-2 relatedPost mx-2 rounded" style="background-color: #f7f7f7;">
+                        <div class="col-5">
+                            <img src="/public/imgs/post/{{PostID}}/main.jpg" class="imgThumb rounded" alt="">
+                        </div>
+                        <a class="col-7 pl-0 h6 postTitleRelated" href="/post/{{PostID}}" style="font-size: medium;">
+                            {{Title}}
+                        </a>
+                    </div>
+                    {{/each}}
+                </div>
         </div>
         <div style="display: none;">
             <div id="postPdf" style="padding-top: 20px; padding-left: 20px; padding-right: 20px">
