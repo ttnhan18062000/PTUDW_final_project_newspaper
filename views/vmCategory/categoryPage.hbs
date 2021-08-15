@@ -118,6 +118,9 @@
         </div>
         <div class="col-8">
             <a class="h3" href="/post/{{Post.PostID}}">
+                {{#if Post.Premium}}
+                    <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
+                {{/if}}
                 {{Post.Title}}
             </a>
             <div style="font-size: small;" class="row">
