@@ -259,3 +259,18 @@ input:checked~.btn-collapse {
   padding-left: 0 !important;
 }
 
+@media only screen and (min-width: 769px){
+  #editor-main-container, .sidebar{
+    top: 47px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .navbar-brand{
+    font-size: 1rem !important;
+  }
+  #editor-main-container, .sidebar{
+    top: 34px;
+  }
+}
+
