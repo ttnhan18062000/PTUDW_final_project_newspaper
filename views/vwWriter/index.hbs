@@ -19,7 +19,7 @@
           case "Unpublish":
             return `Sẽ xuất bản ${post.PublishDate}`
           default: 
-            return `Chỉnh sửa gần nhất ${post.UpdatedAt}`
+            return `Chỉnh sửa gần nhất`
         }
       }
       let newHtml = '';
@@ -89,11 +89,11 @@
   <div class='post-navbar'>
     <div class='menus'>
       <a class='active menu-item' nav="Publish">
-        Bài đã đăng
+        Đã xuất bản
         <span class="badge" id="badgePublish">0</span>
       </a>
       <a class="menu-item" nav="Unpublish">
-        Đang đợi
+        Chờ xuất bản
         <span class="badge" id="badgeUnpublish">0</span>
       </a>
       <a class="menu-item" nav="Refused">
