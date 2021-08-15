@@ -36,7 +36,24 @@
   color: white !important;
 }
 
+#sub-navbar{
+  color: white;
+  padding: 0.5rem 1rem;
+  padding-top: 0;
+  display: none;
+  justify-content: space-between;
+}
+.sub-navbar-alias{
+  font-size: 20px;
+  color: #eeeeee;
+  font-family: serif;
+  margin-right: 1.5rem;
+}
 
+.sub-navbar-alias:hover{
+  text-decoration: none;
+  color: white;
+}
 
 /*//////////////////////*/
 /* Sidebar */
@@ -163,4 +180,32 @@ input:checked~.btn-collapse {
 
 .breadcrumb-item{
   padding-left: 0 !important;
+}
+
+@media only screen and (min-width: 769px){
+  #sub-navbar{
+    display: none;
+  }
+  #writer-main-container, .sidebar{
+    top: 47px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #sidebar-checkbox, #label-sidebar, #sidebar{
+    display: none;
+  }
+  #sub-navbar{
+    display: flex;
+  }
+
+  #writer-main-container{
+    top: 85px;
+    left: 0;
+  }
+}
+
+@media only screen and (max-width: 330px){
+  .navbar-brand{
+    font-size: 1rem !important;
+  }
 }
