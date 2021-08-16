@@ -107,3 +107,18 @@ a {
 .account-triger:hover {
   background-color: #414449;
 }
+#content{
+  padding-top: 181px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .computerScreen{
+    display: none;
+  }
+  #content{
+    padding-top: 100px !important;
+  }
+  .phoneScreen{
+    display: block !important;
+  }
+}
