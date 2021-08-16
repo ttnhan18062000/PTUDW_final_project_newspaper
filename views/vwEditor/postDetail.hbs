@@ -1,3 +1,21 @@
+{{#section "editor-breadcrumb"}}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active">Phóng viên</li>
+      <li class="breadcrumb-item"><a href="/editor/categories">Chuyên mục quản lý</a></li>
+      <li class="breadcrumb-item"><a href="/editor/categories/{{post.CategoryID}}">{{post.CategoryName}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Chi tiết bài viết</li>
+    </ol>
+  </nav>
+{{/section}}
+{{#section "editor-css"}}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/public/css/pages/writer-post-detail.css">
+{{/section}}
 <script>
     $('#modalPremiumRequest').on('hidden.bs.modal', function(){
         window.location.reload();
@@ -167,7 +185,7 @@
     }
 </style>
 
-<div class="modal fade" id="modalPremium" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+<div class="modal fade main" id="modalPremium" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -223,6 +241,7 @@
         </div>
     </div>
 </div>
+
 <div style="background-color: #f7f7f7;">
     <div class="container jumbotron pt-3">
         <div>

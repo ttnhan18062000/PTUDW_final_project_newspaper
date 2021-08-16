@@ -14,21 +14,88 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/public/css/pages/writer-post-detail.css">
+  <style>
+    @media only screen and (max-width: 768px) {
+    }
+  </style>
 {{/section}}
-
-<div id="main">
+<div class="modal fade main" id="modalPremium" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Oops!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{#if isPemding}}
+          Chúng tôi đã nhận được yêu cầu của bạn và sẽ duyệt yêu cầu sớm nhất có thể.
+          <br>
+          Cảm ơn bạn đã theo dõi <a href="/"><strong>CNTN NEWS</strong></a>
+        {{else}}
+          Nâng cấp <strong>PREMIUM</strong> để có những trải nghiệm tuyệt vời này nhé!!!
+        {{/if}}
+      </div>
+      <div class="modal-footer">
+        {{#if hasAccount}}
+          {{#if isPending}}
+            <button type="button" class="btn btn-dark mr-0 rounded p-2" data-dismiss="modal">THOÁT</button>
+          {{else}}
+            <button type="button" class="btn btn-dark mr-0 rounded p-2" onclick="return insPremium()"
+              data-dismiss="modal">NÂNG CẤP NGAY</button>
+          {{/if}}
+        {{else}}
+          <button type="button" class="btn btn-dark mr-0 rounded p-2" onclick="return goToLogin()"
+            data-dismiss="modal">ĐĂNG NHẬP</button>
+          <button type="button" class="btn btn-dark mr-0 rounded p-2" onclick="return goToRegister()">ĐĂNG KÝ</button>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modalPremiumRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><strong>Đã gửi yêu cầu</strong></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Chúng tôi đã nhận được yêu cầu của bạn và sẽ duyệt yêu cầu sớm nhất có thể.
+        <br>
+        Cảm ơn bạn đã theo dõi <a href="/"><strong>CNTN NEWS</strong></a>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark mr-0 rounded p-2" data-dismiss="modal">THOÁT</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="background-color: #f7f7f7;">
   <div class="container jumbotron pt-3">
     <div>
-      <a href="" id="postCategoryName">
+      <a href="/category/{{post.CategoryID}}?page=0" id="postCategoryName">
         {{post.CategoryName}}
       </a>
     </div>
     <div class="p-2" id="postImg">
       <img src="/public/imgs/post/{{post.PostID}}/main.jpg" class="img-fluid" alt="Responsive image">
     </div>
-    <div id="postTitle" class="h1 my-2">
-      {{post.Title}}
-    </div>
+    {{#if post.Premium}}
+      <div id="postTitle" class="h1 my-2">
+        <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
+        {{post.Title}}
+      </div>
+    {{else}}
+      <div id="postTitle" class="h1 my-2">
+        {{post.Title}}
+      </div>
+    {{/if}}
     <div id="postWriter">
       <i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i>
       <span>
@@ -36,51 +103,118 @@
       </span>
     </div>
     <div class="row mt-2 py-2" style="background-color: #f7f7f7;">
-      <div class="col-9">
+      <div class="col-8">
         <i class="fa fa-calendar px-2" aria-hidden="true"></i>
         <span id="postPublishDate">
           {{post.PublishDate}}
         </span>
       </div>
-      <div class="col-1">
-        <i class="fa fa-comment" aria-hidden="true"></i>
-        5
+      <div class="col-2">
+        <i class="fa fa-eye" aria-hidden="true"></i>
+        {{post.ViewCount}}
       </div>
-      <div class="col-1">
-        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-        6
+      <div class="col-2">
+        <span><i class="fa fa-comment" aria-hidden="true"></i></span>
+        <span class="totalComment">{{post.TotalComment}}</span>
       </div>
     </div>
-    <div class="row mt-4">
-      <div class="col-9">
+    <div id="postComputer">
+      <div class="row mt-4">
+        <div class="col-8">
+          <div class="font-weight-normal" id="postContent">
+            {{{post.Content}}}
+          </div>
+          <div id="postTag">
+            {{#each listTag}}
+              <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}?page=0"
+                style="background-color: #eeeeee;">
+                {{TagName}}
+              </a>
+            {{/each}}
+          </div>
+        </div>
+        <div class="col-4 relatedPostContainer" style="background-color: #f7f7f7; height: fit-content">
+          <div class="h4 mt-2">
+            Các bài viết liên quan
+          </div>
+          <div>
+            {{#each top5RelatedPost}}
+              <div class="row my-2 py-2 relatedPost" style="background-color: #f7f7f7;">
+                <div class="col-5">
+                  <img src="/public/imgs/post/{{PostID}}/main.jpg" class="imgThumb rounded" alt="">
+                </div>
+                <a class="col-7 pl-0 h6 postTitleRelated" href="/post/{{PostID}}" style="font-size: medium;">
+                  {{Title}}
+                </a>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="postPhone" class="row" style="display: none;">
+      <div class="col-12">
         <div class="font-weight-normal" id="postContent">
           {{{post.Content}}}
         </div>
         <div id="postTag">
           {{#each listTag}}
-            <a class="postTagElement container p-1 px-2 mr-1" style="background-color: #eeeeee;">
+            <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}?page=0"
+              style="background-color: #eeeeee;">
               {{TagName}}
             </a>
           {{/each}}
         </div>
       </div>
-      <div class="col-3">
-        <div class="h4">
-          Related Post
-        </div>
-        <div>
-          {{#each top5RelatedPost}}
-            <div class="row my-2 py-2 relatedPost" style="background-color: #f7f7f7;">
-              <div class="col-5">
-                <img src="/public/imgs/post/{{PostID}}/thumb.jpg" class="imgThumb" alt="">
-              </div>
-              <a class="col-7 pl-0 h6 postTitleRelated" style="font-size: small;">
-                {{Title}}
-              </a>
+      <div class="h4 mt-2">
+        Các bài viết liên quan
+      </div>
+      <div>
+        {{#each top5RelatedPost}}
+          <div class="row my-2 py-2 relatedPost mx-2 rounded" style="background-color: #f7f7f7;">
+            <div class="col-5">
+              <img src="/public/imgs/post/{{PostID}}/main.jpg" class="imgThumb rounded" alt="">
             </div>
-          {{/each}}
+            <a class="col-7 pl-0 h6 postTitleRelated" href="/post/{{PostID}}" style="font-size: medium;">
+              {{Title}}
+            </a>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <div style="display: none;">
+      <div id="postPdf" style="padding-top: 20px; padding-left: 20px; padding-right: 20px">
+        <style>
+          #postContent>.imgInContent {
+            max-width: 100%;
+            min-width: 100%;
+          }
+
+          #postContent>.titleImgInContent {
+            font-style: italic;
+            font-size: medium;
+          }
+
+          #postContent p:first-child {
+            font-size: x-large;
+          }
+
+          #postImg>img {
+            max-width: 100%;
+            min-width: 100%;
+          }
+        </style>
+        <div class="p-2" id="postImg">
+          <img src="/public/imgs/post/{{post.PostID}}/main.jpg" alt="Responsive image">
+        </div>
+        <h1 id="postTitle" class="h1 my-2" style=" margin-top: 20px; margin-bottom: 20px">
+          {{post.Title}}
+        </h1>
+        <div class="font-weight-normal" id="postContent">
+          {{{post.Content}}}
         </div>
       </div>
     </div>
+    <hr>
   </div>
 </div>

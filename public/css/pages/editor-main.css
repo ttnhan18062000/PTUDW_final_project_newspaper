@@ -269,8 +269,20 @@ input:checked~.btn-collapse {
   .navbar-brand{
     font-size: 1rem !important;
   }
-  #editor-main-container, .sidebar{
-    top: 34px;
+
+  #sidebar-checkbox, #label-sidebar, #sidebar{
+    display: none;
+  }
+
+  #editor-main-container{
+    left: 0;
+  }
+}
+
+
+@media only screen and (max-width: 330px){
+  .navbar-brand{
+    font-size: 1rem !important;
   }
 }
 
