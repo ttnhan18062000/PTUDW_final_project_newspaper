@@ -26,7 +26,19 @@
             display: block !important;
         }
     }
+
+    .category {
+        cursor: pointer;
+    }
 </style>
+
+<script>
+
+    function goToCategory(id) {
+        window.location = "/category/" + id.toString();
+        return false;
+    }
+</script>
 
 <div id="categoryComputerScreen">
     <style>
@@ -113,7 +125,9 @@
                 <div class="top4PostTitle p-2 currentPost">
                     <div style="min-height: 6vh">
                         <a href="/post/{{top5Post.0.PostID}}" class="h5 text-white">
-                            {{top5Post.0.Title}}
+                            {{#if Premium}}
+                            <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
+                            {{/if}}{{top5Post.0.Title}}
                         </a>
                     </div>
                     <div class="text-white publishDate" data-target="#carouselTop4Post" data-slide-to="0">
@@ -125,7 +139,9 @@
                 <div class="top4PostTitle p-2">
                     <div style="min-height: 6vh !important;">
                         <a href="/post/{{PostID}}" class="h5 text-white">
-                            {{Title}}
+                            {{#if Premium}}
+                            <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
+                            {{/if}}{{Title}}
                         </a>
                     </div>
                     <div class="text-white publishDate" data-target="#carouselTop4Post" data-slide-to="{{index}}">
@@ -147,6 +163,10 @@
                 </div>
             </div>
             <div class="col-8">
+                <div class="text-white p-2 mb-2 category" style="background-color: black; width: fit-content"
+                    onclick="goToCategory({{Post.CategoryID}})">
+                    {{Post.CategoryName}}
+                </div>
                 <a class="h3" href="/post/{{Post.PostID}}">
                     {{#if Post.Premium}}
                     <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
@@ -271,6 +291,10 @@
                 </div>
             </div>
             <div class="col-8">
+                <div class="text-white p-2 mb-2 category" style="width: fit-content; background-color: black"
+                    onclick="goToCategory({{Post.CategoryID}})">
+                    {{Post.CategoryName}}
+                </div>
                 <a class="h4" href="/post/{{Post.PostID}}">
                     {{#if Post.Premium}}
                     <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
@@ -334,6 +358,10 @@
             <div class="imgTrendyPost"
                 style="min-height: 30vh; width: 100%; background: url('/public/imgs/post/{{Post.PostID}}/main.jpg') ; background-size: cover; display:flex; flex-direction:row; align-items:flex-end"
                 onclick="goToPost({{Post.PostID}})">
+                <div class="text-white p-2 category" style="background-color: black; width: fit-content"
+                    onclick="goToCategory({{Post.CategoryID}})">
+                    {{Post.CategoryName}}
+                </div>
             </div>
             <a class="mt-2 h5" href="/post/{{Post.PostID}}">
                 {{#if Post.Premium}}
@@ -358,8 +386,16 @@
             <div style="font-size: small; text-align: left">
                 {{Post.Abstract}}
             </div>
+            <div id="postTag">
+                {{#each listTag}}
+                <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}?page=0"
+                    style="background-color: #eeeeee;">
+                    {{TagName}}
+                </a>
+                {{/each}}
+            </div>
         </div>
-        
+
         {{/each}}
         <div class="d-flex justify-content-center">
             {{#each paging}}
