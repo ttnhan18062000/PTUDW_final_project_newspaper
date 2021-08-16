@@ -1,8 +1,4 @@
-{{#section 'css'}}
-    <link rel="stylesheet" type="text/css" href="/public/styles/profile.css">
-    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
-{{/section}}
+
 
 {{#section 'js'}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
@@ -133,6 +129,26 @@
     $('#imgAccount').attr('src', imgSrc);
   </script>
 {{/section}}
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/public/styles/profile.css">
+    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+  <style>
+    .my-container{
+      display: flex;
+      justify-content: center;
+    }
+    @media only screen and (max-width: 768px) {
+      .my-container{
+        display: block;
+        padding: 0 1rem;
+      }
+      .my-btn{
+        font-size: 1rem !important;
+      }
+}
+  </style>
+{{/section}}
 <div class="modal fade" id="modalPremiumRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -154,9 +170,8 @@
         </div>
     </div>
 </div>
-<div class="container-fluid bg-dark p-5">
-<div class="container mt-5 d-flex justify-content-center">
-  <div class="row w-75">
+<div class="my-container bg-dark w-100">
+  <div class="row">
       <div class="card w-100 bg-main p-3">
         <div class="row g-0">
           <div class="col-md-4">
@@ -249,7 +264,7 @@
           {{#if isPending}}
           <div class="text-white py-2 px-4">Tài khoản của bạn đã đăng ký PREMIUM và đang chờ xét duyệt.</div>
           {{else}}
-          <button type="button" class="mx-5 btn btn-white rounded p-2" style="vertical-align:middle; font-size:x-large" onclick="return insPremium()" data-dismiss="modal" ><strong>NÂNG CẤP PREMIUM</strong></button>
+          <button type="button" class="mx-5 btn btn-white rounded p-2 my-btn" style="vertical-align:middle; font-size:x-large" onclick="return insPremium()" data-dismiss="modal" ><strong>NÂNG CẤP PREMIUM</strong></button>
           {{/if}}
           {{/if}}
         </div>
@@ -258,5 +273,3 @@
       </div>
        
     </div>
-
-</div>

@@ -1,6 +1,4 @@
-{{#section 'css'}}
-    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">;
-{{/section}}
+
 
 {{#section 'js'}}
     <script>
@@ -70,9 +68,21 @@
         });
     </script>
 {{/section}}
-
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">;
+    <style>
+      .my-container{
+        margin: 0 25% !important;
+      }
+      @media only screen and (max-width: 768px ) {
+        .my-container{
+          margin: 0 0.5rem !important;
+        }
+      }
+    </style>
+{{/section}}
 <div class="card background-body">
-<article class="card-body mx-auto bg-main text-white" style="width: 650px">
+<article class="card-body bg-main text-white my-container">
     <h4 class="card-title mt-3 text-center">Create Account</h4>
 	<p class="text-center">Continue with your social media account</p>
     <p></p>

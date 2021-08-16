@@ -21,7 +21,6 @@
 
 .post-navbar {
   position: relative;
-  height: 3.5rem;
   width: 100%;
   padding: 0;
   margin-top: 1rem;
@@ -187,4 +186,22 @@
   flex-flow: column;
   align-items: center;
   justify-content: center;
+}
+
+@media only screen and (max-width: 767px) {
+  .menus{
+    font-size: 0.7rem;
+  }
+  .menus a{
+    padding: 0.5rem;
+  }
+  .badge {
+    margin-left: 0.2rem;
+  }
+}
+
+@media only screen and (max-width: 330px){
+  .menus a{
+    padding: 0;
+  }
 }
