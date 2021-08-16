@@ -45,128 +45,605 @@
 </script>
 {{/section}}
 
-<div id="carouselTop3Post" class="carousel slide bg-dark" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100 h-100" style="background-size: contain;" src="/public/imgs/post/{{listTop4PostPerWeek.0.ID}}/main.jpg"
-        alt="Second slide">
-      <div class="d-block w-100 h-100"
-        style="position: absolute; top:0; left: 0; background-color:rgba(0,0,0,0.5); z-index: 10">
-        <div class="carousel-caption d-none d-md-block">
-          <div class="row">
-            <div class="col-8">
-              <div class="py-1 mb-2 px-2 text-white rounded category" onclick="return goToCategory({{listTop4PostPerWeek.0.CategoryID}})"
-                style="width:fit-content; background-color:black; text-transform:uppercase; font-size: large">
-                {{listTop4PostPerWeek.0.CategoryName}}
-              </div>
-              <div class="h1 postTitle" style="text-align: left;" onclick="return goToPost({{listTop4PostPerWeek.0.ID}})"><strong>{{listTop4PostPerWeek.0.Title}}</strong></div>
-              <div style="text-align: left">{{listTop4PostPerWeek.0.Abstract}}</div>
-              <div class="row mt-3">
-                <div class="col-4" style="text-align: left; font-size:small">
-                  <i class="fa fa-calendar" aria-hidden="true"></i>
-                  &nbsp;{{listTop4PostPerWeek.0.PublishDate}}
+<div id="computerHomeScreen">
+  <div id="carouselTop3Post" class="carousel slide bg-dark" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselTop3Post" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselTop3Post" data-slide-to="1"></li>
+      <li data-target="#carouselTop3Post" data-slide-to="2"></li>
+      <li data-target="#carouselTop3Post" data-slide-to="3"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img class="d-block w-100 h-100" style="background-size: contain;"
+          src="/public/imgs/post/{{listTop4PostPerWeek.0.ID}}/main.jpg" alt="Second slide">
+        <div class="d-block w-100 h-100"
+          style="position: absolute; top:0; left: 0; background-color:rgba(0,0,0,0.8); z-index: 10">
+          <div class="carousel-caption d-none d-md-block">
+            <div class="row">
+              <div class="col-8">
+                <div class="py-1 mb-2 px-2 text-white rounded category"
+                  onclick="return goToCategory({{listTop4PostPerWeek.0.CategoryID}})"
+                  style="width:fit-content; background-color:black; text-transform:uppercase; font-size: large">
+                  {{listTop4PostPerWeek.0.CategoryName}}
                 </div>
-                <div class="col-3" style="text-align: right; font-size:small">
-                  <i class="fa fa-eye" aria-hidden="true"></i>
-                  &nbsp;{{listTop4PostPerWeek.0.ViewCount}}
+                <div class="h1 postTitle" style="text-align: left;"
+                  onclick="return goToPost({{listTop4PostPerWeek.0.ID}})">
+                  <strong>{{listTop4PostPerWeek.0.Title}}</strong>
                 </div>
-                <div class="col-3" style="text-align: right; font-size:small">
-                  <i class="fa fa-comment" aria-hidden="true"></i>
-                  &nbsp;{{listTop4PostPerWeek.0.TotalComment}}
+                <div style="text-align: left">{{listTop4PostPerWeek.0.Abstract}}</div>
+                <div class="row mt-3">
+                  <div class="col-4" style="text-align: left; font-size:small">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    &nbsp;{{listTop4PostPerWeek.0.PublishDate}}
+                  </div>
+                  <div class="col-3" style="text-align: right; font-size:small">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    &nbsp;{{listTop4PostPerWeek.0.ViewCount}}
+                  </div>
+                  <div class="col-3" style="text-align: right; font-size:small">
+                    <i class="fa fa-comment" aria-hidden="true"></i>
+                    &nbsp;{{listTop4PostPerWeek.0.TotalComment}}
+                  </div>
+                  <div class="col-2"></div>
                 </div>
-                <div class="col-2"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    {{#each listTop3PostPerWeek}}
-    <div class="carousel-item">
-      <img class="d-block w-100 h-100" style="background-size: contain;" src="/public/imgs/post/{{ID}}/main.jpg"
-        alt="Second slide">
-      <div class="d-block w-100 h-100"
-        style="position: absolute; top:0; left: 0; background-color:rgba(0,0,0,0.5); z-index: 10">
-        <div class="carousel-caption d-none d-md-block">
-          <div class="row">
-            <div class="col-8">
-              <div class="py-1 px-2 mb-2 text-white rounded category" onclick="return goToCategory({{CategoryID}})"
-                style="width:fit-content; background-color:black; text-transform:uppercase; font-size: large">
-                {{CategoryName}}
+      {{#each listTop3PostPerWeek}}
+      <div class="carousel-item">
+        <img class="d-block w-100 h-100" style="background-size: contain;" src="/public/imgs/post/{{ID}}/main.jpg"
+          alt="Second slide">
+        <div class="d-block w-100 h-100"
+          style="position: absolute; top:0; left: 0; background-color:rgba(0,0,0,0.5); z-index: 10">
+          <div class="carousel-caption d-none d-md-block">
+            <div class="row">
+              <div class="col-8">
+                <div class="py-1 px-2 mb-2 text-white rounded category" onclick="return goToCategory({{CategoryID}})"
+                  style="width:fit-content; background-color:black; text-transform:uppercase; font-size: large">
+                  {{CategoryName}}
+                </div>
+                <div class="h1 postTitle" style="text-align: left;" onclick="return goToPost({{ID}})">
+                  <strong>{{Title}}</strong>
+                </div>
+                <div style="text-align: left">{{Abstract}}</div>
+                <div class="row mt-3">
+                  <div class="col-4" style="text-align: left; font-size:small">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    &nbsp;{{PublishDate}}
+                  </div>
+                  <div class="col-3" style="text-align: right; font-size:small">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    &nbsp;{{ViewCount}}
+                  </div>
+                  <div class="col-3" style="text-align: right; font-size:small">
+                    <i class="fa fa-comment" aria-hidden="true"></i>
+                    &nbsp;{{TotalComment}}
+                  </div>
+                  <div class="col-2"></div>
+                </div>
               </div>
-              <div class="h1 postTitle" style="text-align: left;" onclick="return goToPost({{ID}})"><strong>{{Title}}</strong></div>
-              <div style="text-align: left">{{Abstract}}</div>
-              <div class="row mt-3">
-                <div class="col-4" style="text-align: left; font-size:small">
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <a class="carousel-control-prev" href="#carouselTop3Post" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselTop3Post" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+  <div class="pt-3" id="trendyNews">
+    <div class="container">
+      <div class="h3 mb-4">
+        TRENDY NEWS
+      </div>
+      {{#each listTopLatestPost10Category}}
+      {{#if leftPos}}
+      <div class="row">
+        <div class="col-6">
+          <div class="row mb-4" style="min-height: 15vh;">
+            <div class="col-4">
+              <div class="imgTrendyPost"
+                style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;"
+                onclick="goToPost({{ID}})">
+              </div>
+            </div>
+            <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
+              <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
+                style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
+                {{CategoryName}}
+              </a>
+              <a class="mt-2 h4" href="/post/{{ID}}">
+                {{Title}}
+              </a>
+              <div class="row">
+                <div class="col-5">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
                   &nbsp;{{PublishDate}}
                 </div>
-                <div class="col-3" style="text-align: right; font-size:small">
+                <div class="col-4" style="text-align: right;">
                   <i class="fa fa-eye" aria-hidden="true"></i>
                   &nbsp;{{ViewCount}}
                 </div>
-                <div class="col-3" style="text-align: right; font-size:small">
+                <div class="col-3" style="text-align: right;">
                   <i class="fa fa-comment" aria-hidden="true"></i>
                   &nbsp;{{TotalComment}}
                 </div>
-                <div class="col-2"></div>
               </div>
             </div>
+          </div>
+        </div>
+        {{else}}
+        <div class="col-6">
+          <div class="row mb-4" style="min-height: 15vh;">
+            <div class="col-4">
+              <div class="imgTrendyPost"
+                style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;"
+                onclick="goToPost({{ID}})">
+              </div>
+            </div>
+            <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
+              <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
+                style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
+                {{CategoryName}}
+              </a>
+              <a class="mt-2 h4" href="/post/{{ID}}">
+                {{Title}}
+              </a>
+              <div class="row">
+                <div class="col-5">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                  &nbsp;{{PublishDate}}
+                </div>
+                <div class="col-4" style="text-align: right;">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  &nbsp;{{ViewCount}}
+                </div>
+                <div class="col-3" style="text-align: right;">
+                  <i class="fa fa-comment" aria-hidden="true"></i>
+                  &nbsp;{{TotalComment}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/if}}
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="pt-3">
+    <div class="container ">
+      <div class="row">
+        <div class="list10Post col-9 pt-2 mb-5">
+          {{#each list10PostPerCatReturn}}
+          {{!-- CategoryName --}}
+          <div class="pb-3 category" onclick="goToCategory({{ListTop2Post.0.CategoryID}})">
+            <span class="px-4 py-2 text-white"
+              style="font-weight:bold; text-transform: uppercase; background-color:black">{{CategoryName}}
+            </span>
+            <span class="triangle py-2 px-1">
+              &nbsp;&nbsp;
+            </span>
+            <hr class="my-1" style="border-bottom: 5px solid black;">
+          </div>
+
+          {{!-- Content --}}
+          <div class="row">
+            {{!-- First post --}}
+            {{#each ListTop2Post}}
+            <div class="col-6">
+              <div class="pl-3 pr-3 post mb-3" onclick="goToPost({{ID}})" style="min-height: 48vh; height: auto">
+                <div class="img" style="height: 30vh;">
+                  <div class="rounded"
+                    style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+                  </div>
+                </div>
+                <div class="h4 pt-3 pb-1" style="min-height: 8.5vh;">
+                  <strong>{{Title}}</strong>
+                </div>
+                <div class="row" style="font-size: small;">
+                  <div class="col-7">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                    &nbsp;{{PublishDate}}
+                  </div>
+                  <div class="col-3">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    &nbsp;{{ViewCount}}
+                  </div>
+                  <div class="col-2">
+                    <i class="fa fa-comment" aria-hidden="true"></i>
+                    &nbsp;{{TotalComment}}
+                  </div>
+                </div>
+                <div class="pt-3" style="font-size: small;">
+                  {{Abstract}}
+                </div>
+              </div>
+
+            </div>
+            {{/each}}
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <hr class="p-0 mb-4" style="border-top: 1px solid #d1cfcf; width: 90%">
+            </div>
+            <div class="col-6">
+              <hr class="p-0 mb-4" style="border-top: 1px solid #d1cfcf; width: 90%">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6 d-flex justify-content-between flex-column">
+              {{#each ListTop8Post}}
+              {{#if leftPos}}
+              <div class="post px-3 pb-2" onclick="goToPost({{ID}})">
+                <div class="row py-2" style="min-height: 8.5vh; height: auto">
+                  <div class="col-4">
+                    <div class="rounded"
+                      style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+                    </div>
+                  </div>
+                  <div class="col-8 d-flex flex-column justify-content-between">
+                    <div>
+                      <strong>
+                        {{Title}}
+                      </strong>
+                    </div>
+                    <div style="font-size: small;">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                      {{PublishDate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{/if}}
+              {{/each}}
+            </div>
+            <div class="col-6 d-flex justify-content-between flex-column">
+              {{#each ListTop8Post}}
+              {{#if leftPos}}
+              {{else}}
+              <div class="post px-3 pb-2" onclick="goToPost({{ID}})">
+                <div class="row py-2" style="min-height: 8.5vh; height: auto">
+                  <div class="col-4">
+                    <div class="rounded"
+                      style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+                    </div>
+                  </div>
+                  <div class="col-8 d-flex flex-column justify-content-between">
+                    <div>
+                      <strong>
+                        {{Title}}
+                      </strong>
+                    </div>
+                    <div style="font-size: small;">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                      {{PublishDate}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{/if}}
+              {{/each}}
+            </div>
+          </div>
+
+          <div class="mb-4"></div>
+          {{/each}}
+        </div>
+        <div class="col-3 postTags" style="height: 100%;">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item top10PostTag">
+              <a class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest-posts" role="tab"
+                aria-controls="latest-posts" aria-selected="true"><strong>TIN MỚI</strong></a>
+            </li>
+            <li class="nav-item top10PostTag">
+              <a class="nav-link" id="mostviewed-tab" data-toggle="tab" href="#mostviewed-posts" role="tab"
+                aria-controls="mostviewed-posts" aria-selected="false"><strong>ĐỌC NHIỀU</strong></a>
+            </li>
+          </ul>
+          <div class="tab-content jumbotron p-2 mt-0 bg-dark text-white " id="myTabContent"
+            style="background-color: white; overflow-y:scroll; overflow-x:hidden; height: 50vh">
+            <div class="tab-pane fade show active" id="latest-posts" role="tabpanel" aria-labelledby="latest-tab">
+              {{#each list10PostByDate}}
+              <div class="row" data-toggle="tooltip" data-html="true" style="cursor: pointer;"
+                title="<img src='/public/imgs/post/{{ID}}/thumb.jpg' class='imgThumb' alt=''><div>{{Abstract}}</div>">
+                <div class="col-2 mr-2" style="font-size:small;">
+                  {{PublishDate}}
+                </div>
+                <div class="col-9" onclick="window.location='/post/{{ID}}'">
+                  {{Title}}
+                </div>
+                <hr class="p-0 my-2" style="border-top: 1px solid white; width: 90%">
+              </div>
+              {{/each}}
+            </div>
+            <div class="tab-pane" id="mostviewed-posts" role="tabpanel" aria-labelledby="mostviewed-tab">
+              {{#each list10PostByViewCount}}
+              <div class="row" data-toggle="tooltip" data-html="true" style="cursor: pointer;"
+                title="<img src='/public/imgs/post/{{ID}}/thumb.jpg' class='imgThumb' alt=''><div>{{Abstract}}</div>">
+                <div class="col-2 mr-2" style="font-size:large;">
+                  {{index}}
+                </div>
+                <div class="col-9" onclick="window.location='/post/{{ID}}'">
+                  {{Title}}
+                </div>
+                <hr class="p-0 my-2" style="border-top: 1px solid white; width: 90%">
+              </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="back-to-top" class="btn btn-dark back-to-top text-white p-2" onclick="goToTop()" style="display: none;">
+    <i class="fa fa-chevron-circle-up fa-3x" aria-hidden="true"></i>
+  </div>
+</div>
+
+<div id="phoneHomeScreen" style="margin-top: 10vh; display: none;">
+  <div class="h4 mx-3">
+    TOP POSTS LAST WEEK
+  </div>
+  <div id="carouselTop4PostPhone" class="carousel slide bg-dark mx-3" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/public/imgs/post/{{listTop4PostPerWeek.0.ID}}/main.jpg" alt="" class="d-block w-100"
+          style="background-size: contain; height:20vh;">
+        <div class="d-block w-100"
+          style="height: 20vh; position: absolute; top:0; left: 0; background-color:rgba(0,0,0,0.8); z-index: 10">
+          <div class="carousel-caption" style="bottom: 5px; right: 5%; left: 5%">
+            <div class="mb-1 px-2 text-white rounded category"
+              onclick="return goToCategory({{listTop4PostPerWeek.0.CategoryID}})"
+              style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
+              {{listTop4PostPerWeek.0.CategoryName}}
+            </div>
+            <div class="postTitle mb-2" style="text-align: left;"
+              onclick="return goToPost({{listTop4PostPerWeek.0.ID}})">
+              <strong>{{listTop4PostPerWeek.0.Title}}</strong>
+            </div>
+            <div class="row">
+              <div class="col-4" style="text-align: left; font-size:xx-small">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                &nbsp;{{listTop4PostPerWeek.0.PublishDate}}
+              </div>
+              <div class="col-3" style="text-align: right; font-size:xx-small">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+                &nbsp;{{listTop4PostPerWeek.0.ViewCount}}
+              </div>
+              <div class="col-3" style="text-align: right; font-size:xx-small">
+                <i class="fa fa-comment" aria-hidden="true"></i>
+                &nbsp;{{listTop4PostPerWeek.0.TotalComment}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{#each listTop3PostPerWeek}}
+      <div class="carousel-item">
+        <img src="/public/imgs/post/{{ID}}/main.jpg" alt="" class="d-block w-100"
+          style="background-size: contain; height:20vh;">
+        <div class="d-block w-100"
+          style="height: 20vh; position: absolute; top:0; left: 0; background-color:rgba(0,0,0,0.8); z-index: 10">
+          <div class="carousel-caption" style="bottom: 5px; right: 5%; left: 5%">
+            <div class="mb-1 px-2 text-white rounded category" onclick="return goToCategory({{CategoryID}})"
+              style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
+              {{CategoryName}}
+            </div>
+            <div class="postTitle mb-2" style="text-align: left;" onclick="return goToPost({{ID}})">
+              <strong>{{Title}}</strong>
+            </div>
+            <div class="row">
+              <div class="col-4" style="text-align: left; font-size:xx-small">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                &nbsp;{{PublishDate}}
+              </div>
+              <div class="col-3" style="text-align: right; font-size:xx-small">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+                &nbsp;{{ViewCount}}
+              </div>
+              <div class="col-3" style="text-align: right; font-size:xx-small">
+                <i class="fa fa-comment" aria-hidden="true"></i>
+                &nbsp;{{TotalComment}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="mt-3" id="trendyNewsPhone">
+    <div class="mx-3">
+      <div class="h4">
+        TRENDY NEWS
+      </div>
+      {{#each listTopLatestPost10Category}}
+      <div class="mb-2">
+        <div class="imgTrendyPost"
+          style="min-height: 30vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover; display:flex; flex-direction:row; align-items:flex-end"
+          onclick="goToPost({{ID}})">
+          <div class="mt-1 p-2 text-white" style="background-color: black;">
+            {{CategoryName}}
+          </div>
+        </div>
+        <a class="mt-2 h5" href="/post/{{ID}}">
+          <strong>{{Title}}</strong>
+        </a>
+        <div class="row mt-1">
+          <div class="col-5" style="font-size:smaller">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            &nbsp;{{PublishDate}}
+          </div>
+          <div class="col-4" style="text-align: right; font-size:smaller">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            &nbsp;{{ViewCount}}
+          </div>
+          <div class="col-3" style="text-align: right; font-size:smaller">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+            &nbsp;{{TotalComment}}
+          </div>
+        </div>
+        <div style="font-size: small; text-align: left">
+          {{Abstract}}
+        </div>
+      </div>
+      <hr style="height:2px;border-width:0;color:black;background-color:black">
+      {{/each}}
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <span class="px-4 py-2 text-white"
+      style="font-weight:bold; text-transform: uppercase; background-color:black"><strong>TIN MỚI</strong>
+    </span>
+    <span class="triangle py-2 px-1">
+      &nbsp;&nbsp;
+    </span>
+    <hr class="my-1" style="border-bottom: 3px solid black;">
+    {{#each list10PostByDate}}
+    <div class="row mb-2 px-3">
+      <div class="col-4" style="height: 13vh;">
+        <div class="rounded"
+          style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+        </div>
+      </div>
+      <div class="col-8 py-2">
+        <strong>
+          {{Title}}
+        </strong>
+        <div class="row mt-2" style="font-size: small;">
+          <div class="col-5">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            &nbsp;{{PublishDate}}
+          </div>
+          <div class="col-4">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            &nbsp;{{ViewCount}}
+          </div>
+          <div class="col-3">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+            &nbsp;{{TotalComment}}
           </div>
         </div>
       </div>
     </div>
     {{/each}}
   </div>
-  <a class="carousel-control-prev" href="#carouselTop3Post" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselTop3Post" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+  <div class="mt-4">
+    <span class="px-4 py-2 text-white"
+      style="font-weight:bold; text-transform: uppercase; background-color:black"><strong>ĐỌC NHIỀU</strong>
+    </span>
+    <span class="triangle py-2 px-1">
+      &nbsp;&nbsp;
+    </span>
+    <hr class="my-1" style="border-bottom: 3px solid black;">
+    {{#each list10PostByViewCount}}
+    <div class="row mb-2 px-3">
+      <div class="col-4" style="height: 13vh;">
+        <div class="rounded"
+          style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+        </div>
+      </div>
+      <div class="col-8 py-2">
+        <strong>
+          {{Title}}
+        </strong>
+        <div class="row mt-2" style="font-size: small;">
+          <div class="col-5">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            &nbsp;{{PublishDate}}
+          </div>
+          <div class="col-4">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            &nbsp;{{ViewCount}}
+          </div>
+          <div class="col-3">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+            &nbsp;{{TotalComment}}
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
 </div>
 
-<div class="pt-3" id="trendyNews">
-  <div class="container">
-    <div class="h3 mb-4">
-      TRENDY NEWS
-    </div>
-    {{#each listTopLatestPost10Category}}
-    {{#if leftPos}}
-    <div class="row">
-      <div class="col-6">
-        <div class="row mb-4" style="min-height: 15vh;">
-          <div class="col-4">
-            <div class="imgTrendyPost"
-              style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;"
-              onclick="goToPost({{ID}})">
+<div id="ipadHomeScreen" style="margin-top: 10vh; display: none">
+  <div class="h4 mx-3">
+    TOP POSTS LAST WEEK
+  </div>
+  <div id="carouselTop4PostIpad" class="carousel slide bg-dark mx-3" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/public/imgs/post/{{listTop4PostPerWeek.0.ID}}/main.jpg" alt="" class="d-block w-100"
+          style="background-size: contain; height:40vh;">
+        <div class="d-block w-100"
+          style="height: 40vh; position: absolute; top:0; left: 0; background-color:rgba(0,0,0,0.8); z-index: 10">
+          <div class="carousel-caption" style="bottom: 10%; right: 5%; left: 5%">
+            <div class="mb-1 px-2 text-white rounded category"
+              onclick="return goToCategory({{listTop4PostPerWeek.0.CategoryID}})"
+              style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
+              {{listTop4PostPerWeek.0.CategoryName}}
+            </div>
+            <div class="postTitle mb-2" style="text-align: left;"
+              onclick="return goToPost({{listTop4PostPerWeek.0.ID}})">
+              <strong>{{listTop4PostPerWeek.0.Title}}</strong>
+            </div>
+            <div class="row">
+              <div class="col-4" style="text-align: left; font-size:xx-small">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                &nbsp;{{listTop4PostPerWeek.0.PublishDate}}
+              </div>
+              <div class="col-3" style="text-align: right; font-size:xx-small">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+                &nbsp;{{listTop4PostPerWeek.0.ViewCount}}
+              </div>
+              <div class="col-3" style="text-align: right; font-size:xx-small">
+                <i class="fa fa-comment" aria-hidden="true"></i>
+                &nbsp;{{listTop4PostPerWeek.0.TotalComment}}
+              </div>
             </div>
           </div>
-          <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
-            <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
+        </div>
+      </div>
+      {{#each listTop3PostPerWeek}}
+      <div class="carousel-item">
+        <img src="/public/imgs/post/{{ID}}/main.jpg" alt="" class="d-block w-100"
+          style="background-size: contain; height:40vh;">
+        <div class="d-block w-100"
+          style="height: 40vh; position: absolute; top:0; left: 0; background-color:rgba(0,0,0,0.8); z-index: 10">
+          <div class="carousel-caption" style="bottom: 5px; right: 5%; left: 5%">
+            <div class="mb-1 px-2 text-white rounded category" onclick="return goToCategory({{CategoryID}})"
               style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
               {{CategoryName}}
-            </a>
-            <a class="mt-2 h4" href="/post/{{ID}}">
-              {{Title}}
-            </a>
+            </div>
+            <div class="postTitle mb-2" style="text-align: left;" onclick="return goToPost({{ID}})">
+              <strong>{{Title}}</strong>
+            </div>
             <div class="row">
-              <div class="col-5">
-                {{PublishDate}}
+              <div class="col-4" style="text-align: left; font-size:xx-small">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                &nbsp;{{PublishDate}}
               </div>
-              <div class="col-4" style="text-align: right;">
+              <div class="col-3" style="text-align: right; font-size:xx-small">
                 <i class="fa fa-eye" aria-hidden="true"></i>
                 &nbsp;{{ViewCount}}
               </div>
-              <div class="col-3" style="text-align: right;">
+              <div class="col-3" style="text-align: right; font-size:xx-small">
                 <i class="fa fa-comment" aria-hidden="true"></i>
                 &nbsp;{{TotalComment}}
               </div>
@@ -174,211 +651,159 @@
           </div>
         </div>
       </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <div id="trendyNewsIpad" class="px-3 mt-3">
+    <div class="h4">
+      TRENDY NEWS
+    </div>
+
+    {{#each listTopLatestPost10Category}}
+    {{#if leftPos}}
+    <div class="row mb-5">
+      <div class="col-6">
+        <div class="imgTrendyPost"
+          style="min-height: 30vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover; display:flex; flex-direction:row; align-items:flex-end"
+          onclick="goToPost({{ID}})">
+          <div class="mt-1 p-2 text-white" style="background-color: black;">
+            {{CategoryName}}
+          </div>
+        </div>
+        <a class="mt-2 h5" href="/post/{{ID}}">
+          <strong>{{Title}}</strong>
+        </a>
+        <div class="row mt-1">
+          <div class="col-5" style="font-size:smaller">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            &nbsp;{{PublishDate}}
+          </div>
+          <div class="col-4" style="text-align: right; font-size:smaller">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            &nbsp;{{ViewCount}}
+          </div>
+          <div class="col-3" style="text-align: right; font-size:smaller">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+            &nbsp;{{TotalComment}}
+          </div>
+        </div>
+        <div style="font-size: small; text-align: left">
+          {{Abstract}}
+        </div>
+      </div>
       {{else}}
       <div class="col-6">
-        <div class="row mb-4" style="min-height: 15vh;">
-          <div class="col-4">
-            <div class="imgTrendyPost"
-              style="min-height: 15vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;"
-              onclick="goToPost({{ID}})">
-            </div>
+        <div class="imgTrendyPost"
+          style="min-height: 30vh; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover; display:flex; flex-direction:row; align-items:flex-end"
+          onclick="goToPost({{ID}})">
+          <div class="mt-1 p-2 text-white" style="background-color: black;">
+            {{CategoryName}}
           </div>
-          <div class="col-8 d-flex pb-3 flex-column justify-content-between" style="height: 100%;">
-            <a class="py-1 px-2 text-white rounded" href="/category/{{CategoryID}}"
-              style="width:fit-content; background-color:black; text-transform:uppercase; font-size: small">
-              {{CategoryName}}
-            </a>
-            <a class="mt-2 h4" href="/post/{{ID}}">
-              {{Title}}
-            </a>
-            <div class="row">
-              <div class="col-5">
-                {{PublishDate}}
-              </div>
-              <div class="col-4" style="text-align: right;">
-                <i class="fa fa-eye" aria-hidden="true"></i>
-                &nbsp;{{ViewCount}}
-              </div>
-              <div class="col-3" style="text-align: right;">
-                <i class="fa fa-comment" aria-hidden="true"></i>
-                &nbsp;{{TotalComment}}
-              </div>
-            </div>
+        </div>
+        <a class="mt-2 h5" href="/post/{{ID}}">
+          <strong>{{Title}}</strong>
+        </a>
+        <div class="row mt-1">
+          <div class="col-5" style="font-size:smaller">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            &nbsp;{{PublishDate}}
           </div>
+          <div class="col-4" style="text-align: right; font-size:smaller">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            &nbsp;{{ViewCount}}
+          </div>
+          <div class="col-3" style="text-align: right; font-size:smaller">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+            &nbsp;{{TotalComment}}
+          </div>
+        </div>
+        <div style="font-size: small; text-align: left">
+          {{Abstract}}
         </div>
       </div>
     </div>
     {{/if}}
     {{/each}}
   </div>
-</div>
-
-<div class="pt-3">
-  <div class="container ">
-    <div class="row">
-      <div class="list10Post col-9 pt-2 mb-5">
-        {{#each list10PostPerCatReturn}}
-        {{!-- CategoryName --}}
-        <div class="pb-3 category" onclick="goToCategory({{ListTop2Post.0.CategoryID}})">
-          <span class="px-4 py-2 text-white"
-            style="font-weight:bold; text-transform: uppercase; background-color:black">{{CategoryName}}
-          </span>
-          <span class="triangle py-2 px-1">
-            &nbsp;&nbsp;
-          </span>
-          <hr class="my-1" style="border-bottom: 5px solid black;">
+  <div class="mt-4 mb-4">
+    <span class="px-4 py-2 text-white"
+      style="font-weight:bold; text-transform: uppercase; background-color:black"><strong>TIN MỚI</strong>
+    </span>
+    <span class="triangle py-2 px-1">
+      &nbsp;&nbsp;
+    </span>
+    <hr class="my-1" style="border-bottom: 3px solid black;">
+    {{#each list10PostByDate}}
+    <div class="row mb-3 px-3">
+      <div class="col-4" style="height: 20vh;">
+        <div class="rounded"
+          style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
         </div>
-
-        {{!-- Content --}}
-        <div class="row">
-          {{!-- First post --}}
-          {{#each ListTop2Post}}
-          <div class="col-6">
-            <div class="pl-3 pr-3 post mb-3" onclick="goToPost({{ID}})" style="min-height: 48vh; height: auto">
-              <div class="img" style="height: 30vh;">
-                <div class="rounded"
-                  style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
-                </div>
-              </div>
-              <div class="h4 pt-3 pb-1" style="min-height: 8.5vh;">
-                <strong>{{Title}}</strong>
-              </div>
-              <div class="row" style="font-size: small;">
-                <div class="col-7">
-                  <i class="fa fa-calendar" aria-hidden="true"></i>
-                  &nbsp;{{PublishDate}}
-                </div>
-                <div class="col-3">
-                  <i class="fa fa-eye" aria-hidden="true"></i>
-                  &nbsp;{{ViewCount}}
-                </div>
-                <div class="col-2">
-                  <i class="fa fa-comment" aria-hidden="true"></i>
-                  &nbsp;{{TotalComment}}
-                </div>
-              </div>
-              <div class="pt-3" style="font-size: small;">
-                {{Abstract}}
-              </div>
-            </div>
-
-          </div>
-          {{/each}}
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <hr class="p-0 mb-4" style="border-top: 1px solid #d1cfcf; width: 90%">
-          </div>
-          <div class="col-6">
-            <hr class="p-0 mb-4" style="border-top: 1px solid #d1cfcf; width: 90%">
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-6 d-flex justify-content-between flex-column">
-            {{#each ListTop8Post}}
-            {{#if leftPos}}
-            <div class="post px-3 pb-2" onclick="goToPost({{ID}})">
-              <div class="row py-2" style="min-height: 8.5vh; height: auto">
-                <div class="col-4">
-                  <div class="rounded"
-                    style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
-                  </div>
-                </div>
-                <div class="col-8 d-flex flex-column justify-content-between">
-                  <div>
-                    <strong>
-                      {{Title}}
-                    </strong>
-                  </div>
-                  <div style="font-size: small;">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                    {{PublishDate}}
-                  </div>
-                </div>
-              </div>
-            </div>
-            {{/if}}
-            {{/each}}
-          </div>
-          <div class="col-6 d-flex justify-content-between flex-column">
-            {{#each ListTop8Post}}
-            {{#if leftPos}}
-            {{else}}
-            <div class="post px-3 pb-2" onclick="goToPost({{ID}})">
-              <div class="row py-2" style="min-height: 8.5vh; height: auto">
-                <div class="col-4">
-                  <div class="rounded"
-                    style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
-                  </div>
-                </div>
-                <div class="col-8 d-flex flex-column justify-content-between">
-                  <div>
-                    <strong>
-                      {{Title}}
-                    </strong>
-                  </div>
-                  <div style="font-size: small;">
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                    {{PublishDate}}
-                  </div>
-                </div>
-              </div>
-            </div>
-            {{/if}}
-            {{/each}}
-          </div>
-        </div>
-
-        <div class="mb-4"></div>
-        {{/each}}
       </div>
-      <div class="col-3 postTags" style="height: 100%;">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item top10PostTag">
-            <a class="nav-link active" id="latest-tab" data-toggle="tab" href="#latest-posts" role="tab"
-              aria-controls="latest-posts" aria-selected="true"><strong>TIN MỚI</strong></a>
-          </li>
-          <li class="nav-item top10PostTag">
-            <a class="nav-link" id="mostviewed-tab" data-toggle="tab" href="#mostviewed-posts" role="tab"
-              aria-controls="mostviewed-posts" aria-selected="false"><strong>ĐỌC NHIỀU</strong></a>
-          </li>
-        </ul>
-        <div class="tab-content jumbotron p-2 mt-0 bg-dark text-white " id="myTabContent"
-          style="background-color: white; overflow-y:scroll; overflow-x:hidden; height: 50vh">
-          <div class="tab-pane fade show active" id="latest-posts" role="tabpanel" aria-labelledby="latest-tab">
-            {{#each list10PostByDate}}
-            <div class="row" data-toggle="tooltip" data-html="true" style="cursor: pointer;"
-              title="<img src='/public/imgs/post/{{ID}}/thumb.jpg' class='imgThumb' alt=''><div>{{Abstract}}</div>">
-              <div class="col-2 mr-2" style="font-size:small;">
-                {{PublishDate}}
-              </div>
-              <div class="col-9" onclick="window.location='/post/{{ID}}'">
-                {{Title}}
-              </div>
-              <hr class="p-0 my-2" style="border-top: 1px solid white; width: 90%">
-            </div>
-            {{/each}}
+      <div class="col-8 py-2">
+        <strong>
+          {{Title}}
+        </strong>
+        <div>
+          {{Abstract}}
+        </div>
+        <div class="row mt-2" style="font-size: small;">
+          <div class="col-5">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            &nbsp;{{PublishDate}}
           </div>
-          <div class="tab-pane" id="mostviewed-posts" role="tabpanel" aria-labelledby="mostviewed-tab">
-            {{#each list10PostByViewCount}}
-            <div class="row" data-toggle="tooltip" data-html="true" style="cursor: pointer;"
-              title="<img src='/public/imgs/post/{{ID}}/thumb.jpg' class='imgThumb' alt=''><div>{{Abstract}}</div>">
-              <div class="col-2 mr-2" style="font-size:large;">
-                {{index}}
-              </div>
-              <div class="col-9" onclick="window.location='/post/{{ID}}'">
-                {{Title}}
-              </div>
-              <hr class="p-0 my-2" style="border-top: 1px solid white; width: 90%">
-            </div>
-            {{/each}}
+          <div class="col-4">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            &nbsp;{{ViewCount}}
+          </div>
+          <div class="col-3">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+            &nbsp;{{TotalComment}}
           </div>
         </div>
       </div>
     </div>
+    {{/each}}
   </div>
-</div>
-<div id="back-to-top" class="btn btn-dark back-to-top text-white p-2" onclick="goToTop()" style="display: none;">
-  <i class="fa fa-chevron-circle-up fa-3x" aria-hidden="true"></i>
+  <div class="mt-4">
+    <span class="px-4 py-2 text-white"
+      style="font-weight:bold; text-transform: uppercase; background-color:black"><strong>ĐỌC NHIỀU</strong>
+    </span>
+    <span class="triangle py-2 px-1">
+      &nbsp;&nbsp;
+    </span>
+    <hr class="my-1" style="border-bottom: 3px solid black;">
+    {{#each list10PostByViewCount}}
+    <div class="row mb-3 px-3">
+      <div class="col-4" style="height: 20vh;">
+        <div class="rounded"
+          style="height: 100%; width: 100%; background: url('/public/imgs/post/{{ID}}/main.jpg') ; background-size: cover;">
+        </div>
+      </div>
+      <div class="col-8 py-2">
+        <strong>
+          {{Title}}
+        </strong>
+        <div>
+          {{Abstract}}
+        </div>
+        <div class="row mt-2" style="font-size: small;">
+          <div class="col-5">
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            &nbsp;{{PublishDate}}
+          </div>
+          <div class="col-4">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+            &nbsp;{{ViewCount}}
+          </div>
+          <div class="col-3">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+            &nbsp;{{TotalComment}}
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
 </div>
