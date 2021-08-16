@@ -190,14 +190,7 @@
 <div class="phoneScreen" style="display: none;">
   <nav class="navbar fixed-top navbar-light bg-light" style="background-color: black !important;">
     <a class="navbar-brand" href="/">CNTN NEWS</a>
-    <button type="button" id="btnLoginPhone" class="btn bg-transparent text-white p-0 m-0 d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#modalLogin">
-      <i class="fa fa-user-circle fa-2x mr-2" aria-hidden="true"></i>
-      <p class="text-center m-0" id="txtLoginPhone">Sign In</p>
-      <div class="dropdown-menu bg-dark border mt-2" aria-labelledby="btnLoginPhone">
-        <a href="/account/profile" class="dropdown-item text-white"><i class="fa fa-user-o"></i> Profile</a>
-        <a href="/account/logout" class="dropdown-item text-white"><i class="fa fa-sign-out"></i> Logout</a>
-      </div>
-    </button>
+    
     <button class="navbar-toggler" type="button" data-toggle="collapse"   data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -213,12 +206,22 @@
         </div>
       {{/each}}
       {{#if account}}
+      <div class="m-3" style="display: flex; justify-content:center; color:gold">
+        {{account.DisplayName}}
+        </div>
       <div class="m-3" style="display: flex; justify-content:center">
         <a href="/account/profile" class="dropdown-item text-white" style="text-align: center;"><i class="fa fa-user-o"></i> Profile</a>
         </div>
         <div class="m-3" style="display: flex; justify-content:center">
         <a href="/account/logout" class="dropdown-item text-white" style="text-align: center;"><i class="fa fa-sign-out"></i> Logout</a>
         </div>
+      {{else}}
+      <div style="display: flex; justify-content:center">
+      <button type="button" id="btnLoginPhone" class="btn bg-transparent text-white p-0 m-0 d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#modalLogin">
+      <i class="fa fa-user-circle fa-2x mr-2" aria-hidden="true"></i>
+      <p class="text-center m-0" id="txtLoginPhone">Sign In</p>
+    </button>
+      </div>
       {{/if}}
     </div>
   </nav>
