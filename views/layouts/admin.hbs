@@ -14,24 +14,45 @@
   <link href="/public/css/font-awesome.css" rel="stylesheet" />
   <link href="/public/css/mystyle.css" rel="stylesheet" />
   <link href="/public/css/pages/dashboard.css" rel="stylesheet" />
+  <style>
+    .navbar{
+      background-color: black;
+      margin: 0;
+    }
+    .dropdown-menu a:hover{
+      color: black !important;
+    }
+
+  </style>
   {{{_sections.admin-css}}}
 </head>
 
 <body>
   <div>
   </div>
-  <div class="navbar navbar-fixed-top d-block">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="brand" id="home" href="/admin/dashboard">Newspaper Web Admin
-        </a>
-        <!--/.nav-collapse -->
+  <nav class="navbar navbar-expand-lg py-0">
+    <a class="navbar-brand text-white font-weight-bold" href="/admin">CNTN News Admin Page</a>
+    <a class="nav-link text-white" href="/"> 
+      <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+      News page
+    </a>
+    <div class="navbar-nav ml-auto mr-4">
+      <div class="dropdown d-flex justify-content-center position-relative">
+        <button type="button" id="btnLogin"
+          class="btn bg-transparent text-white p-0 m-0 d-flex align-items-center justify-content-center"
+          data-toggle="dropdown">
+          <i class="fa fa-user-circle fa-2x mr-2" aria-hidden="true"></i>
+          <p class="text-center m-0 font-weight-bold" id="txtLogin">
+            {{account.DisplayName}}
+          </p>
+        </button>
+        <div class="dropdown-menu bg-dark border mt-2 py-2 position-absolute" style="z-index: 100;">
+          <a href="/account/profile" class="dropdown-item text-white"><i class="fa fa-user-o"></i> Profile</a>
+          <a href="/account/logout" class="dropdown-item text-white"><i class="fa fa-sign-out"></i> Logout</a>
+        </div>
       </div>
-      <!-- /container -->
     </div>
-    <!-- /navbar-inner -->
-  </div>
-  <!-- /navbar -->
+  </nav>
   <div class="subnavbar">
     <div class="subnavbar-inner">
       <div class="container">

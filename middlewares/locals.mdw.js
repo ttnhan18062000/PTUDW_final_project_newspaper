@@ -2,8 +2,8 @@ const moment = require('moment');
 
 const categoryModel = require("../models/category.model");
 
-module.exports = function(app) {
-  app.use(async function(req, res, next) {
+module.exports = function (app) {
+  app.use(async function (req, res, next) {
     if (typeof req.session.auth === "undefined") {
       req.session.auth = false;
     }
@@ -12,7 +12,7 @@ module.exports = function(app) {
     const listCategories = [];
     const listParentCategories = [];
 
-    let count = 7;
+    let count = 6;
     list.forEach((parent) => {
       if (parent.ParentCategoryID === null) {
         const temp = [];
@@ -38,33 +38,46 @@ module.exports = function(app) {
         }
       }
     });
-    //checking auth
-    if (req.session.requireRole) {
-      res.locals.showModal = true
-      res.locals.loginMessage = `You must login as ${req.session.requireRole}`
-      req.session.requireRole = undefined
-    }
-  
-    if(req.session.requireLogin){
-      res.locals.showModal = true
-      res.locals.loginMessage = `You must login to view this resource`
-      req.session.requireLogin = undefined
+
+    if (req.session.loginState) {
+      const state = req.session.loginState;
+      if (state.failed) {
+        res.locals.showModal = true;
+        res.locals.loginMessage = state.loginMessage;
+      }
+      if (state.errCode && state.errCode === 2) {
+        res.locals.verifyEmail = true;
+      }
+      req.session.loginState = undefined;
     }
 
+    //checking auth
+    if (req.session.requireRole) {
+      res.locals.showModal = true;
+      res.locals.loginMessage = `You must login as ${req.session.requireRole}`;
+      req.session.requireRole = undefined;
+    }
+
+    if (req.session.requireLogin) {
+      res.locals.showModal = true;
+      res.locals.loginMessage = `You must login to view this resource`;
+      req.session.requireLogin = undefined;
+    }
+
+    if (req.session.account && req.session.account.AccountType === 'Editor') {
+      req.session.account.Editor = await categoryModel.getEditorCategories(req.session.account.ID);
+    }
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
     res.locals.listParentCategories = listParentCategories;
     res.locals.listCategories = listCategories;
-    res.locals.account = req.session.account;
-    if(res.locals.account)
-      res.locals.account.DOB = moment(res.locals.account.DOB).format("DD/MM/YYYY")
-
-    console.log(res.locals.account);
+    if (req.session.loggedIn)
+      res.locals.account = req.session.account;
 
     next();
   });
 
-  app.use(async(req, res, next) => {
+  app.use(async (req, res, next) => {
     const url = req.originalUrl;
     if (url.startsWith("/admin")) {
       res.locals.lcNavItems = getNavItems(url);
@@ -73,42 +86,47 @@ module.exports = function(app) {
   });
 };
 
-const getNavItems = function(url) {
+const getNavItems = function (url) {
   let navItems = [{
-      name: "Dashboard",
-      href: "/admin/dashboard",
-      icon: "fa fa-tachometer",
-      class: "",
-    },
-    {
-      name: "Categories",
-      href: "/admin/categories",
-      icon: "fa fa-list-alt",
-      class: "",
-    },
-    {
-      name: "Posts",
-      href: "/admin/posts",
-      icon: "fa fa-pencil-square",
-      icon: "fa fa-pencil-square-o",
-      class: "",
-    },
-    {
-      name: "Accounts",
-      href: "/admin/accounts",
-      icon: "fa fa-users",
-      class: "",
-    },
-    {
-      name: "Tags",
-      href: "/admin/tags",
-      icon: "fa fa-tags",
-      class: "",
-    },
+    name: "Dashboard",
+    href: "/admin/dashboard",
+    icon: "fa fa-tachometer",
+    class: "",
+  },
+  {
+    name: "Categories",
+    href: "/admin/categories",
+    icon: "fa fa-list-alt",
+    class: "",
+  },
+  {
+    name: "Tags",
+    href: "/admin/tags",
+    icon: "fa fa-tags",
+    class: "",
+  },
+  {
+    name: "Posts",
+    href: "/admin/posts",
+    icon: "fa fa-pencil-square-o",
+    class: "",
+  },
+  {
+    name: "Accounts",
+    href: "/admin/accounts",
+    icon: "fa fa-users",
+    class: "",
+  },
+  {
+    name: "Premium",
+    href: "/admin/premium",
+    icon: "fa fa-rocket",
+    class: "",
+  },
   ];
   const itemName = url.split("/")[2];
   navItems = navItems.map((item) =>
-    item.name.toLowerCase() === itemName ? {...item, class: "active" } : item
+    item.name.toLowerCase() === itemName ? { ...item, class: "active" } : item
   );
   return navItems;
 };

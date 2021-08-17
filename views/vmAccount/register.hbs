@@ -1,6 +1,4 @@
-{{#section 'css'}}
-    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">;
-{{/section}}
+
 
 {{#section 'js'}}
     <script>
@@ -13,16 +11,16 @@
             $(elem).parent('div').remove();
         }
 
-        $('#btnShowPassword').click(function(e){
+        $('#btnShowPassword1').click(function(e){
             e.preventDefault();
-            if('password' == $('#txtPassword').attr('type')){
-                $('#txtPassword').prop('type', 'text');
-                $('#txtRepeatPassword').prop('type', 'text');
+            if('password' == $('#txtPassword1').attr('type')){
+                $('#txtPassword1').prop('type', 'text');
+                $('#txtRepeatPassword1').prop('type', 'text');
             }else{
-                $('#txtPassword').prop('type', 'password');
-                $('#txtRepeatPassword').prop('type', 'password');
+                $('#txtPassword1').prop('type', 'password');
+                $('#txtRepeatPassword1').prop('type', 'password');
             }
-            $('#btnShowPassword').toggleClass('color-cyan');
+            $('#btnShowPassword1').toggleClass('color-cyan');
         })
 
         async function checkExists(value, field){
@@ -38,9 +36,9 @@
 
             const errors = [];
 
-            const password = $('#txtPassword').val();
-            const repassword = $('#txtRepeatPassword').val();
-            const email = $('#txtEmail').val();
+            const password = $('#txtPassword1').val();
+            const repassword = $('#txtRepeatPassword1').val();
+            const email = $('#txtEmail1').val();
 
             if (!password || !repassword || !email)
                 errors.push("Please fill in all fields");
@@ -70,22 +68,33 @@
         });
     </script>
 {{/section}}
-
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">;
+    <style>
+      .my-container{
+        margin: 0 25% !important;
+      }
+      @media only screen and (max-width: 768px ) {
+        .my-container{
+          margin: 0 0.5rem !important;
+        }
+      }
+    </style>
+{{/section}}
 <div class="card background-body">
-<article class="card-body mx-auto bg-main text-white" style="width: 650px">
+<article class="card-body bg-main text-white my-container">
     <h4 class="card-title mt-3 text-center">Create Account</h4>
 	<p class="text-center">Continue with your social media account</p>
     <p></p>
         <div class="row m-0">
             <div class="col sm-col-3 p-0">
-                <a href="" class="btn btn-block btn-google"> <i class="fa fa-google fa-fw"></i>Google</a>
+                <a href="/auth/facebook" class="btn btn-block btn-facebook" hidden> <i class="fa fa-facebook fa-fw" ></i>Facebook</a>
             </div>
             <div class="col sm-col-3 px-2">
-                <a href="" class="btn btn-block btn-facebook"> <i class="fa fa-facebook fa-fw"></i>Facebook</a>
-        
+                <a href="/auth/google" class="btn btn-block btn-google"> <i class="fa fa-google fa-fw"></i>Google</a>
             </div>
             <div class="col sm-col-3 p-0">
-                <a href="" class="btn btn-block btn-github btn-custom-dark"> <i class="fa fa-github fa-fw"></i>Github</a>
+                <a href="/auth/github" class="btn btn-block btn-github btn-custom-dark" hidden> <i class="fa fa-github fa-fw"></i>Github</a>
             </div>
 		</div>
     </p>
@@ -112,22 +121,22 @@
 
         <div class="md-form">
             <i class="fa fa-envelope prefix grey-text"></i>
-            <input type="text" id="txtEmail" name="txtEmail" class="form-control text-white">
+            <input type="text" id="txtEmail1" name="txtEmail" class="form-control text-white">
             <label for="txtEmail">Email</label>
         </div>
         <div class="md-form">
             <i class="fa fa-lock prefix grey-text"></i>
-            <input type="password" id="txtPassword" name="txtPassword" class="form-control text-white">
+            <input type="password" id="txtPassword1" name="txtPassword" class="form-control text-white">
             <label for="txtPassword">Password</label>
         </div>
         <div class="md-form">
             <i class="fa fa-lock prefix grey-text"></i>
-            <input type="password" id="txtRepeatPassword" name="txtRepeatPassword" class="form-control text-white">
+            <input type="password" id="txtRepeatPassword1" name="txtRepeatPassword" class="form-control text-white">
             <label for="txtRepeatPassword">Confirm password</label>
         </div>
 
         <div class="row d-flex justify-content-end mx-3">
-            <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
+            <button type="button" id="btnShowPassword1" class="btn bg-transparent w-auto h-auto p-0 m-0">
                 <i class="fa fa-eye"></i>
             </button>
         </div>

@@ -1,68 +1,268 @@
 <style>
-    .carousel4Post {
-        height: 45vh;
+    @media only screen and (max-width: 600px) {
+        #searchPageComputer {
+            display: none !important;
+        }
+
+        #searchPagePhone {
+            display: block !important;
+        }
     }
 
-    .top4PostTitle {
-        font-size: x-small;
-        height: 10vh;
-    }
-
-    .currentPost {
-        background-color: rgba(0, 0, 0, 1) !important;
-    }
-
-    .top4PostTitle .h5 {
-        height: 5vh;
-    }
-
-    .postTagElement:hover {
-        background-color: black !important;
-        color: white !important;
+    .category {
+        cursor: pointer;
     }
 </style>
+<script>
+    function goSearchTitle() {
+        const inputString = '{{inputString}}';
+        window.location = "/search/title?keyword=" + inputString;
+        return false;
+    }
+    function goSearchAbstract() {
+        const inputString = "{{inputString}}";
+        window.location = "/search/abstract?keyword=" + inputString;
+        return false;
+    }
+    function goSearchContent() {
+        const inputString = '{{inputString}}';
+        window.location = "/search/content?keyword=" + inputString;
+        return false;
+    }
 
-<div class="container p-2 pb-0">
-    <div class="h5">
+    function goToCategory(id) {
+        window.location = "/category/" + id.toString();
+        return false;
+    }
+</script>
+
+<div id="searchPageComputer">
+    <style>
+        .carousel4Post {
+            height: 45vh;
+        }
+
+        .top4PostTitle {
+            font-size: x-small;
+            height: 10vh;
+        }
+
+        .currentPost {
+            background-color: rgba(0, 0, 0, 1) !important;
+        }
+
+        .top4PostTitle .h5 {
+            height: 5vh;
+        }
+
+        .postTagElement:hover {
+            background-color: black !important;
+            color: white !important;
+        }
+
+        .postFilter {
+            background-color: rgba(0, 0, 0, 0.1);
+            color: black;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .selected {
+            background-color: black;
+            color: white;
+            cursor: none;
+        }
+    </style>
+
+    <div class="container p-2 pb-0">
+        <div class="h5">
+            Kết quả tìm kiếm cho: {{inputString}}
+        </div>
+    </div>
+
+    {{#if isEmpty}}
+    <div class="container pl-2 h4">Sorry, we don't have any post in here.</div>
+    {{else}}
+    <div class="container pl-2 pb-0" style="color: grey;">
+        Có tổng cộng {{numPost}} bài viết
+    </div>
+    <div class="container mt-2">
+        {{#if isTitle}}
+        <span class="postFilter px-3 p-2 rounded selected">
+            <strong>Title</strong>
+        </span>
+        {{else}}
+        <span class="postFilter px-3 p-2 rounded" onclick="goSearchTitle()">
+            <strong>Title</strong>
+        </span>
+        {{/if}}
+
+        {{#if isAbstract}}
+        <span class="ml-2 postFilter p-2 rounded selected">
+            <strong>Abstract</strong>
+        </span>
+        {{else}}
+        <span class="ml-2 postFilter p-2 rounded" onclick="goSearchAbstract()">
+            <strong>Abstract</strong>
+        </span>
+        {{/if}}
+
+        {{#if isContent}}
+        <span class="ml-2 postFilter p-2 rounded selected">
+            <strong>Content</strong>
+        </span>
+        {{else}}
+        <span class="ml-2 postFilter p-2 rounded" onclick="goSearchContent()">
+            <strong>Content</strong>
+        </span>
+        {{/if}}
+    </div>
+
+    <div class="container jumbotron p-4 listPost my-4" style="background-color: white;">
+        {{#each listPostWithTag}}
+        <div class="row my-3">
+            <div class="col-4">
+                <div
+                    style="height: 100%; min-height: 20vh; background: url('/public/imgs/post/{{Post.ID}}/main.jpg') ; background-size: cover;">
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="text-white p-2 mb-2 category" style="background-color: black; width: fit-content"
+                    onclick="goToCategory({{Post.CategoryID}})">
+                    {{Post.CategoryName}}
+                </div>
+                <a class="h3" href="/post/{{Post.ID}}">
+                    {{#if Post.Premium}}
+                    <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
+                    {{/if}}
+                    {{Post.Title}}
+                </a>
+                <div style="font-size: small;" class="row">
+                    <div class="col-7">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        &nbsp;{{Post.PublishDate}}
+                    </div>
+                    <div class="col-2">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                        &nbsp;{{Post.ViewCount}}
+                    </div>
+                    <div class="col-3">
+                        <i class="fa fa-comment" aria-hidden="true"></i>
+                        &nbsp;{{Post.TotalComment}}
+                    </div>
+                </div>
+                <div class="my-3 row">
+                    <div class="col-9">
+                        {{Post.Abstract}}
+                    </div>
+                </div>
+                <div id="postTag">
+                    {{#each listTag}}
+                    <a class="postTagElement container p-1 px-2 mr-1" href="/tag/{{TagID}}?page=0"
+                        style="background-color: #eeeeee;">
+                        {{TagName}}
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{/each}}
+        <div class="d-flex justify-content-center">
+            {{#each paging}}
+            {{#if isCurrentPage}}
+            <div class="mr-1 p-1 px-2" style="background-color: black;">
+                <a class="text-white" href="/search?keyword={{inputString}}&page={{id}}">
+                    <strong>{{id}}</strong>
+                </a>
+            </div>
+            {{else}}
+            <div class="mr-1 p-1 px-2 border" style="background-color: rgba(0, 0, 0, 0);">
+                <a class="text-black" href="/search?keyword={{inputString}}&page={{id}}">
+                    <strong>{{id}}</strong>
+                </a>
+            </div>
+            {{/if}}
+            {{/each}}
+        </div>
+
+    </div>
+    {{/if}}
+</div>
+
+<div id="searchPagePhone" style="display: none;">
+    <div class="h5 ml-3 mt-3">
         Kết quả tìm kiếm cho: {{inputString}}
     </div>
-</div>
+    {{#if isEmpty}}
+    <div class="container pl-2 h4">Sorry, we don't have any post in here.</div>
+    {{else}}
+    <div class="container pl-2 pb-0" style="color: grey;">
+        Có tổng cộng {{numPost}} bài viết
+    </div>
+    <div class="container mt-2 mb-4">
+        {{#if isTitle}}
+        <span class="postFilter px-3 p-2 rounded selected">
+            <strong>Title</strong>
+        </span>
+        {{else}}
+        <span class="postFilter px-3 p-2 rounded" onclick="goSearchTitle()">
+            <strong>Title</strong>
+        </span>
+        {{/if}}
 
-{{#if isEmpty}}
-<div class="container pl-2 h4">Sorry, we don't have any post in here.</div>
-{{else}}
-<div class="container pl-2 pb-0" style="color: grey;">
-    Có tổng cộng {{numPost}} bài viết
-</div>
+        {{#if isAbstract}}
+        <span class="ml-2 postFilter p-2 rounded selected">
+            <strong>Abstract</strong>
+        </span>
+        {{else}}
+        <span class="ml-2 postFilter p-2 rounded" onclick="goSearchAbstract()">
+            <strong>Abstract</strong>
+        </span>
+        {{/if}}
 
-<div class="container jumbotron p-4 listPost my-4" style="background-color: white;">
-    {{#each listPostWithTag}}
-    <div class="row my-3">
-        <div class="col-4">
-            <img class="d-block w-100 img-fluid" src="/public/imgs/post/{{Post.ID}}/thumb.jpg">
-        </div>
-        <div class="col-8">
-            <a class="h3" href="/post/{{Post.ID}}">
+        {{#if isContent}}
+        <span class="ml-2 postFilter p-2 rounded selected">
+            <strong>Content</strong>
+        </span>
+        {{else}}
+        <span class="ml-2 postFilter p-2 rounded" onclick="goSearchContent()">
+            <strong>Content</strong>
+        </span>
+        {{/if}}
+    </div>
+    <div class="p-4 rounded listPost my-2" style="background-color: white;">
+        {{#each listPostWithTag}}
+        <div class="mb-4">
+            <div class="imgTrendyPost"
+                style="min-height: 30vh; width: 100%; background: url('/public/imgs/post/{{Post.ID}}/main.jpg') ; background-size: cover; display:flex; flex-direction:row; align-items:flex-end"
+                onclick="goToPost({{Post.ID}})">
+                <div class="text-white p-2 category" style="background-color: black; width: fit-content"
+                    onclick="goToCategory({{Post.CategoryID}})">
+                    {{Post.CategoryName}}
+                </div>
+            </div>
+            <a class="mt-2 h5" href="/post/{{Post.ID}}">
+                {{#if Post.Premium}}
+                <i class="fa fa-star" aria-hidden="true" style="color: gold;"></i>
+                {{/if}}
                 {{Post.Title}}
             </a>
-            <div style="font-size: small;" class="row">
-                <div class="col-7">
+            <div class="row mt-1">
+                <div class="col-6" style="font-size:xx-small">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                     &nbsp;{{Post.PublishDate}}
                 </div>
-                <div class="col-2">
+                <div class="col-3" style="text-align: right; font-size:xx-small">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                     &nbsp;{{Post.ViewCount}}
                 </div>
-                <div class="col-3">
+                <div class="col-3" style="text-align: right; font-size:xx-small">
                     <i class="fa fa-comment" aria-hidden="true"></i>
                     &nbsp;{{Post.TotalComment}}
                 </div>
             </div>
-            <div class="my-3 row">
-                <div class="col-9">
-                    {{Post.Abstract}}
-                </div>
+            <div style="font-size: small; text-align: left">
+                {{Post.Abstract}}
             </div>
             <div id="postTag">
                 {{#each listTag}}
@@ -73,25 +273,26 @@
                 {{/each}}
             </div>
         </div>
-    </div>
-    {{/each}}
-    <div class="d-flex justify-content-center">
-        {{#each paging}}
-        {{#if isCurrentPage}}
-        <div class="mr-1 p-1 px-2" style="background-color: black;">
-            <a class="text-white" href="/search?keyword={{inputString}}&page={{id}}">
-                <strong>{{id}}</strong>
-            </a>
-        </div>
-        {{else}}
-        <div class="mr-1 p-1 px-2 border" style="background-color: rgba(0, 0, 0, 0);">
-            <a class="text-black" href="/search?keyword={{inputString}}&page={{id}}">
-                <strong>{{id}}</strong>
-            </a>
-        </div>
-        {{/if}}
-        {{/each}}
-    </div>
 
+        {{/each}}
+        <div class="d-flex justify-content-center">
+            {{#each paging}}
+            {{#if isCurrentPage}}
+            <div class="mr-1 p-1 px-2" style="background-color: black;">
+                <a class="text-white" href="/search?keyword={{inputString}}&page={{id}}">
+                    <strong>{{id}}</strong>
+                </a>
+            </div>
+            {{else}}
+            <div class="mr-1 p-1 px-2 border" style="background-color: rgba(0, 0, 0, 0);">
+                <a class="text-black" href="/search?keyword={{inputString}}&page={{id}}">
+                    <strong>{{id}}</strong>
+                </a>
+            </div>
+            {{/if}}
+            {{/each}}
+        </div>
+
+    </div>
+    {{/if}}
 </div>
-{{/if}}

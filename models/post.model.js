@@ -1,7 +1,5 @@
 const { ENDPOINTS } = require("../configs/post.cfg");
 const db = require("../utils/db");
-const { updateWriter } = require("./account.model");
-const { patch } = require("./category.model");
 
 
 module.exports = {
@@ -104,6 +102,76 @@ module.exports = {
     return rs[0][0].length !== 0 ? rs[0][0][0] : null;
   },
 
+  async findPostByInputStringAndPageTitle(inputString, pageId) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Title('${inputString}', ${pageId});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getNumPageByInputStringTitle(inputString) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Numpage_Title('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  }, 
+
+  async getNumPostByInputStringTitle(inputString) {
+    const rs = await db.raw(`Call GTR_Search_PostInfo_Total_Title('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  },
+
+  async findPostByInputStringAndPageAbstract(inputString, pageId) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Title('${inputString}', ${pageId});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getNumPageByInputStringAbstract(inputString) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Numpage_Title('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  }, 
+
+  async getNumPostByInputStringAbstract(inputString) {
+    const rs = await db.raw(`Call GTR_Search_PostInfo_Total_Title('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  },
+
+  async findPostByInputStringAndPageContent(inputString, pageId) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Content('${inputString}', ${pageId});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getNumPageByInputStringContent(inputString) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Numpage_Content('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  }, 
+
+  async getNumPostByInputStringContent(inputString) {
+    const rs = await db.raw(`Call GTR_Search_PostInfo_Total_Content('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  },
+
+  async getTop4Post(){
+    const rs = await db.raw(`Call GTT_TopWeek_PostInfo_By_ViewCount();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTop10PostByDate() {
+    const rs = await db.raw(`Call GTT_Top10_PostInfo_By_Date();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTop10PostByViewCount() {
+    const rs = await db.raw(`Call GTT_Top10_PostInfo_By_ViewCount();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTop10PostPerCategory(){
+    const rs = await db.raw(`Call GTT_Top10_PostInfo_PerCat();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTopLatestPost10Category(){
+    const rs = await db.raw(`Call GTT_Top10_Cat_PostInfo_With_LastestPost();`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
   async getPostByWriterID(id){
     const endpoint = ENDPOINTS.getPostByWriterID(id);
     const rs = await db.raw(endpoint);
@@ -113,5 +181,44 @@ module.exports = {
   async createByWriter(post) {
     const rs = await db.raw(ENDPOINTS.createByWriter(post));
     return rs[0][0][0] || null;
+  },
+  async getDraftPostByCatID(id){
+    const rs = await db.raw(ENDPOINTS.getDraftPostByCatID(id));
+    return rs[0][0] || [];
+  },
+
+  publishPostByEditor(postID, publishDate, catID){
+    return db.raw(ENDPOINTS.publishPostByEditor(postID, publishDate, catID));
+  },
+
+  refusePostByEditor(accID, postID, date, note){
+    return db.raw(ENDPOINTS.refusePostByEditor(accID, postID, date, note));
+  },
+
+  async getTop10PostACateByViewPoint(categoryID){
+    const rs = await db.raw(`Call GTT_Top10_Post_By_Cate(${categoryID});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getRefusedPost(postID){
+    const rs = await db.raw(ENDPOINTS.getRefusedPost(postID));
+    return rs[0][0][0] || null;
+  },
+
+  updateRefusedToDraft(postID){
+    return db.raw(ENDPOINTS.updateRefusedToDraft(postID));
+  },
+  async increaseViewCountBy1(PostID){
+    await db.raw(`Call UPD_Post_ViewCount(${PostID});`);
+  },
+
+  async getTotalPostByCategory(categoryID){
+    const rs = await db.raw(`Call GTR_Total_PostInfo_Publish_By_CategoryID(${categoryID});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTotalPostByTag(tagID){
+    const rs = await db.raw(`Call GTR_Total_PostInfo_Publish_By_TagID(${tagID});`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
   },
 }

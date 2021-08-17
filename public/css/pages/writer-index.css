@@ -21,7 +21,6 @@
 
 .post-navbar {
   position: relative;
-  height: 3.5rem;
   width: 100%;
   padding: 0;
   margin-top: 1rem;
@@ -136,6 +135,10 @@
   color: #4D4D4D;
 }
 
+.post-content:hover .post-content-title{
+  text-decoration: underline;
+}
+
 .post-content-title {
   font-weight: 600;
   font-size: 20px;
@@ -143,20 +146,14 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
-.post-content-time {
+.post-info{
+  margin-top: 2px;
+}
+
+.post-content-label {
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;
-}
-
-.post-content-time::before {
-  background-image: url('/public/svg/clock.svg');
-  display: inline-block;
-  content: ' ';
-  background-size: 13px 13px;
-  height: 13px;
-  width: 13px;
-  margin-right: 4px;
 }
 
 .post-options {
@@ -189,4 +186,22 @@
   flex-flow: column;
   align-items: center;
   justify-content: center;
+}
+
+@media only screen and (max-width: 767px) {
+  .menus{
+    font-size: 0.7rem;
+  }
+  .menus a{
+    padding: 0.5rem;
+  }
+  .badge {
+    margin-left: 0.2rem;
+  }
+}
+
+@media only screen and (max-width: 330px){
+  .menus a{
+    padding: 0;
+  }
 }

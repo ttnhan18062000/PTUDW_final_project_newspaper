@@ -13,9 +13,8 @@ Bootstrap Admin Template by EGrappler.com
 }
 
 .shortcuts .shortcut { 
-	width: 22.50%;
 	display: inline-block;
-	padding: 12px 0;
+	padding: 8px 8px;
 	margin: 0 .9% 1em;
 	vertical-align: top;	
 	
@@ -190,12 +189,12 @@ Bootstrap Admin Template by EGrappler.com
 	}
 	
 	.action-table .td-actions .btn:last-child { 
-		margin-rigth: 0; 		
+		margin-right: 0; 		
 	}
 	
 	
 	
-#big_stats 
+.big_stats 
 { 
 	width: 100%; 
 	display: table;
@@ -208,7 +207,7 @@ Bootstrap Admin Template by EGrappler.com
 	border:0;
 }
 
-#big_stats .stat
+.big_stats .stat
 {
 	width: 25%;
 	height: 90px;
@@ -220,23 +219,23 @@ Bootstrap Admin Template by EGrappler.com
 	border-right: 1px solid #CCC;
 	border-left: 1px solid #FFF;
 }
-#big_stats  i { font-size:30px; display:block; line-height: 40px; color:#b2afaa;}
-#big_stats .stat:hover i {color:#19bc9c;}
+.big_stats  i { font-size:30px; display:block; line-height: 40px; color: inherit;}
+.big_stats .stat:hover i {color: #169c81;}
 
 h6.bigstats{margin: 20px;
 border-bottom: 1px solid #eee;
 padding-bottom: 20px;
 margin-bottom: 26px;}
 
-#big_stats .stat:first-child {
+.big_stats .stat:first-child {
 	border-left: none;
 }
 
-#big_stats .stat:last-child {
+.big_stats .stat:last-child {
 	border-right: none;
 }
 
-#big_stats .stat h4
+.big_stats .stat h4
 {
 	font-size: 11px;
 	font-weight: bold;
@@ -244,7 +243,7 @@ margin-bottom: 26px;}
 	margin-bottom: 1.5em;
 }
 
-#big_stats .stat .value
+.big_stats .stat .value
 {
 	font-size: 45px;
 	font-weight: bold;
@@ -256,30 +255,30 @@ margin-bottom: 26px;}
 
 @media all and (max-width: 950px) and (min-width: 1px) {
 	
-	#big_stats {
+	.big_stats {
 		display: block;
 		margin-bottom: -40px;
 	}
 	
-	#big_stats .stat {
+	.big_stats .stat {
 		width: 49%;
 		display: block;
 		margin-bottom: 3em;
 		float: left;
 	}	
 	
-	#big_stats .stat:nth-child(2) {
+	.big_stats .stat:nth-child(2) {
 		border-right: none;
 	}
 	
-	#big_stats .stat:nth-child(3) {
+	.big_stats .stat:nth-child(3) {
 		border-left: none;
 	}
 	
 }
 
 @media (max-width: 767px) {
-	#big_stats .stat .value {
+	.big_stats .stat .value {
 		font-size: 40px;
 	}
 }

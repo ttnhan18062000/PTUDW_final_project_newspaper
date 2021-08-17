@@ -1,16 +1,23 @@
-{{#section 'css'}}
-    <link rel="stylesheet" type="text/css" href="/public/styles/profile.css">
-    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
-{{/section}}
+
 
 {{#section 'js'}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
   <script>
+    $('#modalPremiumRequest').on('hidden.bs.modal', function(){
+        window.location.reload();
+    })
     function validateEmail(email) {
             const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return re.test(String(email).toLowerCase());
         }
+
+    function insPremium(){
+        $.post('/post/insertPremiumRequest', {
+            AccountID: {{account.ID}},
+        }, function() {});
+        $('#modalPremiumRequest').modal('show');
+        return true;
+    }
 
     function removeDiv(elem){
         $(elem).parent('div').remove();
@@ -122,9 +129,49 @@
     $('#imgAccount').attr('src', imgSrc);
   </script>
 {{/section}}
-<div class="container-fluid bg-dark p-5">
-<div class="container mt-5 d-flex justify-content-center">
-  <div class="row w-75">
+{{#section 'css'}}
+    <link rel="stylesheet" type="text/css" href="/public/styles/profile.css">
+    <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+  <style>
+    .my-container{
+      display: flex;
+      justify-content: center;
+    }
+    @media only screen and (max-width: 768px) {
+      .my-container{
+        display: block;
+        padding: 0 1rem;
+      }
+      .my-btn{
+        font-size: 1rem !important;
+      }
+}
+  </style>
+{{/section}}
+<div class="modal fade" id="modalPremiumRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><strong>Đã gửi yêu cầu</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    Chúng tôi đã nhận được yêu cầu của bạn và sẽ duyệt yêu cầu sớm nhất có thể.
+                    <br>
+                    Cảm ơn bạn đã theo dõi <a href="/"><strong>CNTN NEWS</strong></a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark mr-0 rounded p-2" data-dismiss="modal">THOÁT</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="my-container bg-dark w-100">
+  <div class="row">
       <div class="card w-100 bg-main p-3">
         <div class="row g-0">
           <div class="col-md-4">
@@ -173,9 +220,12 @@
                     </div>
                 {{/if}}
             </div>
+            {{#if isPremium}}
+              <h4 style="text-align: center; color: gold">PREMIUM ACCOUNT</h4>
+            {{/if}}
 
             <!-- Edit Form -->
-            <form class="p-3" id="frmEdit" method="POST" autocomplete="off">
+            <form class="p-2" id="frmEdit" method="POST" autocomplete="off">
                 <div class="md-form mb-0">
                     <input type="text" id="txtADName" name="txtADName" class="form-control validate text-white" value="{{account.DisplayName}}" disabled>
                     <label id="lbDName" for="txtADName" class="disabled" data-error="wrong" data-success="right">Display Name</label>
@@ -205,18 +255,21 @@
                   <button type="submit" class="btn btn-outline-info text-black" id="btnSave"> Save </button>
                   <button type="button" class="btn btn-outline-info text-black" id="btnClose"> Close </button>
               </div>
-
             </form>
             <!-- Edit Form -->
-
-          </div>
+          </>
           <!-- Card content -->
-
+          {{#if isPremium}}
+          {{else}}
+          {{#if isPending}}
+          <div class="text-white py-2 px-4">Tài khoản của bạn đã đăng ký PREMIUM và đang chờ xét duyệt.</div>
+          {{else}}
+          <button type="button" class="mx-5 btn btn-white rounded p-2 my-btn" style="vertical-align:middle; font-size:x-large" onclick="return insPremium()" data-dismiss="modal" ><strong>NÂNG CẤP PREMIUM</strong></button>
+          {{/if}}
+          {{/if}}
         </div>
         <!-- Card -->
 
       </div>
        
     </div>
-
-</div>

@@ -34,7 +34,11 @@ module.exports = function(app) {
       },
       formatTime(time){
         return moment(time, 'DD/MM/YYYY').format('DD/MM/YYYY')
+      },
+      getTomorrow(){
+        return moment().add(1, 'days').format('YYYY/MM/DD');
       }
+      
     }
   }));
   app.set('view engine', 'hbs');

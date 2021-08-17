@@ -13,7 +13,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
   <!-- Material Design Bootstrap -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <script src="https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
   <link rel="stylesheet" type="text/css" href="/public/styles/register-login.css">
   <link rel="stylesheet" type="text/css" href="/public/styles/main.css">
   {{{_sections.css}}}
@@ -33,7 +34,6 @@
 
   $(document).ready(function () {
 
-    $('#content').css('padding-top', ($('.fixed-top').height() + 30).toString() + "px");
     $('#carouselExample').on('slide.bs.carousel', function (e) {
 
       /*
@@ -68,10 +68,20 @@
     window.location = "/search?keyword=" + inputString;
     return false;
   }
+
+  function goSearchPhone() {
+    const inputString = $('#inputFieldPhone').val();
+    if (inputString == null || inputString == "") {
+      return false;
+    }
+    window.location = "/search?keyword=" + inputString;
+    return false;
+  }
 </script>
 
 <body>
   <input type="hidden" id="account" value="{{jsonParse this.account}}">
+  <div class="computerScreen">
   {{#if isHome}}
     <div class="fixed-top" style="background-color: rgba(0, 0, 0, 0);">
   {{else}}
@@ -97,9 +107,9 @@
       <div class="collapse navbar-collapse navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
           <li>
-            <a href="#" id="btn-func" style="margin-right: 1rem; color: white"></a>
+            <a href="#" class="btn-func" style="margin-right: 1rem; color: white"></a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item mr-5 pr-3">
               <div class="dropdown d-flex justify-content-center">
                 <button type="button" id="btnLogin" class="btn bg-transparent text-white p-0 m-0 d-flex align-items-center justify-content-center" data-toggle="modal"
                   data-target="#modalLogin">
@@ -113,26 +123,6 @@
                   <a href="/account/logout" class="dropdown-item text-white"><i class="fa fa-sign-out"></i> Logout</a>
                 </div>
               </div>
-          </li>
-          <li class="nav-item facebook_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-facebook icon"></i>
-            </a>
-          </li>
-          <li class="nav-item twitter_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-twitter icon"></i>
-            </a>
-          </li>
-          <li class="nav-item linkedin_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-linkedin icon"></i>
-            </a>
-          </li>
-          <li class="nav-item googleplus_icon h5">
-            <a class="nav-link text-white" href="#">
-              <i class="fa fa-google-plus"></i>
-            </a>
           </li>
         </ul>
       </div>
@@ -148,7 +138,7 @@
         {{/each}}
         {{#if isHome}}
         {{else}}
-          <li class="nav-item ml-2">
+          <li class="nav-item" style="margin-left: auto; margin-right: 0">
             <form class="form-inline ml-5 my-2 my-lg-0">
               <input class="ml-4 form-control" type="search" placeholder="Nhập thông tin" aria-label="Search"
                 id="inputField">
@@ -177,7 +167,7 @@
               type="submit" onclick="return goSearch()">Tìm kiếm&nbsp;&nbsp;</button>
           </div>
         {{/if}}
-        <ul style="list-style: none; flex-wrap: wrap; justify-content: center;" class="d-flex">
+        <ul style="list-style: none; flex-wrap: wrap; justify-content: center; display: flex">
           {{#each listCategories}}
             <li class="m-5">
               <a style="text-decoration: none;" class="text-light h4" href="/category/{{ID}}?page=0">{{Name}}</a>
@@ -195,32 +185,177 @@
     </div>
   </div>
   </div>
+  </div>
+
+<div class="phoneScreen" style="display: none;">
+  <nav class="navbar fixed-top navbar-light bg-light" style="background-color: black !important;">
+    <a class="navbar-brand" href="/">CNTN NEWS</a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse"   data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <form class="form-inline my-2 my-lg-0" style="display: flex; justify-content:center">
+        <input class="form-control mr-sm-2" style="width: 200px;" type="search" placeholder="Nhập thông tin tìm kiếm" aria-label="Search" id="inputFieldPhone">
+        <button class="btn btn-outline-light p-2 text-dark rounded" style="width: 100px"type="submit" onclick="return goSearchPhone()">Tìm kiếm</button>
+    </form>
+    <hr style="height:2px;border-width:0;color:white;background-color:white">
+      {{#each listCategories}}
+        <div class="m-3" style="display: flex; justify-content:center">
+          <a style="text-decoration: none;" class="text-light h4" href="/category/{{ID}}?page=0">{{Name}}</a>
+        </div>
+      {{/each}}
+      {{#if account}}
+      <div class="m-3" style="display: flex; justify-content:center; color:gold">
+        {{account.DisplayName}}
+        </div>
+      <div class="m-3" style="display: flex; justify-content:center">
+        <a href="/account/profile" class="dropdown-item text-white" style="text-align: center;"><i class="fa fa-user-o"></i> Profile</a>
+        </div>
+        <div class="m-3" style="display: flex; justify-content:center">
+        <a href="/account/logout" class="dropdown-item text-white" style="text-align: center;"><i class="fa fa-sign-out"></i> Logout</a>
+        </div>
+        <div class="d-flex justify-content-center">
+          <a href="#" class="btn-func" style="margin-right: 1rem; color: white"></a>
+        </div>
+      {{else}}
+      <div style="display: flex; justify-content:center">
+      <button type="button" id="btnLoginPhone" class="btn bg-transparent text-white p-0 m-0 d-flex align-items-center justify-content-center" data-toggle="modal" data-target="#modalLogin">
+      <i class="fa fa-user-circle fa-2x mr-2" aria-hidden="true"></i>
+      <p class="text-center m-0" id="txtLoginPhone">Sign In</p>
+    </button>
+      </div>
+      {{/if}}
+    </div>
+  </nav>
+</div>
+
   {{#if isHome}}
     {{{body}}}
   {{else}}
-    <div id="content" style="background-color: #f7f7f7; min-height: 100vh; padding-bottom: 10vh">
+    <div id="content" style="background-color: #f7f7f7; min-height: 100vh; padding-bottom: 10vh;">
       {{{body}}}
     </div>
   {{/if}}
+<div class="computerScreen">
+  <div class="py-4" style="background-color: black;">
+  <div class="container">
+    <div class="row">
+      <div class="col-8 h3" style=" color: white">
+        CNTN NEWS
+      </div>
+      <div class="col-4">
+        <div class="d-flex justify-content-end ml-auto">
+          <div class="facebook_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-facebook icon"></i>
+            </a>
+          </div>
+          <div class="twitter_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-twitter icon"></i>
+            </a>
+          </div>
+          <div class="linkedin_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-linkedin icon"></i>
+            </a>
+          </div>
+          <div class="googleplus_icon h5">
+            <a class="nav-link text-white" href="#">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="my-1" style="border-bottom: 2px solid white;">
+    <div class="row mt-2">
+      <div class="col-4 text-white" style="font-size: small">
+        Thích đọc CNTN NEWS tức là biết đánh đổi những giờ phút buồn tẻ không thể tránh được trong cuộc đời lấy những giờ phút lý thú.<br>
+        
+        CNTN NEWS - Không chỉ là tin tức.
+      </div>
+      <div class="col-4">
+
+      </div>
+      <div class="col-4" >
+        <div style="text-align:right; font-size: small; color: white">
+          Tổng biên tập: <strong>18120537 - Nguyễn Thái Sơn</strong>
+        </div>
+        <div style="text-align:right; font-size: small; color: white">
+          Biên kịch: <strong>18120495 - Trương Trung Nhân</strong>
+        </div>
+        <div style="text-align:right; font-size: small; color: white">
+          Thiết kế: <strong>18120313 - Trần Tuấn Đạt</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="phoneScreen" style="display: none;">
+  <div class="py-4" style="background-color: black;">
+  <div class="container" style="display: flex; align-items:center; flex-direction:column">
+    <div class="h3 text-white">
+      CNTN NEWS
+    </div>
+      <div class="facebook_icon h5">
+        <a class="nav-link text-white" href="#">
+          <i class="fa fa-facebook icon"></i>
+        </a>
+      </div>
+      <div class="twitter_icon h5">
+        <a class="nav-link text-white" href="#">
+          <i class="fa fa-twitter icon"></i>
+        </a>
+      </div>
+      <div class="linkedin_icon h5">
+        <a class="nav-link text-white" href="#">
+          <i class="fa fa-linkedin icon"></i>
+        </a>
+      </div>
+      <div class="googleplus_icon h5">
+        <a class="nav-link text-white" href="#">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </div>
+    <hr class="my-1" style="border-bottom: 2px solid white;">
+    
+    <div class="text-white mb-3" style="font-size: small; text-align:center">
+      Thích đọc CNTN NEWS tức là biết đánh đổi những giờ phút buồn tẻ không thể tránh được trong cuộc đời lấy những giờ phút lý thú.<br>
+        
+      CNTN NEWS - Không chỉ là tin tức.
+    </div>
+    <div style="text-align:right; font-size: small; color: white">
+          Tổng biên tập: <strong>18120537 - Nguyễn Thái Sơn</strong>
+        </div>
+        <div style="text-align:right; font-size: small; color: white">
+          Biên kịch: <strong>18120495 - Trương Trung Nhân</strong>
+        </div>
+        <div style="text-align:right; font-size: small; color: white">
+          Thiết kế: <strong>18120313 - Trần Tuấn Đạt</strong>
+        </div>
+    
+  </div>
+</div>
+</div>
+
   <div class="modal fade bg-main text-white" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog bg-main" role="document">
       <div class="modal-content bg-main">
         <div class="modal-header text-center">
           <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close text-white" style="position: absolute; right: 25px;" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body mx-3">
           <form id="frmLogin" method="POST" autocomplete="off" action="/account/login">
             <div class="d-flex justify-content-center mb-3">
-              <a href="" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i
+              <a href="/auth/google" class="rounded-circle btn-google d-flex justify-content-center align-items-center"><i
                   class="fa fa-google fa-fw"></i></a>
-              <a href="" class="rounded-circle btn-facebook mx-3 d-flex justify-content-center align-items-center"><i
-                  class="fa fa-facebook fa-fw"></i></a>
-              <a href="" class="rounded-circle btn-github d-flex justify-content-center align-items-center"><i
-                  class="fa fa-github fa-fw"></i></a>
             </div>
             <div id="dvMessage">
               {{#if error_msg}}
@@ -243,6 +378,7 @@
             </div>
             <div class="row d-flex justify-content-between align-items-center h-a px-3">
               <a href="/account/reset-password-request/" class="color-cyan">Forgot your password?</a>
+              <button type="button" id="btnVerifyEmail" class="bg-transparent b-0"><a id="aVerify" href="/account/verification-email/" class="color-cyan">Verify your account?</a></button>
               <button type="button" id="btnShowPassword" class="btn bg-transparent w-auto h-auto p-0 m-0">
                 <i class="fa fa-eye"></i>
               </button>
@@ -321,7 +457,25 @@
           `<div class="alert alert-danger w-100 bg-transparent color-lightred d-flex align-items-center justify-content-between" role="alert">${message}<button type="button" onClick="removeDiv(this)" class="btn bg-transparent w-auto h-auto p-0 m-0"><i class="fa fa-times"></i></button></div>`
         );
       }
+
+      const verifyEmail = "{{verifyEmail}}";
+      if(verifyEmail){
+        $('#btnVerifyEmail').click(function(){
+          const email = $('#txtEmail').val();
+          $('#aVerify').attr('href', `/account/verification-email?email=${email}&type=create`);
+        }) 
+      }
+      else{
+        $('#btnVerifyEmail').hide();
+      }
     }
+    else{
+      $('#btnVerifyEmail').hide();
+    }
+
+    $('#modalLogin').on('hidden.bs.modal', function(){
+      $('#dvMessage').empty();
+    });
 
     $(document).ready(function () {
       {{#if account}}
@@ -345,23 +499,34 @@
             break;
           }
         }
-        $('#btn-func').html(text);
-        $('#btn-func').attr('href', href);
+        $('.btn-func').html(text);
+        $('.btn-func').attr('href', href);
       {{/if}}
     });
       const accountID = "{{account.ID}}";
       let accountName = "{{account.DisplayName}}";
+      
       if(!accountName)
         accountName = "[None]";
       if(accountID){
         $('#btnLogin').attr('data-toggle','dropdown');
         $('#btnLogin').removeAttr('data-target');
         $('#txtLogin').html(accountName);
+        if('{{account.PremiumStatus}}' === 'Active'){
+          $('#txtLogin').css('color','gold');
+          $('#txtLoginPhone').css('color','gold');
+        }
+        $('#btnLoginPhone').attr('data-toggle','dropdown');
+        $('#btnLoginPhone').removeAttr('data-target');
+        $('#txtLoginPhone').html(accountName);
       }
       else{
         $('#btnLogin').attr('data-toggle','modal');
         $('#btnLogin').attr('data-target', '#modalLogin');
         $('#txtLogin').html('Sign In');
+        $('#btnLoginPhone').attr('data-toggle','modal');
+        $('#btnLoginPhone').attr('data-target', '#modalLogin');
+        $('#txtLoginPhone').html('Sign In');
       }
     </script>
     {{{_sections.js}}}

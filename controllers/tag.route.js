@@ -13,7 +13,7 @@ router.get("/:tagID", async function (req, res) {
     const top5Post = await postModel.getTop5ViewCountByTagId(tagId);
     const top4Post = [];
     const listPostWithTag = [];
-    const numPage = await postModel.getNumPageByTagID(tagId);
+    const numPage = await postModel.getTotalPostByTag(tagId);
     if (listPost !== null) {
         for (let index = 1; index < top5Post.length - 1; index++) {
             const element = top5Post[index];
@@ -36,14 +36,23 @@ router.get("/:tagID", async function (req, res) {
     }
 
     const paging = [];
-    for (let index = 0; index < +numPage.NumPage; index++) {
+    var pId = pageID - 1;
+    var num = Math.round(+numPage.Total / 5 + 0.5);
+    if(num > pId + 5)
+        num = pId + 5;
+    if(num - pId < 5){
+        pId = num - 5;
+    }
+    if(pId < 0){
+        pId = 0;
+    }
+    for (let index = pId; index < num; index++) {
         paging.push({
             id: index,
             isCurrentPage: index == pageID,
             tagId: tagId,
         })
     }
-
     res.render("../views/vmTag/tagPage.hbs", {
         isEmpty: listPost === null,
         isTagList: true,
