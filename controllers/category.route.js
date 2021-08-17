@@ -37,13 +37,21 @@ router.get("/:categoryID", async function (req, res) {
     }
 
     const paging = [];
+    var pId = pageID;
     var num = +numPage.NumPage;
     if(num > pageID + 5)
-        num = pageID + 5
-    for (let index = pageID; index < num; index++) {
+        num = pageID + 5;
+    if(num - pageID < 5){
+        pId = num - 5;
+    }
+    if(pId < 0){
+        pId = 0;
+    }
+    for (let index = pId; index < num; index++) {
         paging.push({
             id: index,
             isCurrentPage: index == pageID,
+            categoryId: categoryId,
         })
     }
 
