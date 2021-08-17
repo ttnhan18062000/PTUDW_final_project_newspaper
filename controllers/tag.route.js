@@ -37,7 +37,6 @@ router.get("/:tagID", async function (req, res) {
 
     const paging = [];
     var pId = pageID - 1;
-    console.log(numPage)
     var num = Math.round(+numPage.Total / 5 + 0.5);
     if(num > pId + 5)
         num = pId + 5;
