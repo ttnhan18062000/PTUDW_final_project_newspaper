@@ -24,10 +24,17 @@ router.get("/", async function (req, res){
         }
     }
     const paging = [];
+    var pId = pageID - 1;
     var num = +numPage.NumPage;
-    if(num > pageID + 5)
-        num = pageID + 5
-    for (let index = pageID; index < num; index++) {
+    if(num > pId + 5)
+        num = pId + 5;
+    if(num - pId < 5){
+        pId = num - 5;
+    }
+    if(pId < 0){
+        pId = 0;
+    }
+    for (let index = pId; index < num; index++) {
         paging.push({
             id: index,
             isCurrentPage: index == pageID,
@@ -63,11 +70,11 @@ router.get("/title", async function (req, res){
         }
     }
     const paging = [];
-    var pId = pageID;
+    var pId = pageID - 1;
     var num = +numPage.NumPage;
-    if(num > pageID + 5)
-        num = pageID + 5;
-    if(num - pageID < 5){
+    if(num > pId + 5)
+        num = pId + 5;
+    if(num - pId < 5){
         pId = num - 5;
     }
     if(pId < 0){
@@ -110,11 +117,11 @@ router.get("/abstract", async function (req, res){
         }
     }
     const paging = [];
-    var pId = pageID;
+    var pId = pageID - 1;
     var num = +numPage.NumPage;
-    if(num > pageID + 5)
-        num = pageID + 5;
-    if(num - pageID < 5){
+    if(num > pId + 5)
+        num = pId + 5;
+    if(num - pId < 5){
         pId = num - 5;
     }
     if(pId < 0){
@@ -157,11 +164,11 @@ router.get("/content", async function (req, res){
         }
     }
     const paging = [];
-    var pId = pageID;
+    var pId = pageID - 1;
     var num = +numPage.NumPage;
-    if(num > pageID + 5)
-        num = pageID + 5;
-    if(num - pageID < 5){
+    if(num > pId + 5)
+        num = pId + 5;
+    if(num - pId < 5){
         pId = num - 5;
     }
     if(pId < 0){

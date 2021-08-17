@@ -36,11 +36,11 @@ router.get("/:tagID", async function (req, res) {
     }
 
     const paging = [];
-    var pId = pageID;
+    var pId = pageID - 1;
     var num = +numPage.NumPage;
-    if(num > pageID + 5)
-        num = pageID + 5;
-    if(num - pageID < 5){
+    if(num > pId + 5)
+        num = pId + 5;
+    if(num - pId < 5){
         pId = num - 5;
     }
     if(pId < 0){
