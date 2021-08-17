@@ -210,5 +210,15 @@ module.exports = {
   },
   async increaseViewCountBy1(PostID){
     await db.raw(`Call UPD_Post_ViewCount(${PostID});`);
-  }
+  },
+
+  async getTotalPostByCategory(categoryID){
+    const rs = await db.raw(`Call GTR_Total_PostInfo_Publish_By_CategoryID(${categoryID});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getTotalPostByTag(tagID){
+    const rs = await db.raw(`Call GTR_Total_PostInfo_Publish_By_TagID(${tagID});`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  },
 }
