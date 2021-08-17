@@ -14,7 +14,7 @@ router.get("/:categoryID", async function (req, res) {
     const top5Post = await postModel.getTop5ViewCountByCategoryId(categoryId);
     const top4Post = [];
     const listPostWithTag = [];
-    const numPage = await postModel.getNumPageByCategoryID(categoryId);
+    const numPage = await postModel.getTotalPostByCategory(categoryId);
     if (listPost !== null) {
         for (let index = 1; index < top5Post.length - 1; index++) {
             const element = top5Post[index];
@@ -35,10 +35,9 @@ router.get("/:categoryID", async function (req, res) {
             })
         }
     }
-
     const paging = [];
     var pId = pageID - 1;
-    var num = +numPage.NumPage;
+    var num = +numPage[0].Total / 5;
     if(num > pId + 5)
         num = pId + 5;
     if(num - pId < 5){

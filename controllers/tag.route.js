@@ -13,7 +13,7 @@ router.get("/:tagID", async function (req, res) {
     const top5Post = await postModel.getTop5ViewCountByTagId(tagId);
     const top4Post = [];
     const listPostWithTag = [];
-    const numPage = await postModel.getNumPageByTagID(tagId);
+    const numPage = await postModel.getTotalPostByTag(tagId);
     if (listPost !== null) {
         for (let index = 1; index < top5Post.length - 1; index++) {
             const element = top5Post[index];
@@ -37,7 +37,7 @@ router.get("/:tagID", async function (req, res) {
 
     const paging = [];
     var pId = pageID - 1;
-    var num = +numPage.NumPage;
+    var num = +numPage.Total / 5;
     if(num > pId + 5)
         num = pId + 5;
     if(num - pId < 5){
