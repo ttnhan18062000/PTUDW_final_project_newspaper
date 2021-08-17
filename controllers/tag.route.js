@@ -36,14 +36,16 @@ router.get("/:tagID", async function (req, res) {
     }
 
     const paging = [];
-    for (let index = 0; index < +numPage.NumPage; index++) {
+    var num = +numPage.NumPage;
+    if(num > pageID + 5)
+        num = pageID + 5
+    for (let index = pageID; index < num; index++) {
         paging.push({
             id: index,
             isCurrentPage: index == pageID,
-            tagId: tagId,
         })
     }
-
+    console.log(listPostWithTag);
     res.render("../views/vmTag/tagPage.hbs", {
         isEmpty: listPost === null,
         isTagList: true,

@@ -102,6 +102,51 @@ module.exports = {
     return rs[0][0].length !== 0 ? rs[0][0][0] : null;
   },
 
+  async findPostByInputStringAndPageTitle(inputString, pageId) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Title('${inputString}', ${pageId});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getNumPageByInputStringTitle(inputString) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Numpage_Title('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  }, 
+
+  async getNumPostByInputStringTitle(inputString) {
+    const rs = await db.raw(`Call GTR_Search_PostInfo_Total_Title('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  },
+
+  async findPostByInputStringAndPageAbstract(inputString, pageId) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Title('${inputString}', ${pageId});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getNumPageByInputStringAbstract(inputString) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Numpage_Title('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  }, 
+
+  async getNumPostByInputStringAbstract(inputString) {
+    const rs = await db.raw(`Call GTR_Search_PostInfo_Total_Title('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  },
+
+  async findPostByInputStringAndPageContent(inputString, pageId) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Content('${inputString}', ${pageId});`);
+    return rs[0][0].length !== 0 ? rs[0][0] : null;
+  },
+
+  async getNumPageByInputStringContent(inputString) {
+    const rs = await db.raw(`Call GTT_Search_PostInfo_Numpage_Content('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  }, 
+
+  async getNumPostByInputStringContent(inputString) {
+    const rs = await db.raw(`Call GTR_Search_PostInfo_Total_Content('${inputString}');`);
+    return rs[0][0].length !== 0 ? rs[0][0][0] : null;
+  },
+
   async getTop4Post(){
     const rs = await db.raw(`Call GTT_TopWeek_PostInfo_By_ViewCount();`);
     return rs[0][0].length !== 0 ? rs[0][0] : null;
