@@ -60,8 +60,10 @@ router.get("/detail", async function(req, res) {
       categories = await accountModel.detailEditor(account.ID);
       item = {...account, categories};
       listCategories = await categoryModel.all();
-      editorCat = categories.map(cat => cat.ID)
+      editorCat = categories.map(cat => cat.ID);
       listCategories = listCategories.filter(cat => !editorCat.includes(cat.ID));
+      listCategories = listCategories.filter(cat => !!cat.ParentCategoryID).
+            map(cat => ({...cat, Name: `${cat.ParentName}`+' \u2192 '+`${cat.Name}`}));
       break;
     }
     case 'Adminstrator':
