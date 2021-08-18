@@ -4,9 +4,9 @@
     })
     $(document).scroll(function () {
         var $nav = $(".relatedPostContainer");
-        if ($(this).scrollTop() > $("#postContent").offset().top - 150) {
+        if ($(this).scrollTop() > $(".postContent").offset().top - 150) {
             if ($(this).scrollTop() < $("#postTag").offset().top - $(".relatedPostContainer").height() - 200) {
-                $nav.css({ 'position': 'relative', 'top': $(this).scrollTop() - $("#postContent").offset().top + 160 })
+                $nav.css({ 'position': 'relative', 'top': $(this).scrollTop() - $(".postContent").offset().top + 160 })
             }
         }
         else {
@@ -78,7 +78,7 @@
         color: black;
     }
 
-    #postContent p:first-child {
+    .postContent p:first-child {
         font-size: x-large;
     }
 
@@ -397,17 +397,17 @@
         <div style="display: none;">
             <div id="postPdf" style="padding-top: 20px; padding-left: 20px; padding-right: 20px">
                 <style>
-                    #postContent>.imgInContent {
+                    .postContent>.imgInContent {
                         max-width: 100%;
                         min-width: 100%;
                     }
 
-                    #postContent>.titleImgInContent {
+                    .postContent>.titleImgInContent {
                         font-style: italic;
                         font-size: medium;
                     }
 
-                    #postContent p:first-child {
+                    .postContent p:first-child {
                         font-size: x-large;
                     }
 
