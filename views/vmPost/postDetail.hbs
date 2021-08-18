@@ -87,12 +87,13 @@
         min-width: 100%;
     }
 
-    #postContent>.imgInContent {
+    .postContent>.imgInContent {
         max-width: 100%;
         min-width: 100%;
+        object-fit: cover;
     }
 
-    #postContent>.titleImgInContent {
+    .postContent>.titleImgInContent {
         font-style: italic;
         font-size: medium;
     }
@@ -269,7 +270,7 @@
         <div id="postComputer"> 
             <div class="row mt-4">
             <div class="col-8">
-                <div class="font-weight-normal" id="postContent">
+                <div class="font-weight-normal postContent">
                     {{{post.Content}}}
                 </div>
                 <div id="postTag">
@@ -333,7 +334,7 @@
         </div>
         <div id="postPhone" class="row" style="display: none;">
             <div class="col-12">
-            <div class="font-weight-normal" id="postContent">
+            <div class="font-weight-normal postContent">
                     {{{post.Content}}}
                 </div>
                 <div id="postTag">
