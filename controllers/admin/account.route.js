@@ -62,7 +62,6 @@ router.get("/detail", async function(req, res) {
       listCategories = await categoryModel.all();
       editorCat = categories.map(cat => cat.ID);
       listCategories = listCategories.filter(cat => !editorCat.includes(cat.ID));
-      console.log(listCategories)
       listCategories = listCategories.filter(cat => !!cat.ParentCategoryID).
             map(cat => ({...cat, Name: `${cat.ParentName}`+' \u2192 '+`${cat.Name}`}));
       break;
